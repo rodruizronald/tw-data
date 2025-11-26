@@ -1,6 +1,31 @@
 ---
 # Deployment configurations
 deployments:
+  - name: backend-sync
+    version: null
+    tags:
+      - production
+      - sync
+      - backend
+    description: >-
+      Synchronize companies and technologies with the backend database
+      before running the main pipeline
+
+    # Flow configuration
+    entrypoint: src/pipeline/flows/sync_backend_flow.py:sync_backend_flow
+    parameters: {}
+
+    # Work pool configuration
+    work_pool:
+      name: job-scraper-pool
+      work_queue_name: null
+      job_variables: {}
+
+    # Schedule - runs daily at 5:30 AM Costa Rica time (before main pipeline)
+    schedule:
+      cron: "30 5 * * *"
+      timezone: "America/Costa_Rica"
+
   - name: job-scraper-production
     version: null
     tags:

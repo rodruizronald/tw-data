@@ -10,7 +10,6 @@ This module contains service classes that handle specific aspects of the pipelin
 - Company management through external API
 """
 
-from services.company_service import CompanyService
 from services.data_service import JobDataService
 from services.metrics_service import JobMetricsService, job_metrics_service
 

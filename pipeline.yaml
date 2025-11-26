@@ -73,7 +73,7 @@ pipeline:
       description: >-
         Analyze job postings to determine eligibility, extract metadata,
         and generate concise descriptions
-      enabled: true
+      enabled: false
       openai_service:
         system_message: >-
           You extract job descriptions, eligibility information, and basic
@@ -174,7 +174,7 @@ pipeline:
       description: >-
         Extract detailed job information including responsibilities, required
         and preferred skills, and benefits from job posting HTML content
-      enabled: true
+      enabled: false
       openai_service:
         system_message: >-
           You extract job skills and responsibilities from HTML content.
@@ -227,7 +227,7 @@ pipeline:
       description: >-
         Extract and categorize technologies from job requirements, determining
         their requirement status and identifying main technologies for each role
-      enabled: true
+      enabled: false
       openai_service:
         system_message: >-
           You extract and categorize technologies from structured job

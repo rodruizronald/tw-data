@@ -11,8 +11,8 @@ from bson import ObjectId
 from pymongo.errors import PyMongoError
 
 from core.config.database import db_config
-from data.controller import DatabaseController
-from data.models.aggregate_metrics import DailyAggregateMetrics
+from data.mongo.controller import DatabaseController
+from data.mongo.models.aggregate_metrics import DailyAggregateMetrics
 from utils.timezone import now_utc
 
 from .base_repo import BaseRepository

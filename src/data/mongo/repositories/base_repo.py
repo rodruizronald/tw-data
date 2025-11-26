@@ -6,7 +6,7 @@ from bson import ObjectId
 from pymongo.collection import Collection
 from pymongo.errors import DuplicateKeyError, PyMongoError
 
-from data.controller import DatabaseController
+from data.mongo.controller import DatabaseController
 
 if TYPE_CHECKING:
     from pymongo.results import DeleteResult, InsertOneResult, UpdateResult

@@ -6,9 +6,9 @@ from bson import ObjectId
 from pymongo.errors import PyMongoError
 
 from core.config.database import db_config
-from data.controller import DatabaseController
-from data.models.job_listing import JobListing
-from data.repositories.base_repo import BaseRepository
+from data.mongo.controller import DatabaseController
+from data.mongo.models.job_listing import JobListing
+from data.mongo.repositories.base_repo import BaseRepository
 from utils.timezone import now_utc
 
 if TYPE_CHECKING:

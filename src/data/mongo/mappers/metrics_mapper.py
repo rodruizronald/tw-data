@@ -10,7 +10,7 @@ models optimized for its specific purpose.
 """
 
 from core.models.metrics import CompanySummaryInput, StageMetricsInput
-from data.models.daily_metrics import CompanyDailyMetrics, StageMetrics
+from data.mongo.models.daily_metrics import CompanyDailyMetrics, StageMetrics
 
 
 class MetricsMapper:

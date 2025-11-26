@@ -12,7 +12,7 @@ from core.models.jobs import (
     JobTechnologies,
     Technology,
 )
-from data.models.job_listing import JobListing, TechnologyInfo
+from data.mongo.models.job_listing import JobListing, TechnologyInfo
 
 
 class JobMapper:

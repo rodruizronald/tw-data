@@ -1,5 +1,10 @@
 ---
 name: tw-data
+
+# Top-level env_file applies to all services
+env_file:
+  - ../.env
+
 services:
   # MongoDB Database
   mongo:

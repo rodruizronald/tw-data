@@ -19,7 +19,7 @@ from tenacity import (
     wait_exponential,
 )
 
-from data.supebase.config import supabase_config
+from core.config.database import supabase_config
 from data.supebase.exceptions import (
     SupabaseCircuitBreakerError,
     SupabaseConnectionError,

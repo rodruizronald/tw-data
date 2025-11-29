@@ -11,7 +11,7 @@ from typing import Any
 from bson import ObjectId
 from pymongo.errors import PyMongoError
 
-from core.config.database import db_config
+from core.config.database import mongodb_config
 from data.mongo.controller import DatabaseController
 from data.mongo.models.daily_metrics import CompanyDailyMetrics, StageMetrics
 from utils.timezone import now_utc
@@ -40,7 +40,7 @@ class DailyMetricsRepository(BaseRepository[CompanyDailyMetrics]):
             db_controller: Database controller instance
             collection_name: Name of daily metrics collection
         """
-        super().__init__(db_controller, db_config.job_metrics_daily_collection)
+        super().__init__(db_controller, mongodb_config.job_metrics_daily_collection)
 
     # Implement abstract methods from BaseRepository
     def _to_dict(self, model: CompanyDailyMetrics) -> dict[str, Any]:

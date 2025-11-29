@@ -38,7 +38,6 @@ Example Usage:
 
 # Core components
 from data.supebase.base_repository import BaseRepository
-from data.supebase.config import SupabaseConfig, supabase_config
 
 # Decorators (for advanced usage)
 from data.supebase.decorators import (
@@ -84,7 +83,6 @@ __all__ = [
     "SupabaseAuthError",
     "SupabaseBaseException",
     "SupabaseCircuitBreakerError",
-    "SupabaseConfig",
     "SupabaseConfigError",
     "SupabaseConflictError",
     "SupabaseConnectionError",

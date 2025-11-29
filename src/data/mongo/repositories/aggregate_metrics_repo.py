@@ -10,7 +10,7 @@ from typing import Any
 from bson import ObjectId
 from pymongo.errors import PyMongoError
 
-from core.config.database import db_config
+from core.config.database import mongodb_config
 from data.mongo.controller import DatabaseController
 from data.mongo.models.aggregate_metrics import DailyAggregateMetrics
 from utils.timezone import now_utc
@@ -38,7 +38,9 @@ class AggregateMetricsRepository(BaseRepository[DailyAggregateMetrics]):
             db_controller: Database controller instance
             collection_name: Name of aggregates collection
         """
-        super().__init__(db_controller, db_config.job_metrics_aggregates_collection)
+        super().__init__(
+            db_controller, mongodb_config.job_metrics_aggregates_collection
+        )
 
     # Implement abstract methods from BaseRepository
     def _to_dict(self, model: DailyAggregateMetrics) -> dict[str, Any]:

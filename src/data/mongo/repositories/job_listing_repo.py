@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, Any
 from bson import ObjectId
 from pymongo.errors import PyMongoError
 
-from core.config.database import db_config
+from core.config.database import mongodb_config
 from data.mongo.controller import DatabaseController
 from data.mongo.models.job_listing import JobListing
 from data.mongo.repositories.base_repo import BaseRepository
@@ -34,7 +34,7 @@ class JobListingRepository(BaseRepository[JobListing]):
     """
 
     def __init__(self, db_controller: DatabaseController) -> None:
-        super().__init__(db_controller, db_config.job_listings_collection)
+        super().__init__(db_controller, mongodb_config.job_listings_collection)
 
     # Implement abstract methods
     def _to_dict(self, model: JobListing) -> dict[str, Any]:

@@ -11,7 +11,7 @@ from typing import Any
 from supabase import Client, create_client
 from supabase.lib.client_options import SyncClientOptions
 
-from data.supebase.config import supabase_config
+from core.config.database import supabase_config
 from data.supebase.exceptions import SupabaseConfigError, SupabaseConnectionError
 
 logger = logging.getLogger(__name__)

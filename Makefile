@@ -54,7 +54,8 @@ SRC_DIRS      := src tools
     logs logs-pipeline logs-server logs-db logs-dashboard \
     shell-db shell-pipeline shell-dashboard \
     backup restore verify-indexes clean-data \
-    dashboard
+    dashboard \
+	prefect-server prefect-config prefect-reset
 
 # ╔══════════════════════════════════════════════════════════════════════════════╗
 # ║                                                                              ║
@@ -403,7 +404,30 @@ dashboard: ## Start Pipeline Health Dashboard locally (Streamlit)
 
 # ╔══════════════════════════════════════════════════════════════════════════════╗
 # ║                                                                              ║
-# ║                               6. HELP                                        ║
+# ║                         6. PREFECT MANAGEMENT                                ║
+# ║                                                                              ║
+# ╚══════════════════════════════════════════════════════════════════════════════╝
+
+prefect-server: ## Start Prefect server locally
+	@echo "🚀 Starting Prefect server..."
+	@echo "📊 Server: http://127.0.0.1:4200"
+	@echo "⏹️  Press Ctrl+C to stop"
+	@echo ""
+	@prefect server start
+
+prefect-config: ## Configure Prefect to use local server
+	@echo "⚙️  Configuring Prefect to use local server..."
+	@prefect config set PREFECT_API_URL=http://127.0.0.1:4200/api
+	@echo "✅ Prefect configured for local server"
+
+prefect-reset: ## Reset Prefect to default configuration
+	@echo "🔄 Resetting Prefect to default configuration..."
+	@prefect config unset PREFECT_API_URL
+	@echo "✅ Prefect reset to default configuration"
+
+# ╔══════════════════════════════════════════════════════════════════════════════╗
+# ║                                                                              ║
+# ║                               7. HELP                                        ║
 # ║                                                                              ║
 # ╚══════════════════════════════════════════════════════════════════════════════╝
 
@@ -430,6 +454,7 @@ help: ## Show this help message
 		/^# ┌.*3\.6/ {printf "\n  \033[1;36mShell Access:\033[0m\n"} \
 		/^# ╔.*4\. / {section="🗄️  DATABASE OPERATIONS"; printf "\n\033[1;34m%s\033[0m\n", section} \
 		/^# ╔.*5\. / {section="📊 DASHBOARD"; printf "\n\033[1;34m%s\033[0m\n", section} \
+		/^# ╔.*6\. / {section="🔮 PREFECT MANAGEMENT"; printf "\n\033[1;34m%s\033[0m\n", section} \
 		/^[a-zA-Z_-]+:.*##/ {printf "    \033[0;32m%-22s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 	@echo ""
 	@echo "────────────────────────────────────────────────────────────────────────────────"

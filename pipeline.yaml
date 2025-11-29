@@ -4,7 +4,7 @@ pipeline:
   version: "1.0.0"
   description: >-
     AI-powered job listing extraction and analysis from company career pages
-  enabled: true
+  enabled: false
   # Directory structure and file paths
   paths:
     prompts_dir: "prompts"

@@ -114,7 +114,7 @@ def with_retry[F: Callable[..., Any]](func: F) -> F:
     Returns:
         Wrapped function with retry logic
     """
-    config = supabase_config()
+    config = supabase_config
 
     @retry(
         retry=retry_if_exception_type(

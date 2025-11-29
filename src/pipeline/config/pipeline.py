@@ -24,6 +24,7 @@ class PipelineConfig:
     name: str
     version: str
     description: str
+    enabled: bool
     paths: PathsConfig
     integrations: IntegrationsConfig
     stages: StagesConfig
@@ -116,6 +117,7 @@ class PipelineConfig:
             name=config_dict["name"],
             version=config_dict["version"],
             description=config_dict["description"],
+            enabled=config_dict.get("enabled", True),
             paths=paths,
             integrations=integrations,
             stages=stages,
@@ -127,6 +129,7 @@ class PipelineConfig:
             "name": self.name,
             "version": self.version,
             "description": self.description,
+            "enabled": self.enabled,
             "paths": {
                 "prompts_dir": str(self.paths.prompts_dir),
                 "companies_file": str(self.paths.companies_file),

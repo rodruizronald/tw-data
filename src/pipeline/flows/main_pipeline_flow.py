@@ -45,6 +45,11 @@ async def main_pipeline_flow() -> None:
         config = PipelineConfig.load()
         logger.info("Configuration loaded")
 
+        # Check if pipeline is enabled
+        if not config.enabled:
+            logger.warning("Pipeline is disabled in configuration - skipping execution")
+            return
+
         logger.info("Configuring service loggers...")
         # Just set the levels - don't touch handlers or formatters
         for logger_name in [

@@ -1,7 +1,7 @@
 """
-Abstract base class for Supabase table clients.
+Abstract base class for Supabase table repositories.
 
-This module provides a base implementation for table-specific clients
+This module provides a base implementation for table-specific repositories
 with common CRUD operations, error handling, retry logic, and circuit breaker.
 """
 
@@ -28,7 +28,7 @@ from data.supebase.types import FilterDict, RecordDict, ResponseData
 logger = logging.getLogger(__name__)
 
 
-class BaseTableClient(ABC):  # noqa: B024
+class BaseRepository(ABC):  # noqa: B024
     """
     Abstract base class for Supabase table operations.
 
@@ -41,7 +41,7 @@ class BaseTableClient(ABC):  # noqa: B024
 
     def __init__(self, client: Client, table_name: str) -> None:
         """
-        Initialize table client.
+        Initialize table repository.
 
         Args:
             client: Supabase client instance
@@ -50,7 +50,7 @@ class BaseTableClient(ABC):  # noqa: B024
         self._client = client
         self._table_name = table_name
         self._logger = logging.getLogger(f"{__name__}.{table_name}")
-        self._logger.info(f"Initialized table client for: {table_name}")
+        self._logger.info(f"Initialized table repository for: {table_name}")
 
     @property
     def table_name(self) -> str:

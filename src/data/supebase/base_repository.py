@@ -9,6 +9,7 @@ import logging
 from abc import ABC
 
 import httpx
+from postgrest.exceptions import APIError
 from supabase import Client
 
 from data.supebase.decorators import with_resilience
@@ -112,6 +113,63 @@ class BaseRepository(ABC):  # noqa: B024
                 f"HTTP error ({status_code}): {error_message}"
             ) from error
 
+    def _handle_api_error(self, error: APIError) -> None:
+        """
+        Convert PostgREST API errors to appropriate Supabase exceptions.
+
+        Args:
+            error: The APIError from postgrest
+
+        Raises:
+            SupabaseAuthError: For authentication/authorization errors
+            SupabaseNotFoundError: For resource not found errors
+            SupabaseConflictError: For conflict errors (e.g., unique violations)
+            SupabaseValidationError: For validation errors
+            SupabaseServerError: For server errors
+            SupabaseConnectionError: For other API errors
+        """
+        # Extract error details from APIError
+        # APIError contains a dict with keys like 'message', 'code', 'details', 'hint'
+        error_dict = error.args[0] if error.args else {}
+        error_message = error_dict.get("message", str(error))
+        error_code = error_dict.get("code", "")
+        error_details = error_dict.get("details", "")
+        error_hint = error_dict.get("hint", "")
+
+        # Build comprehensive error message
+        full_message = error_message
+        if error_details:
+            full_message = f"{full_message} - Details: {error_details}"
+        if error_hint:
+            full_message = f"{full_message} - Hint: {error_hint}"
+
+        # Map PostgREST error codes to exceptions
+        # Reference: https://postgrest.org/en/stable/errors.html
+        if error_code in {"PGRST301", "PGRST302"}:  # Auth errors
+            raise SupabaseAuthError(f"Authentication failed: {full_message}") from error
+        elif error_code == "PGRST116":  # Not found (no rows)
+            raise SupabaseNotFoundError(
+                f"Resource not found: {full_message}"
+            ) from error
+        elif error_code in {
+            "23505",
+            "23503",
+        }:  # Unique violation, foreign key violation
+            raise SupabaseConflictError(f"Conflict error: {full_message}") from error
+        elif error_code in {"PGRST102", "PGRST103", "PGRST204", "22P02", "23502"}:
+            # Invalid query, invalid body, invalid filter, invalid input, not null violation
+            raise SupabaseValidationError(
+                f"Validation error: {full_message}"
+            ) from error
+        elif error_code.startswith("PGRST5") or error_code.startswith("5"):
+            # Server errors (500 series)
+            raise SupabaseServerError(f"Server error: {full_message}") from error
+        else:
+            # Generic connection error for unknown error codes
+            raise SupabaseConnectionError(
+                f"API error ({error_code}): {full_message}"
+            ) from error
+
     def _handle_exception(self, operation: str, error: Exception) -> None:
         """
         Handle exceptions and convert to appropriate Supabase exceptions.
@@ -134,6 +192,10 @@ class BaseRepository(ABC):  # noqa: B024
             },
             exc_info=True,
         )
+
+        # Handle PostgREST API errors (from database operations)
+        if isinstance(error, APIError):
+            self._handle_api_error(error)
 
         # Handle HTTP status errors
         if isinstance(error, httpx.HTTPStatusError):
@@ -371,8 +433,8 @@ class BaseRepository(ABC):  # noqa: B024
             Various SupabaseException subclasses on errors
 
         Note:
-            The on_conflict parameter may not be supported in all versions of supabase-py.
-            If not supported, the upsert will use the table's primary key for conflict resolution.
+            If on_conflict is not specified, the upsert will use the table's
+            primary key for conflict resolution.
         """
         try:
             is_single = isinstance(data, dict)
@@ -383,17 +445,13 @@ class BaseRepository(ABC):  # noqa: B024
                 extra={"record_count": record_count, "on_conflict": on_conflict},
             )
 
-            query = self._client.table(self._table_name).upsert(data)
-
-            # Try to apply on_conflict if specified and supported
+            # Pass on_conflict as parameter to upsert() method
             if on_conflict:
-                try:
-                    query = query.on_conflict(on_conflict)  # type: ignore[attr-defined]
-                except AttributeError:
-                    self._logger.warning(
-                        "on_conflict not supported, using default conflict resolution",
-                        extra={"on_conflict": on_conflict},
-                    )
+                query = self._client.table(self._table_name).upsert(
+                    data, on_conflict=on_conflict
+                )
+            else:
+                query = self._client.table(self._table_name).upsert(data)
 
             response = query.execute()
 

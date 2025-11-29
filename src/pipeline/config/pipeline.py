@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Any
 
 import yaml
+from dotenv import load_dotenv
 
 from core.config.integrations import (
     BrowserConfig,
@@ -15,6 +16,15 @@ from core.config.services import OpenAIServiceConfig
 from core.config.system import PathsConfig
 from core.models.parsers import ParserType
 from pipeline.config.stages import StageConfig, StagesConfig
+
+# Load environment variables when this module is imported
+# Try to find .env file in current directory or parent directories
+current_dir = Path.cwd()
+for parent in [current_dir, *list(current_dir.parents)]:
+    env_path = parent / ".env"
+    if env_path.exists():
+        load_dotenv(env_path)
+        break
 
 
 @dataclass

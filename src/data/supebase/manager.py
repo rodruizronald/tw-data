@@ -118,29 +118,6 @@ class SupabaseManager:
             logger.info("Supabase client connection reset")
 
     @property
-    def client(self) -> Client:
-        """
-        Get the Supabase client instance (property accessor).
-
-        This is a convenience property that wraps get_client() for cleaner syntax.
-
-        Returns:
-            Client: Configured Supabase client
-
-        Raises:
-            SupabaseConnectionError: If unable to create client
-            SupabaseConfigError: If configuration is invalid
-
-        Example:
-            ```python
-            manager = SupabaseManager()
-            client = manager.client  # Property access
-            # Equivalent to: client = manager.get_client()
-            ```
-        """
-        return self.get_client()
-
-    @property
     def config(self) -> Any:
         """Get the current configuration."""
         return self._config

@@ -22,12 +22,13 @@ class SupabaseDataService:
         """Initialize Supabase data service."""
         self.companies = CompaniesRepository(supabase_manager.client)
 
-    def create_company(self, name: str) -> Company:
+    def create_company(self, name: str, is_active: bool = True) -> Company:
         """
         Create a new company.
 
         Args:
             name: Company name (must be unique)
+            is_active: Whether the company should be active (default: True)
 
         Returns:
             Created Company instance
@@ -38,8 +39,8 @@ class SupabaseDataService:
             SupabaseConnectionError: On connection/network errors
         """
         try:
-            logger.info(f"Creating company: {name}")
-            company = self.companies.create(name=name)
+            logger.info(f"Creating company: {name} (is_active={is_active})")
+            company = self.companies.create(name=name, is_active=is_active)
             logger.info(f"Successfully created company with ID: {company.id}")
             return company
         except Exception as e:
@@ -63,6 +64,25 @@ class SupabaseDataService:
             return companies
         except Exception as e:
             logger.error(f"Failed to get active companies: {e}")
+            raise
+
+    def get_all_companies(self) -> list[Company]:
+        """
+        Get all companies (active and inactive).
+
+        Returns:
+            List of all Company instances (empty list if none exist)
+
+        Raises:
+            SupabaseConnectionError: On connection/network errors
+        """
+        try:
+            logger.debug("Fetching all companies")
+            companies = cast("list[Company]", self.companies.get_all())
+            logger.info(f"Retrieved {len(companies)} companies")
+            return companies
+        except Exception as e:
+            logger.error(f"Failed to get all companies: {e}")
             raise
 
     def deactivate_company(self, company_id: int) -> Company:

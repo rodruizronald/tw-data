@@ -11,6 +11,7 @@ from pipeline.flows.stage_1_flow import stage_1_flow
 from pipeline.flows.stage_2_flow import stage_2_flow
 from pipeline.flows.stage_3_flow import stage_3_flow
 from pipeline.flows.stage_4_flow import stage_4_flow
+from pipeline.flows.sync_backend_flow import sync_backend_flow
 
 __all__ = [
     "main_pipeline_flow",
@@ -18,4 +19,5 @@ __all__ = [
     "stage_2_flow",
     "stage_3_flow",
     "stage_4_flow",
+    "sync_backend_flow",
 ]

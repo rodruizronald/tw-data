@@ -1,5 +1,10 @@
 ---
 name: tw-data
+
+# Top-level env_file applies to all services
+env_file:
+  - ../.env
+
 services:
   # MongoDB Database
   mongo:
@@ -64,11 +69,11 @@ services:
         condition: service_healthy
     environment:
       # Prefect Configuration
-      - PREFECT_API_URL=${PREFECT_API_URL}
+      - PREFECT_API_URL=http://prefect:4200/api
       - PREFECT_LOGGING_EXTRA_LOGGERS=${PREFECT_LOGGING_EXTRA_LOGGERS}
 
       # MongoDB Configuration
-      - MONGO_HOST=${MONGO_HOST}
+      - MONGO_HOST=mongo
       - MONGO_PORT=${MONGO_PORT}
       - MONGO_USERNAME=${MONGO_USERNAME}
       - MONGO_PASSWORD=${MONGO_PASSWORD}
@@ -106,7 +111,7 @@ services:
       - "${STREAMLIT_PORT}:8501"
     environment:
       # MongoDB Configuration
-      - MONGO_HOST=${MONGO_HOST}
+      - MONGO_HOST=mongo
       - MONGO_PORT=${MONGO_PORT}
       - MONGO_USERNAME=${MONGO_USERNAME}
       - MONGO_PASSWORD=${MONGO_PASSWORD}

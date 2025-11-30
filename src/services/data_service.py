@@ -9,10 +9,10 @@ import logging
 from typing import Any
 
 from core.models.jobs import Job
-from data import (
+from data.mongo import (
     job_listing_repository,
 )
-from data.mappers.job_mapper import JobMapper
+from data.mongo.mappers.job_mapper import JobMapper
 from utils.timezone import UTC_TZ, now_utc
 
 logger = logging.getLogger(__name__)

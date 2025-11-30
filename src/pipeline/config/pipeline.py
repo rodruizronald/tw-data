@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Any
 
 import yaml
+from dotenv import load_dotenv
 
 from core.config.integrations import (
     BrowserConfig,
@@ -16,6 +17,15 @@ from core.config.system import PathsConfig
 from core.models.parsers import ParserType
 from pipeline.config.stages import StageConfig, StagesConfig
 
+# Load environment variables when this module is imported
+# Try to find .env file in current directory or parent directories
+current_dir = Path.cwd()
+for parent in [current_dir, *list(current_dir.parents)]:
+    env_path = parent / ".env"
+    if env_path.exists():
+        load_dotenv(env_path)
+        break
+
 
 @dataclass
 class PipelineConfig:
@@ -24,6 +34,7 @@ class PipelineConfig:
     name: str
     version: str
     description: str
+    enabled: bool
     paths: PathsConfig
     integrations: IntegrationsConfig
     stages: StagesConfig
@@ -116,6 +127,7 @@ class PipelineConfig:
             name=config_dict["name"],
             version=config_dict["version"],
             description=config_dict["description"],
+            enabled=config_dict.get("enabled", True),
             paths=paths,
             integrations=integrations,
             stages=stages,
@@ -127,6 +139,7 @@ class PipelineConfig:
             "name": self.name,
             "version": self.version,
             "description": self.description,
+            "enabled": self.enabled,
             "paths": {
                 "prompts_dir": str(self.paths.prompts_dir),
                 "companies_file": str(self.paths.companies_file),

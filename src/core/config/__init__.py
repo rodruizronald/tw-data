@@ -5,7 +5,7 @@ This module provides configuration classes for system paths, external service
 integrations, and service-specific settings used throughout the application.
 """
 
-from core.config.database import DatabaseConfig, get_database_config
+from core.config.database import DatabaseConfig, SupabaseConfig
 from core.config.integrations import (
     BrowserConfig,
     IntegrationsConfig,
@@ -22,7 +22,7 @@ __all__ = [
     "OpenAIConfig",
     "OpenAIServiceConfig",
     "PathsConfig",
+    "SupabaseConfig",
     "WebExtractionConfig",
     "WebParserConfig",
-    "get_database_config",
 ]

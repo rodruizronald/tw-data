@@ -12,7 +12,7 @@ from pymongo import MongoClient
 from pymongo.database import Database
 from pymongo.errors import ConnectionFailure, ServerSelectionTimeoutError
 
-from core.config.database import get_database_config
+from core.config.database import mongodb_config
 
 logger = logging.getLogger(__name__)
 
@@ -40,7 +40,7 @@ class DatabaseController:
 
         # Initialize instance variables
         self._client: MongoClient[Any] | None = None
-        self._config = get_database_config()
+        self._config = mongodb_config
 
         self._initialized: bool = True
         logger.info(

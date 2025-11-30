@@ -1,15 +1,16 @@
 ---
 # Deployment configurations
 deployments:
-  - name: backend-sync
+  - name: backend-sync-production
     version: null
     tags:
       - production
       - sync
       - backend
     description: >-
-      Synchronize companies and technologies with the backend database
-      before running the main pipeline
+      Synchronize companies with the backend database - ensures all
+      companies from YAML exist in the backend with correct activation
+      status before running the main pipeline
 
     # Flow configuration
     entrypoint: src/pipeline/flows/sync_backend_flow.py:sync_backend_flow

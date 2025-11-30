@@ -12,10 +12,12 @@ This module contains service classes that handle specific aspects of the pipelin
 
 from services.data_service import JobDataService
 from services.metrics_service import JobMetricsService, job_metrics_service
+from services.supabase_data_service import SupabaseDataService
 
 __all__ = [
     "CompanyService",
     "JobDataService",
     "JobMetricsService",
+    "SupabaseDataService",
     "job_metrics_service",
 ]

@@ -12,15 +12,15 @@ from collections.abc import Callable
 from typing import Any
 
 from core.models.metrics import CompanySummaryInput, StageMetricsInput
-from data import (
+from data.mongo import (
     job_aggregate_metrics_repository,
     job_daily_metrics_repository,
 )
-from data.mappers.metrics_mapper import MetricsMapper
-from data.models.aggregate_metrics import (
+from data.mongo.mappers.metrics_mapper import MetricsMapper
+from data.mongo.models.aggregate_metrics import (
     DailyAggregateMetrics,
 )
-from data.models.daily_metrics import (
+from data.mongo.models.daily_metrics import (
     CompanyDailyMetrics,
 )
 from utils.timezone import now_utc

@@ -6,10 +6,10 @@ the repository pattern, with a base repository for common CRUD operations
 and specialized repositories for different data models.
 """
 
-from data.repositories.aggregate_metrics_repo import AggregateMetricsRepository
-from data.repositories.base_repo import BaseRepository
-from data.repositories.daily_metrics_repo import DailyMetricsRepository
-from data.repositories.job_listing_repo import JobListingRepository
+from data.mongo.repositories.aggregate_metrics_repo import AggregateMetricsRepository
+from data.mongo.repositories.base_repo import BaseRepository
+from data.mongo.repositories.daily_metrics_repo import DailyMetricsRepository
+from data.mongo.repositories.job_listing_repo import JobListingRepository
 
 __all__ = [
     "AggregateMetricsRepository",

@@ -20,7 +20,7 @@ class SupabaseDataService:
 
     def __init__(self):
         """Initialize Supabase data service."""
-        self.companies = CompaniesRepository(supabase_manager.client)
+        self.companies = CompaniesRepository(supabase_manager.get_client)
 
     def create_company(self, name: str, is_active: bool = True) -> Company:
         """

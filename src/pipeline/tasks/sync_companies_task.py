@@ -3,7 +3,7 @@
 from prefect import get_run_logger, task
 
 from core.models.jobs import CompanyData
-from services.supabase_data_service import SupabaseDataService
+from services.supabase_service import SupabaseService
 
 
 @task(
@@ -11,8 +11,10 @@ from services.supabase_data_service import SupabaseDataService
     description="Synchronize companies from YAML with backend",
     retries=2,
     retry_delay_seconds=10,
+    timeout_seconds=60,
+    task_run_name="sync_backend_companies",
 )
-def sync_companies_task(companies_from_yaml: list[CompanyData]) -> dict[str, int]:
+def sync_companies_task(companies_from_yaml: list[CompanyData]):
     """
     Synchronize companies with the backend.
 
@@ -24,15 +26,6 @@ def sync_companies_task(companies_from_yaml: list[CompanyData]) -> dict[str, int
 
     Args:
         companies_from_yaml: List of companies loaded from companies.yaml
-
-    Returns:
-        Dictionary with sync statistics:
-        - total_yaml: Total companies in YAML
-        - total_backend: Total companies in backend after sync
-        - created: Number of companies created
-        - activated: Number of companies activated
-        - deactivated: Number of companies deactivated
-        - already_synced: Number of companies already in correct state
     """
     logger = get_run_logger()
 
@@ -50,7 +43,7 @@ def sync_companies_task(companies_from_yaml: list[CompanyData]) -> dict[str, int
     }
 
     try:
-        service = SupabaseDataService()
+        service = SupabaseService()
 
         # Fetch all existing companies from backend (active and inactive)
         logger.info("Fetching existing companies from backend...")
@@ -60,8 +53,6 @@ def sync_companies_task(companies_from_yaml: list[CompanyData]) -> dict[str, int
         existing_companies_map = {
             company.name.lower(): company for company in existing_companies
         }
-
-        logger.info(f"Found {len(existing_companies)} existing companies in backend")
 
         # Compare and sync companies
         for company_data in companies_from_yaml:
@@ -117,8 +108,6 @@ def sync_companies_task(companies_from_yaml: list[CompanyData]) -> dict[str, int
             f"Already synced: {stats['already_synced']}, "
             f"Total in backend: {stats['total_backend']}"
         )
-
-        return stats
 
     except Exception as e:
         logger.error(f"Error during company sync: {e}")

@@ -16,7 +16,7 @@ from pipeline.tasks.sync_companies_task import sync_companies_task
     retries=0,
     timeout_seconds=300,  # 5 minute timeout
 )
-async def sync_backend_flow() -> dict[str, dict[str, int]]:
+async def sync_backend_flow():
     """
     Synchronize backend data before running the main pipeline.
 
@@ -29,19 +29,6 @@ async def sync_backend_flow() -> dict[str, dict[str, int]]:
     3. Create missing companies with correct activation status
     4. Activate companies that are enabled in YAML but inactive in backend
     5. Deactivate companies that are disabled in YAML but active in backend
-
-    Returns:
-        Dictionary with sync statistics for companies:
-        {
-            "companies": {
-                "total_yaml": int,
-                "total_backend": int,
-                "created": int,
-                "activated": int,
-                "deactivated": int,
-                "already_synced": int
-            }
-        }
     """
     logger = get_run_logger()
     logger.info("Starting backend synchronization flow")
@@ -53,25 +40,14 @@ async def sync_backend_flow() -> dict[str, dict[str, int]]:
 
         # Configure service loggers
         logger.info("Configuring service loggers...")
-        logging.getLogger("services.supabase_data_service").setLevel(logging.INFO)
-        logging.getLogger("data.supebase.repositories.companies").setLevel(logging.INFO)
+        logging.getLogger("services.supabase_service").setLevel(logging.INFO)
 
         # Load companies from YAML file
         logger.info(f"Loading companies from: {config.companies_file_path}")
         companies = load_companies_from_file(config.companies_file_path, logger)
 
         # Sync companies with backend
-        company_stats = sync_companies_task(companies)
-
-        # Prepare results
-        results = {
-            "companies": company_stats,
-        }
-
-        logger.info("Backend synchronization completed successfully")
-        logger.info(f"Summary: {results}")
-
-        return results
+        sync_companies_task(companies)
 
     except Exception as e:
         logger.error(f"Backend synchronization failed: {e}")

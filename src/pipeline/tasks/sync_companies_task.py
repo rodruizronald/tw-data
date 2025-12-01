@@ -3,7 +3,7 @@
 from prefect import get_run_logger, task
 
 from core.models.jobs import CompanyData
-from services.supabase_data_service import SupabaseDataService
+from services.supabase_service import SupabaseService
 
 
 @task(
@@ -11,8 +11,10 @@ from services.supabase_data_service import SupabaseDataService
     description="Synchronize companies from YAML with backend",
     retries=2,
     retry_delay_seconds=10,
+    timeout_seconds=60,
+    task_run_name="sync_companies",
 )
-def sync_companies_task(companies_from_yaml: list[CompanyData]) -> dict[str, int]:
+def sync_companies_task(companies_from_yaml: list[CompanyData]):
     """
     Synchronize companies with the backend.
 
@@ -24,15 +26,6 @@ def sync_companies_task(companies_from_yaml: list[CompanyData]) -> dict[str, int
 
     Args:
         companies_from_yaml: List of companies loaded from companies.yaml
-
-    Returns:
-        Dictionary with sync statistics:
-        - total_yaml: Total companies in YAML
-        - total_backend: Total companies in backend after sync
-        - created: Number of companies created
-        - activated: Number of companies activated
-        - deactivated: Number of companies deactivated
-        - already_synced: Number of companies already in correct state
     """
     logger = get_run_logger()
 
@@ -41,16 +34,13 @@ def sync_companies_task(companies_from_yaml: list[CompanyData]) -> dict[str, int
     )
 
     stats = {
-        "total_yaml": len(companies_from_yaml),
-        "total_backend": 0,
         "created": 0,
         "activated": 0,
         "deactivated": 0,
-        "already_synced": 0,
     }
 
     try:
-        service = SupabaseDataService()
+        service = SupabaseService()
 
         # Fetch all existing companies from backend (active and inactive)
         logger.info("Fetching existing companies from backend...")
@@ -60,8 +50,6 @@ def sync_companies_task(companies_from_yaml: list[CompanyData]) -> dict[str, int
         existing_companies_map = {
             company.name.lower(): company for company in existing_companies
         }
-
-        logger.info(f"Found {len(existing_companies)} existing companies in backend")
 
         # Compare and sync companies
         for company_data in companies_from_yaml:
@@ -85,11 +73,7 @@ def sync_companies_task(companies_from_yaml: list[CompanyData]) -> dict[str, int
                 existing_company = existing_companies_map[company_name_lower]
                 current_active_state = existing_company.is_active
 
-                if current_active_state == desired_active_state:
-                    # Already in correct state
-                    stats["already_synced"] += 1
-
-                elif desired_active_state and not current_active_state:
+                if desired_active_state and not current_active_state:
                     # Should be active but is inactive - activate it
                     activated_company = service.activate_company(existing_company.id)
                     stats["activated"] += 1
@@ -105,20 +89,12 @@ def sync_companies_task(companies_from_yaml: list[CompanyData]) -> dict[str, int
                     # Update map
                     existing_companies_map[company_name_lower] = deactivated_company
 
-        # Get final count of companies in backend
-        final_companies = service.get_all_companies()
-        stats["total_backend"] = len(final_companies)
-
         logger.info(
             f"Company sync completed - "
             f"Created: {stats['created']}, "
             f"Activated: {stats['activated']}, "
             f"Deactivated: {stats['deactivated']}, "
-            f"Already synced: {stats['already_synced']}, "
-            f"Total in backend: {stats['total_backend']}"
         )
-
-        return stats
 
     except Exception as e:
         logger.error(f"Error during company sync: {e}")

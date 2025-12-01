@@ -15,12 +15,12 @@ from data.supebase.repositories.companies import CompaniesRepository
 logger = logging.getLogger(__name__)
 
 
-class SupabaseDataService:
+class SupabaseService:
     """Service for handling Supabase database operations."""
 
     def __init__(self):
         """Initialize Supabase data service."""
-        self.companies = CompaniesRepository(supabase_manager.client)
+        self.companies = CompaniesRepository(supabase_manager.get_client())
 
     def create_company(self, name: str, is_active: bool = True) -> Company:
         """
@@ -58,7 +58,6 @@ class SupabaseDataService:
             SupabaseConnectionError: On connection/network errors
         """
         try:
-            logger.debug("Fetching active companies")
             companies = cast("list[Company]", self.companies.get_active())
             logger.info(f"Retrieved {len(companies)} active companies")
             return companies
@@ -77,7 +76,6 @@ class SupabaseDataService:
             SupabaseConnectionError: On connection/network errors
         """
         try:
-            logger.debug("Fetching all companies")
             companies = cast("list[Company]", self.companies.get_all())
             logger.info(f"Retrieved {len(companies)} companies")
             return companies

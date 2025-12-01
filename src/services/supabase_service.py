@@ -10,7 +10,11 @@ from typing import cast
 
 from data.supebase import supabase_manager
 from data.supebase.models.company import Company
+from data.supebase.models.technology import Technology
+from data.supebase.models.technology_alias import TechnologyAlias
 from data.supebase.repositories.companies import CompaniesRepository
+from data.supebase.repositories.technologies import TechnologiesRepository
+from data.supebase.repositories.technology_aliases import TechnologyAliasesRepository
 
 logger = logging.getLogger(__name__)
 
@@ -21,6 +25,10 @@ class SupabaseService:
     def __init__(self):
         """Initialize Supabase data service."""
         self.companies = CompaniesRepository(supabase_manager.get_client())
+        self.technologies = TechnologiesRepository(supabase_manager.get_client())
+        self.technology_aliases = TechnologyAliasesRepository(
+            supabase_manager.get_client()
+        )
 
     def create_company(self, name: str, is_active: bool = True) -> Company:
         """
@@ -127,4 +135,134 @@ class SupabaseService:
             return company
         except Exception as e:
             logger.error(f"Failed to activate company {company_id}: {e}")
+            raise
+
+    def create_technology(self, name: str, parent_id: int | None = None) -> Technology:
+        """
+        Create a new technology.
+
+        Args:
+            name: Technology name (must be unique)
+            parent_id: Optional parent technology ID
+
+        Returns:
+            Created Technology instance
+
+        Raises:
+            SupabaseConflictError: If technology name already exists
+            SupabaseValidationError: If name violates database constraints
+            SupabaseConnectionError: On connection/network errors
+        """
+        try:
+            logger.info(f"Creating technology: {name} (parent_id={parent_id})")
+            technology = self.technologies.create(name=name, parent_id=parent_id)
+            logger.info(f"Successfully created technology with ID: {technology.id}")
+            return technology
+        except Exception as e:
+            logger.error(f"Failed to create technology '{name}': {e}")
+            raise
+
+    def get_technology_by_name(self, name: str) -> Technology:
+        """
+        Get technology by name.
+
+        Args:
+            name: Technology name to search for
+
+        Returns:
+            Technology instance matching the name
+
+        Raises:
+            SupabaseNotFoundError: If technology with given name doesn't exist
+            SupabaseConnectionError: On connection/network errors
+        """
+        try:
+            logger.info(f"Getting technology by name: {name}")
+            technology = self.technologies.get_by_name(name=name)
+            logger.info(f"Successfully retrieved technology with ID: {technology.id}")
+            return technology
+        except Exception as e:
+            logger.error(f"Failed to get technology '{name}': {e}")
+            raise
+
+    def get_all_technology_names(self) -> list[str]:
+        """
+        Get all technology names.
+
+        Returns:
+            List of all technology names in the database
+
+        Raises:
+            SupabaseConnectionError: On connection/network errors
+        """
+        try:
+            names = cast("list[str]", self.technologies.get_all_names())
+            logger.info(f"Retrieved {len(names)} technology names")
+            return names
+        except Exception as e:
+            logger.error(f"Failed to get all technology names: {e}")
+            raise
+
+    def update_technology(
+        self, technology_id: int, name: str | None = None, parent_id: int | None = None
+    ) -> Technology:
+        """
+        Update existing technology.
+
+        Args:
+            technology_id: ID of the technology to update
+            name: New technology name (optional)
+            parent_id: New parent technology ID (optional)
+
+        Returns:
+            Updated Technology instance
+
+        Raises:
+            SupabaseNotFoundError: If technology with given ID doesn't exist
+            SupabaseConflictError: If new name conflicts with existing technology
+            SupabaseValidationError: If update violates database constraints
+            SupabaseConnectionError: On connection/network errors
+        """
+        try:
+            logger.info(f"Updating technology with ID: {technology_id}")
+            technology = self.technologies.update_technology(
+                technology_id=technology_id, name=name, parent_id=parent_id
+            )
+            logger.info(f"Successfully updated technology: {technology.name}")
+            return technology
+        except Exception as e:
+            logger.error(f"Failed to update technology {technology_id}: {e}")
+            raise
+
+    def create_technology_alias(
+        self, technology_id: int, alias: str
+    ) -> TechnologyAlias:
+        """
+        Create a new technology alias.
+
+        Args:
+            technology_id: ID of the technology this alias refers to
+            alias: Alias name (must be unique)
+
+        Returns:
+            Created TechnologyAlias instance
+
+        Raises:
+            SupabaseConflictError: If alias already exists
+            SupabaseValidationError: If alias violates database constraints or technology_id is invalid
+            SupabaseConnectionError: On connection/network errors
+        """
+        try:
+            logger.info(
+                f"Creating technology alias: {alias} for technology_id={technology_id}"
+            )
+            technology_alias = self.technology_aliases.create(
+                technology_id=technology_id, alias=alias
+            )
+            logger.info(
+                f"Successfully created technology alias with ID: {technology_alias.id}"
+            )
+            return technology_alias
+        except Exception as e:
+            logger.error(f"Failed to create technology alias '{alias}': {e}")
             raise

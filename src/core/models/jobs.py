@@ -255,6 +255,24 @@ class JobTechnologies:
 
 
 @dataclass
+class TechData:
+    """Technology data model."""
+
+    name: str
+    alias: list[str]
+    parent: str
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> "TechData":
+        """Create TechData from dictionary."""
+        return cls(
+            name=data.get("name", ""),
+            alias=data.get("alias", []),
+            parent=data.get("parent", ""),
+        )
+
+
+@dataclass
 class Job:
     """Evolving job model that grows through pipeline stages."""
 

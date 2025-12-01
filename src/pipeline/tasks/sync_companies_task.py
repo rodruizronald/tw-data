@@ -12,7 +12,7 @@ from services.supabase_service import SupabaseService
     retries=2,
     retry_delay_seconds=10,
     timeout_seconds=60,
-    task_run_name="sync_backend_companies",
+    task_run_name="sync_companies",
 )
 def sync_companies_task(companies_from_yaml: list[CompanyData]):
     """
@@ -34,12 +34,9 @@ def sync_companies_task(companies_from_yaml: list[CompanyData]):
     )
 
     stats = {
-        "total_yaml": len(companies_from_yaml),
-        "total_backend": 0,
         "created": 0,
         "activated": 0,
         "deactivated": 0,
-        "already_synced": 0,
     }
 
     try:
@@ -76,11 +73,7 @@ def sync_companies_task(companies_from_yaml: list[CompanyData]):
                 existing_company = existing_companies_map[company_name_lower]
                 current_active_state = existing_company.is_active
 
-                if current_active_state == desired_active_state:
-                    # Already in correct state
-                    stats["already_synced"] += 1
-
-                elif desired_active_state and not current_active_state:
+                if desired_active_state and not current_active_state:
                     # Should be active but is inactive - activate it
                     activated_company = service.activate_company(existing_company.id)
                     stats["activated"] += 1
@@ -96,17 +89,11 @@ def sync_companies_task(companies_from_yaml: list[CompanyData]):
                     # Update map
                     existing_companies_map[company_name_lower] = deactivated_company
 
-        # Get final count of companies in backend
-        final_companies = service.get_all_companies()
-        stats["total_backend"] = len(final_companies)
-
         logger.info(
             f"Company sync completed - "
             f"Created: {stats['created']}, "
             f"Activated: {stats['activated']}, "
             f"Deactivated: {stats['deactivated']}, "
-            f"Already synced: {stats['already_synced']}, "
-            f"Total in backend: {stats['total_backend']}"
         )
 
     except Exception as e:

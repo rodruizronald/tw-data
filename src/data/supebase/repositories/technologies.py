@@ -104,6 +104,31 @@ class TechnologiesRepository(BaseRepository):
 
         return technology
 
+    def get_all_names(self) -> list[str]:
+        """
+        Get all technology names.
+
+        Returns:
+            List of all technology names in the database
+
+        Raises:
+            SupabaseConnectionError: On connection/network errors
+
+        Example:
+            ```python
+            repo = TechnologiesRepository(client)
+            names = repo.get_all_names()
+            print(names)  # ["Python", "JavaScript", "React", ...]
+            ```
+        """
+        # Query all technologies, selecting only the name field
+        records = self.select(columns=["name"])
+
+        # Extract names from records
+        names = [record["name"] for record in records]
+
+        return names
+
     def update_technology(
         self, technology_id: int, name: str | None = None, parent_id: int | None = None
     ) -> Technology:

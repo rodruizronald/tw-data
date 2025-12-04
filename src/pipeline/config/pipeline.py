@@ -70,6 +70,9 @@ class PipelineConfig:
         paths = PathsConfig(
             prompts_dir=Path(paths_data.get("prompts_dir", "prompts")),
             companies_file=Path(paths_data.get("companies_file", "companies.yaml")),
+            technologies_file=Path(
+                paths_data.get("technologies_file", "technologies.json")
+            ),
         )
 
         # Convert integrations
@@ -143,6 +146,7 @@ class PipelineConfig:
             "paths": {
                 "prompts_dir": str(self.paths.prompts_dir),
                 "companies_file": str(self.paths.companies_file),
+                "technologies_file": str(self.paths.technologies_file),
                 "project_root": str(self.paths.project_root),
             },
             "integrations": {

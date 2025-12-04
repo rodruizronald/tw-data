@@ -8,6 +8,7 @@ pipeline:
   # Directory structure and file paths
   paths:
     prompts_dir: "prompts"
+    technologies_file: "technologies.json"
     companies_file: "companies.yaml"
 
   # Integration configurations

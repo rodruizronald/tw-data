@@ -26,21 +26,12 @@ def _create_or_fetch_technology(
         Status can be: "created", "existing", or "error"
     """
     try:
-        logger.info(f"Creating technology: {tech_name}")
         technology = service.create_technology(name=tech_name, parent_id=None)
-        logger.info(
-            f"Successfully created technology '{tech_name}' with ID: {technology.id}"
-        )
         return technology, "created"
 
     except SupabaseConflictError:
-        logger.info(f"Technology '{tech_name}' already exists, fetching it...")
-
         try:
             technology = service.get_technology_by_name(name=tech_name)
-            logger.info(
-                f"Successfully fetched existing technology '{tech_name}' with ID: {technology.id}"
-            )
             return technology, "existing"
 
         except Exception as fetch_error:
@@ -76,14 +67,12 @@ def _process_technology_aliases(
     """
     aliases_created = 0
     aliases_skipped = 0
-    logger.info(f"Processing {len(aliases)} aliases for '{tech_name}'...")
 
     for alias_name in aliases:
         try:
             service.create_technology_alias(
                 technology_id=technology.id, alias=alias_name
             )
-            logger.info(f"Successfully created alias '{alias_name}' for '{tech_name}'")
             aliases_created += 1
 
         except SupabaseConflictError:
@@ -141,11 +130,6 @@ def _update_parent_relationship(
             parent_id=parent_technology.id,
         )
 
-        logger.info(
-            f"Successfully set parent of '{tech_name}' to '{parent_name}' "
-            f"(parent_id={parent_technology.id})"
-        )
-
         return True
 
     except Exception as update_error:
@@ -159,7 +143,7 @@ def _update_parent_relationship(
     description="Synchronize technologies from source with backend",
     retries=2,
     retry_delay_seconds=10,
-    timeout_seconds=60,
+    timeout_seconds=1200,
     task_run_name="sync_technologies",
 )
 def sync_technologies_task(technologies_from_source: list[TechData]):
@@ -217,8 +201,6 @@ def sync_technologies_task(technologies_from_source: list[TechData]):
         # =================================================================
         # FIRST PASS: Create technologies and their aliases
         # =================================================================
-        logger.info("Starting first pass: Creating technologies and aliases...")
-
         for tech_data in new_technologies:
             tech_name = tech_data.name
 
@@ -243,8 +225,6 @@ def sync_technologies_task(technologies_from_source: list[TechData]):
         # =================================================================
         # SECOND PASS: Establish parent relationships
         # =================================================================
-        logger.info("Starting second pass: Establishing parent relationships...")
-
         for tech_data in new_technologies:
             if not tech_data.parent:
                 continue  # Skip technologies without parents

@@ -11,7 +11,11 @@ from services.supabase_service import SupabaseService
 
 
 def _create_or_fetch_technology(
-    service: SupabaseService, tech_name: str, logger
+    service: SupabaseService,
+    tech_name: str,
+    parent_name: str | None,
+    technology_map: dict[str, Technology],
+    logger,
 ) -> tuple[Technology | None, str]:
     """
     Create a new technology or fetch it if it already exists.
@@ -19,6 +23,8 @@ def _create_or_fetch_technology(
     Args:
         service: SupabaseService instance
         tech_name: Name of the technology to create or fetch
+        parent_name: Name of the parent technology (optional)
+        technology_map: Map of technology names to Technology objects
         logger: Logger instance for logging
 
     Returns:
@@ -26,7 +32,26 @@ def _create_or_fetch_technology(
         Status can be: "created", "existing", or "error"
     """
     try:
-        technology = service.create_technology(name=tech_name, parent_id=None)
+        # Resolve parent_id if parent_name is provided
+        parent_id = None
+        if parent_name:
+            # Check if parent exists in map first
+            if parent_name.lower() in technology_map:
+                parent_id = technology_map[parent_name.lower()].id
+            else:
+                # Try to fetch parent from backend
+                try:
+                    parent_tech = service.get_technology_by_name(name=parent_name)
+                    technology_map[parent_name.lower()] = parent_tech
+                    parent_id = parent_tech.id
+                except Exception as parent_error:
+                    logger.warning(
+                        f"Could not find parent '{parent_name}' for '{tech_name}': {parent_error}"
+                    )
+                    # Continue without parent - will be set in second pass if needed
+
+        # Create technology with parent_id
+        technology = service.create_technology(name=tech_name, parent_id=parent_id)
         return technology, "created"
 
     except SupabaseConflictError:
@@ -76,7 +101,7 @@ def _process_technology_aliases(
             aliases_created += 1
 
         except SupabaseConflictError:
-            logger.info(f"Skipping duplicate alias '{alias_name}' for '{tech_name}'")
+            logger.warning(f"Skipping duplicate alias '{alias_name}' for '{tech_name}'")
             aliases_skipped += 1
 
         except Exception as alias_error:
@@ -85,57 +110,6 @@ def _process_technology_aliases(
             )
 
     return aliases_created, aliases_skipped
-
-
-def _update_parent_relationship(
-    service: SupabaseService,
-    tech_name: str,
-    parent_name: str,
-    technology_map: dict[str, Technology],
-    logger,
-) -> bool:
-    """
-    Update parent relationship for a technology.
-
-    Args:
-        service: SupabaseService instance
-        tech_name: Name of the technology to update
-        parent_name: Name of the parent technology
-        technology_map: Map of technology names (lowercase) to technology objects
-        logger: Logger instance for logging
-
-    Returns:
-        True if parent was successfully updated, False otherwise
-    """
-
-    if tech_name.lower() not in technology_map:
-        logger.warning(
-            f"Cannot update parent for '{tech_name}': technology not found in map"
-        )
-
-        return False
-
-    if parent_name.lower() not in technology_map:
-        logger.warning(
-            f"Cannot find parent '{parent_name}' for technology '{tech_name}'"
-        )
-
-        return False
-
-    try:
-        current_technology = technology_map[tech_name.lower()]
-        parent_technology = technology_map[parent_name.lower()]
-        service.update_technology(
-            technology_id=current_technology.id,
-            parent_id=parent_technology.id,
-        )
-
-        return True
-
-    except Exception as update_error:
-        logger.warning(f"Error updating parent for '{tech_name}': {update_error}")
-
-        return False
 
 
 @task(
@@ -149,19 +123,6 @@ def _update_parent_relationship(
 def sync_technologies_task(technologies_from_source: list[TechData]):
     """
     Synchronize technologies with the backend.
-
-    This task performs a three-pass synchronization:
-    - First pass: Creates new technologies (without parent references) and their aliases
-    - Second pass: Populates technology map with all existing technologies from backend
-    - Third pass: Updates parent relationships for ALL technologies (new and existing)
-
-    This approach ensures:
-    1. All technologies exist before establishing hierarchical relationships
-    2. Parent relationships are updated even for technologies created in previous runs
-    3. Child technologies can appear before their parents in the source data
-
-    Args:
-        technologies_from_source: List of technologies to synchronize
     """
     logger = get_run_logger()
     logger.info(
@@ -173,7 +134,6 @@ def sync_technologies_task(technologies_from_source: list[TechData]):
         "existing": 0,
         "aliases_created": 0,
         "aliases_skipped": 0,
-        "parents_updated": 0,
     }
     try:
         service = SupabaseService()
@@ -183,14 +143,13 @@ def sync_technologies_task(technologies_from_source: list[TechData]):
         existing_tech_names = service.get_all_technology_names()
         existing_tech_names_set = {name.lower() for name in existing_tech_names}
 
-        logger.info(f"Found {len(existing_tech_names_set)} existing technologies")
-
         # Filter out technologies that already exist
         new_technologies = [
             tech
             for tech in technologies_from_source
             if tech.name.lower() not in existing_tech_names_set
         ]
+        stats["existing"] = len(technologies_from_source) - len(new_technologies)
 
         logger.info(
             f"Filtered to {len(new_technologies)} new technologies "
@@ -200,20 +159,17 @@ def sync_technologies_task(technologies_from_source: list[TechData]):
         # Create an in-memory map to store technology records for quick lookup
         technology_map: dict[str, Technology] = {}
 
-        # =================================================================
-        # FIRST PASS: Create new technologies and their aliases
-        # =================================================================
         for tech_data in new_technologies:
             tech_name = tech_data.name
 
             # Create or fetch the technology
-            technology, status = _create_or_fetch_technology(service, tech_name, logger)
+            technology, status = _create_or_fetch_technology(
+                service, tech_name, tech_data.parent, technology_map, logger
+            )
 
             if technology is None:
                 continue  # Skip this technology if there was an error
 
-            # Update technology map and stats
-            technology_map[tech_name.lower()] = technology
             stats[status] += 1
 
             # Process aliases for this technology
@@ -224,51 +180,13 @@ def sync_technologies_task(technologies_from_source: list[TechData]):
                 stats["aliases_created"] += created
                 stats["aliases_skipped"] += skipped
 
-        # =================================================================
-        # POPULATE MAP: Fetch all existing technologies to populate the map
-        # =================================================================
-        # This ensures we can update parent relationships for ALL technologies,
-        # not just the ones we created in this run
-        logger.info(
-            "Fetching all existing technologies to populate map for parent updates..."
-        )
-        for tech_data in technologies_from_source:
-            tech_name = tech_data.name
-            # Only fetch if not already in map (to avoid redundant queries)
-            if tech_name.lower() not in technology_map:
-                try:
-                    technology = service.get_technology_by_name(name=tech_name)
-                    technology_map[tech_name.lower()] = technology
-                except Exception as fetch_error:
-                    logger.warning(
-                        f"Could not fetch technology '{tech_name}' for parent mapping: {fetch_error}"
-                    )
-
-        logger.info(f"Technology map populated with {len(technology_map)} technologies")
-
-        # =================================================================
-        # SECOND PASS: Establish parent relationships for ALL technologies
-        # =================================================================
-        # Process ALL technologies from source, not just new ones
-        # This ensures parent relationships are updated even for existing technologies
-        for tech_data in technologies_from_source:
-            if not tech_data.parent:
-                continue  # Skip technologies without parents
-
-            # Update parent relationship
-            if _update_parent_relationship(
-                service, tech_data.name, tech_data.parent, technology_map, logger
-            ):
-                stats["parents_updated"] += 1
-
         # Completion
         logger.info(
             f"Technology sync completed - "
             f"Created: {stats['created']}, "
             f"Existing: {stats['existing']}, "
             f"Aliases Created: {stats['aliases_created']}, "
-            f"Aliases Skipped: {stats['aliases_skipped']}, "
-            f"Parents Updated: {stats['parents_updated']}"
+            f"Aliases Skipped: {stats['aliases_skipped']}"
         )
 
     except Exception as e:

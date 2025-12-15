@@ -130,7 +130,14 @@ class BaseRepository(ABC):  # noqa: B024
         """
         # Extract error details from APIError
         # APIError contains a dict with keys like 'message', 'code', 'details', 'hint'
+        # Note: After retry failures, error.args[0] can be a string instead of dict
         error_dict = error.args[0] if error.args else {}
+
+        # Ensure error_dict is actually a dictionary
+        # When the retry decorator re-raises the exception, it may convert to string
+        if not isinstance(error_dict, dict):
+            error_dict = {"message": str(error_dict), "code": ""}
+
         error_message = error_dict.get("message", str(error))
         error_code = error_dict.get("code", "")
         error_details = error_dict.get("details", "")

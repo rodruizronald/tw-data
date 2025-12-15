@@ -11,7 +11,7 @@ from services.supabase_service import SupabaseService
     description="Synchronize companies from YAML with backend",
     retries=2,
     retry_delay_seconds=10,
-    timeout_seconds=60,
+    timeout_seconds=300,
     task_run_name="sync_companies",
 )
 def sync_companies_task(companies_from_yaml: list[CompanyData]):

@@ -150,13 +150,15 @@ def sync_technologies_task(technologies_from_source: list[TechData]):
     """
     Synchronize technologies with the backend.
 
-    This task performs a two-pass synchronization:
-    - First pass: Creates technologies (without parent references) and their aliases
-    - Second pass: Updates parent relationships between technologies
+    This task performs a three-pass synchronization:
+    - First pass: Creates new technologies (without parent references) and their aliases
+    - Second pass: Populates technology map with all existing technologies from backend
+    - Third pass: Updates parent relationships for ALL technologies (new and existing)
 
-    The two-pass approach ensures all technologies exist before establishing
-    hierarchical relationships, handling cases where child technologies appear
-    before their parents in the source data.
+    This approach ensures:
+    1. All technologies exist before establishing hierarchical relationships
+    2. Parent relationships are updated even for technologies created in previous runs
+    3. Child technologies can appear before their parents in the source data
 
     Args:
         technologies_from_source: List of technologies to synchronize
@@ -199,7 +201,7 @@ def sync_technologies_task(technologies_from_source: list[TechData]):
         technology_map: dict[str, Technology] = {}
 
         # =================================================================
-        # FIRST PASS: Create technologies and their aliases
+        # FIRST PASS: Create new technologies and their aliases
         # =================================================================
         for tech_data in new_technologies:
             tech_name = tech_data.name
@@ -223,9 +225,33 @@ def sync_technologies_task(technologies_from_source: list[TechData]):
                 stats["aliases_skipped"] += skipped
 
         # =================================================================
-        # SECOND PASS: Establish parent relationships
+        # POPULATE MAP: Fetch all existing technologies to populate the map
         # =================================================================
-        for tech_data in new_technologies:
+        # This ensures we can update parent relationships for ALL technologies,
+        # not just the ones we created in this run
+        logger.info(
+            "Fetching all existing technologies to populate map for parent updates..."
+        )
+        for tech_data in technologies_from_source:
+            tech_name = tech_data.name
+            # Only fetch if not already in map (to avoid redundant queries)
+            if tech_name.lower() not in technology_map:
+                try:
+                    technology = service.get_technology_by_name(name=tech_name)
+                    technology_map[tech_name.lower()] = technology
+                except Exception as fetch_error:
+                    logger.warning(
+                        f"Could not fetch technology '{tech_name}' for parent mapping: {fetch_error}"
+                    )
+
+        logger.info(f"Technology map populated with {len(technology_map)} technologies")
+
+        # =================================================================
+        # SECOND PASS: Establish parent relationships for ALL technologies
+        # =================================================================
+        # Process ALL technologies from source, not just new ones
+        # This ensures parent relationships are updated even for existing technologies
+        for tech_data in technologies_from_source:
             if not tech_data.parent:
                 continue  # Skip technologies without parents
 

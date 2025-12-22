@@ -133,7 +133,7 @@ class DailyMetricsRepository(BaseRepository[CompanyDailyMetrics]):
         Args:
             date: Date in YYYY-MM-DD format
             company_name: Company name
-            stage_number: Stage number (1-4)
+            stage_number: Stage number (1-5)
             stage_metrics: StageMetrics model object
 
         Returns:
@@ -391,6 +391,12 @@ class DailyMetricsRepository(BaseRepository[CompanyDailyMetrics]):
                         "stage_4_execution_times": {
                             "$push": "$stage_4_execution_seconds"
                         },
+                        # Stage 5 aggregations
+                        "stage_5_processed": {"$sum": "$stage_5_jobs_processed"},
+                        "stage_5_completed": {"$sum": "$stage_5_jobs_completed"},
+                        "stage_5_execution_times": {
+                            "$push": "$stage_5_execution_seconds"
+                        },
                     }
                 },
             ]
@@ -402,7 +408,7 @@ class DailyMetricsRepository(BaseRepository[CompanyDailyMetrics]):
                 aggregated.pop("_id", None)
 
                 # Calculate averages for execution times
-                for stage in range(1, 5):
+                for stage in range(1, 6):
                     times_key = f"stage_{stage}_execution_times"
                     times = [t for t in aggregated.get(times_key, []) if t and t > 0]
                     aggregated[f"stage_{stage}_avg_execution_seconds"] = (

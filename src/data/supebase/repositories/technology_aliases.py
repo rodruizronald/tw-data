@@ -7,6 +7,7 @@ Provides type-safe CRUD operations for the technology_aliases table with domain 
 from supabase import Client
 
 from data.supebase.base_repository import BaseRepository
+from data.supebase.exceptions import SupabaseNotFoundError
 from data.supebase.models.technology_alias import TechnologyAlias
 
 
@@ -61,5 +62,38 @@ class TechnologyAliasesRepository(BaseRepository):
 
         # Convert to domain model
         technology_alias = TechnologyAlias(**data)
+
+        return technology_alias
+
+    def get_by_alias(self, alias: str) -> TechnologyAlias:
+        """
+        Get technology alias by alias name.
+
+        Args:
+            alias: Alias name to search for
+
+        Returns:
+            TechnologyAlias instance matching the alias name
+
+        Raises:
+            SupabaseNotFoundError: If alias with given name doesn't exist
+            SupabaseConnectionError: On connection/network errors
+
+        Example:
+            ```python
+            repo = TechnologyAliasesRepository(client)
+            technology_alias = repo.get_by_alias(alias="py")
+            print(technology_alias.technology_id)  # Technology ID this alias refers to
+            ```
+        """
+        # Query by alias name
+        records = self.select(filters={"alias": alias}, limit=1)
+
+        # Check if alias was found
+        if not records or len(records) == 0:
+            raise SupabaseNotFoundError(f"Technology alias '{alias}' not found")
+
+        # Convert to domain model
+        technology_alias = TechnologyAlias(**records[0])
 
         return technology_alias

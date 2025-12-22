@@ -15,6 +15,7 @@ from data.supebase.models.job import (
     Province,
     WorkMode,
 )
+from data.supebase.models.job_technology import JobTechnology
 from data.supebase.models.technology import Technology
 from data.supebase.models.technology_alias import TechnologyAlias
 
@@ -24,6 +25,7 @@ __all__ = [
     "ExperienceLevel",
     "Job",
     "JobFunction",
+    "JobTechnology",
     "Location",
     "Province",
     "Technology",

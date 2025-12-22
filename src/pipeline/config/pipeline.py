@@ -15,7 +15,7 @@ from core.config.integrations import (
 from core.config.services import OpenAIServiceConfig
 from core.config.system import PathsConfig
 from core.models.parsers import ParserType
-from pipeline.config.stages import StageConfig, StagesConfig
+from pipeline.config.stages import Stage5Config, StageConfig, StagesConfig
 
 # Load environment variables when this module is imported
 # Try to find .env file in current directory or parent directories
@@ -112,6 +112,7 @@ class PipelineConfig:
         stage_2_data = stages_data.get("stage_2", {})
         stage_3_data = stages_data.get("stage_3", {})
         stage_4_data = stages_data.get("stage_4", {})
+        stage_5_data = stages_data.get("stage_5", {})
 
         # Create stage configurations using helper method
         stage_1_config = cls._create_stage_config(stage_1_data)
@@ -119,11 +120,20 @@ class PipelineConfig:
         stage_3_config = cls._create_stage_config(stage_3_data)
         stage_4_config = cls._create_stage_config(stage_4_data)
 
+        # Stage 5 uses simplified config (no openai_service)
+        stage_5_config = Stage5Config(
+            name=stage_5_data.get("name", ""),
+            tag=stage_5_data.get("tag", "stage_5"),
+            description=stage_5_data.get("description", ""),
+            enabled=stage_5_data.get("enabled", True),
+        )
+
         stages = StagesConfig(
             stage_1=stage_1_config,
             stage_2=stage_2_config,
             stage_3=stage_3_config,
             stage_4=stage_4_config,
+            stage_5=stage_5_config,
         )
 
         return cls(
@@ -306,3 +316,8 @@ class PipelineConfig:
     def stage_4(self) -> StageConfig:
         """Get Stage 4 configuration."""
         return self.stages.stage_4
+
+    @property
+    def stage_5(self) -> Stage5Config:
+        """Get Stage 5 configuration."""
+        return self.stages.stage_5

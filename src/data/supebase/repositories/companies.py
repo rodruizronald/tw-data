@@ -137,6 +137,38 @@ class CompaniesRepository(BaseRepository):
 
         return companies
 
+    def get_by_name(self, name: str) -> Company:
+        """
+        Get a company by its name.
+
+        Args:
+            name: Company name to search for
+
+        Returns:
+            Company instance matching the name
+
+        Raises:
+            SupabaseNotFoundError: If company with given name doesn't exist
+            SupabaseConnectionError: On connection/network errors
+
+        Example:
+            ```python
+            repo = CompaniesRepository(client)
+            company = repo.get_by_name(name="Acme Corp")
+            print(f"Company ID: {company.id}")
+            ```
+        """
+        # Query company by name
+        records = self.select(filters={"name": name})
+
+        if not records:
+            raise SupabaseNotFoundError(f"Company with name '{name}' not found")
+
+        # Return first match (name should be unique)
+        company = Company(**records[0])
+
+        return company
+
     def deactivate(self, company_id: int) -> Company:
         """
         Deactivate a company (soft delete).

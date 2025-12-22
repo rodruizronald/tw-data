@@ -290,3 +290,9 @@ pipeline:
                   prioritizing required technologies and core job functions
             required: ["technologies", "main_technologies"]
             additionalProperties: false
+    stage_5:
+      name: "Supabase Upload"
+      tag: "stage_5"
+      description: >-
+        Upload processed jobs to Supabase database for storage and retrieval
+      enabled: false

@@ -96,6 +96,29 @@ class SupabaseService:
             logger.error(f"Failed to get all companies: {e}")
             raise
 
+    def get_company_by_name(self, name: str) -> Company:
+        """
+        Get company by name.
+
+        Args:
+            name: Company name to search for
+
+        Returns:
+            Company instance matching the name
+
+        Raises:
+            SupabaseNotFoundError: If company with given name doesn't exist
+            SupabaseConnectionError: On connection/network errors
+        """
+        try:
+            logger.info(f"Getting company by name: {name}")
+            company = self.companies.get_by_name(name=name)
+            logger.info(f"Successfully retrieved company with ID: {company.id}")
+            return company
+        except Exception as e:
+            logger.error(f"Failed to get company '{name}': {e}")
+            raise
+
     def deactivate_company(self, company_id: int) -> Company:
         """
         Deactivate a company (soft delete).
@@ -348,6 +371,104 @@ class SupabaseService:
             return created_job
         except Exception as e:
             logger.error(f"Failed to create job '{job.title}': {e}")
+            raise
+
+    def job_exists(self, signature: str) -> bool:
+        """
+        Check if a job with the given signature exists.
+
+        Args:
+            signature: Unique job signature to check
+
+        Returns:
+            True if job exists, False otherwise
+
+        Raises:
+            SupabaseConnectionError: On connection/network errors
+        """
+        try:
+            exists: bool = self.jobs.exists_by_signature(signature=signature)
+            return exists
+        except Exception as e:
+            logger.error(f"Failed to check if job exists: {e}")
+            raise
+
+    def update_job(self, job: CoreJob, company_id: int) -> SupabaseJob:
+        """
+        Update an existing job posting from a core Job model.
+
+        Maps the core Job model fields to the Supabase schema and updates the record.
+
+        Args:
+            job: Core Job model containing job details, requirements, and technologies
+            company_id: Foreign key reference to companies table
+
+        Returns:
+            Updated SupabaseJob instance with all fields populated
+
+        Raises:
+            SupabaseNotFoundError: If job with given signature doesn't exist
+            SupabaseValidationError: If data violates database constraints
+            SupabaseConnectionError: On connection/network errors
+            ValueError: If job is missing required details (stage 2 not processed)
+        """
+        try:
+            if not job.is_stage_2_processed or job.details is None:
+                raise ValueError("Job must have details (stage 2 processed) to update")
+
+            logger.info(f"Updating job: {job.title} for company_id={company_id}")
+
+            # Map core enums to Supabase enums using JobEnumMapper
+            experience_level = JobEnumMapper.map_experience_level(
+                job.details.experience_level
+            )
+            employment_type = JobEnumMapper.map_employment_type(
+                job.details.employment_type
+            )
+            location = JobEnumMapper.map_location(job.details.location)
+            province = JobEnumMapper.map_province(job.details.province)
+            work_mode = JobEnumMapper.map_work_mode(job.details.work_mode)
+            job_function = JobEnumMapper.map_job_function(job.details.job_function)
+
+            # Extract optional fields from requirements (stage 3)
+            responsibilities = None
+            skill_must_have = None
+            skill_nice_have = None
+            benefits = None
+            if job.requirements is not None:
+                responsibilities = job.requirements.responsibilities or None
+                skill_must_have = job.requirements.skill_must_have or None
+                skill_nice_have = job.requirements.skill_nice_to_have or None
+                benefits = job.requirements.benefits or None
+
+            # Extract main technologies (stage 4)
+            main_technologies = None
+            if job.technologies is not None:
+                main_technologies = job.technologies.main_technologies or None
+
+            updated_job = self.jobs.update_by_signature(
+                signature=job.signature,
+                company_id=company_id,
+                title=job.title,
+                description=job.details.description,
+                experience_level=experience_level,
+                employment_type=employment_type,
+                location=location,
+                city=job.details.city,
+                province=province,
+                work_mode=work_mode,
+                job_function=job_function,
+                application_url=job.url,
+                responsibilities=responsibilities,
+                skill_must_have=skill_must_have,
+                skill_nice_have=skill_nice_have,
+                main_technologies=main_technologies,
+                benefits=benefits,
+            )
+            logger.info(f"Successfully updated job with ID: {updated_job.id}")
+            return updated_job
+        except Exception as e:
+            logger.error(f"Failed to update job '{job.title}': {e}")
             raise
 
     def get_job_by_signature(self, signature: str) -> SupabaseJob:

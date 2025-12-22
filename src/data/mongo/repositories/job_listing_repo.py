@@ -445,35 +445,3 @@ class JobListingRepository(BaseRepository[JobListing]):
         except PyMongoError as e:
             logger.error(f"Error deleting incomplete jobs for {company}: {e}")
             return 0
-
-    def find_new_valid_jobs(self) -> list[JobListing]:
-        """
-        Find all new valid jobs created today.
-
-        A valid job is one that:
-        - Was created today (in UTC)
-        - Is active
-        - Has completed all processing stages (2, 3, and 4)
-
-        Returns:
-            list[JobListing]: List of new valid job listings
-        """
-        try:
-            # Get today's date range in UTC
-            today_start = now_utc().replace(hour=0, minute=0, second=0, microsecond=0)
-
-            query = {
-                "created_at": {"$gte": today_start},
-                "active": True,
-                "stage_2_completed": True,
-                "stage_3_completed": True,
-                "stage_4_completed": True,
-            }
-
-            cursor = self.collection.find(query)
-            jobs = [JobListing.from_dict(doc) for doc in cursor]
-            return jobs
-
-        except PyMongoError as e:
-            logger.error(f"Error finding new valid jobs: {e}")
-            return []

@@ -335,30 +335,3 @@ class JobDataService:
             error_msg = f"Failed to remove incomplete jobs for {company_name}: {e}"
             logger.error(error_msg)
             raise
-
-    def get_new_valid_jobs(self) -> list[Job]:
-        """
-        Get all new valid jobs created today.
-
-        A valid job is one that:
-        - Was created today (in UTC)
-        - Is active
-        - Has completed all processing stages (2, 3, and 4)
-
-        Returns:
-            list[Job]: List of new valid jobs
-
-        Raises:
-            Exception: If database operation fails
-        """
-        try:
-            job_listings = self.repository.find_new_valid_jobs()
-            jobs = [self.mapper.to_job(job_listing) for job_listing in job_listings]
-
-            logger.info(f"Retrieved {len(jobs)} new valid jobs created today")
-            return jobs
-
-        except Exception as e:
-            error_msg = f"Failed to get new valid jobs: {e}"
-            logger.error(error_msg)
-            raise

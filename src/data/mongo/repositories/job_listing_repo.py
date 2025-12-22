@@ -318,7 +318,14 @@ class JobListingRepository(BaseRepository[JobListing]):
             list[JobListing]: List of jobs ready for the specified stage
         """
         try:
-            query: dict[str, Any] = {"active": True, "company": company}
+            # Get today's date range in UTC
+            today_start = now_utc().replace(hour=0, minute=0, second=0, microsecond=0)
+
+            query: dict[str, Any] = {
+                "active": True,
+                "company": company,
+                "created_at": {"$gte": today_start},
+            }
 
             if stage == 2:
                 query["stage_1_completed"] = True

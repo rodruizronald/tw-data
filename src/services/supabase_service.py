@@ -321,6 +321,31 @@ class SupabaseService:
             logger.error(f"Failed to create technology alias '{alias}': {e}")
             raise
 
+    def get_technology_alias_by_name(self, alias: str) -> TechnologyAlias:
+        """
+        Get technology alias by alias name.
+
+        Args:
+            alias: Alias name to search for
+
+        Returns:
+            TechnologyAlias instance matching the alias name
+
+        Raises:
+            SupabaseNotFoundError: If alias with given name doesn't exist
+            SupabaseConnectionError: On connection/network errors
+        """
+        try:
+            logger.info(f"Getting technology alias by name: {alias}")
+            technology_alias = self.technology_aliases.get_by_alias(alias=alias)
+            logger.info(
+                f"Successfully retrieved technology alias with ID: {technology_alias.id}"
+            )
+            return technology_alias
+        except Exception as e:
+            logger.error(f"Failed to get technology alias '{alias}': {e}")
+            raise
+
     def create_job(self, job: CoreJob, company_id: int) -> SupabaseJob:
         """
         Create a new job posting from a core Job model.

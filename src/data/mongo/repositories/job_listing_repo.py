@@ -465,3 +465,33 @@ class JobListingRepository(BaseRepository[JobListing]):
         except PyMongoError as e:
             logger.error(f"Error deleting incomplete jobs for {company}: {e}")
             return 0
+
+    def mark_stage_5_completed_by_signatures(self, signatures: list[str]) -> int:
+        """
+        Mark jobs as stage 5 completed by their signatures.
+
+        Performs a bulk update to set stage_5_completed to True for all jobs
+        with the provided signatures.
+
+        Args:
+            signatures: List of job signatures to mark as completed
+
+        Returns:
+            int: Number of jobs successfully updated
+        """
+        if not signatures:
+            logger.warning("No signatures provided to mark as stage 5 completed")
+            return 0
+
+        try:
+            result = self.collection.update_many(
+                {"signature": {"$in": signatures}},
+                {"$set": {"stage_5_completed": True}},
+            )
+
+            modified_count: int = result.modified_count
+            return modified_count
+
+        except PyMongoError as e:
+            logger.error(f"Error marking jobs as stage 5 completed: {e}")
+            return 0

@@ -72,12 +72,12 @@ class Stage5Processor:
                 return []
 
             # Upload jobs to Supabase
-            processed_jobs, failed_count = self._upload_jobs_batch(jobs, company_id)
+            processed_jobs = self._upload_jobs_batch(jobs, company_id)
             jobs_completed = len(processed_jobs)
 
             # Save results to MongoDB
             status, error_message = self._save_processed_jobs(
-                processed_jobs, failed_count, company_name
+                processed_jobs, company_name
             )
 
             return processed_jobs
@@ -124,9 +124,7 @@ class Stage5Processor:
             # Critical errors - let them bubble up
             raise
 
-    def _upload_jobs_batch(
-        self, jobs: list[Job], company_id: int
-    ) -> tuple[list[Job], int]:
+    def _upload_jobs_batch(self, jobs: list[Job], company_id: int) -> list[Job]:
         """Upload a batch of jobs to Supabase."""
         processed_jobs: list[Job] = []
         failed_count = 0
@@ -155,28 +153,24 @@ class Stage5Processor:
                 failed_count += 1
                 self.logger.error(f"Failed to upload job '{job.title}': {e}")
 
-        return processed_jobs, failed_count
+        self.logger.info("Failed to upload {failed_count} jobs to supabase")
+        return processed_jobs
 
     def _save_processed_jobs(
-        self, processed_jobs: list[Job], failed_count: int, company_name: str
+        self, processed_jobs: list[Job], company_name: str
     ) -> tuple[StageStatus, str | None]:
-        """Save processed jobs to MongoDB and return status."""
+        """Mark processed jobs as stage 5 completed in MongoDB."""
         if not processed_jobs:
             self.logger.warning(f"No jobs to save for {company_name}")
             return StageStatus.FAILED, "No jobs successfully uploaded to Supabase"
 
         try:
-            saved_count = self.database_service.save_stage_results(
-                processed_jobs, company_name, self.config.stage_5.tag
-            )
-            self.logger.info(
-                f"Marked {saved_count} jobs as stage_5_completed for "
-                f"{company_name}. Failed to upload {failed_count} jobs."
-            )
+            signatures = [job.signature for job in processed_jobs]
+            self.database_service.mark_stage_5_completed(signatures)
             return StageStatus.SUCCESS, None
         except Exception as e:
             raise DatabaseOperationError(
-                operation="save_stage_results",
+                operation="mark_stage_5_completed",
                 message=str(e),
                 company_name=company_name,
                 stage=self.config.stage_5.tag,

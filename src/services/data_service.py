@@ -303,6 +303,35 @@ class JobDataService:
         except (ValueError, IndexError):
             return None
 
+    def mark_stage_5_completed(self, signatures: list[str]) -> int:
+        """
+        Mark jobs as stage 5 completed by their signatures.
+
+        Args:
+            signatures: List of job signatures to mark as completed
+
+        Returns:
+            int: Number of jobs successfully updated
+
+        Raises:
+            Exception: If database operation fails
+        """
+        if not signatures:
+            logger.warning("No signatures provided to mark as stage 5 completed")
+            return 0
+
+        try:
+            updated_count: int = self.repository.mark_stage_5_completed_by_signatures(
+                signatures
+            )
+            logger.info(f"Marked {updated_count} jobs as stage 5 completed")
+            return updated_count
+
+        except Exception as e:
+            error_msg = f"Failed to mark jobs as stage 5 completed: {e}"
+            logger.error(error_msg)
+            raise
+
     def remove_incomplete_jobs(self, company_name: str) -> int:
         """
         Remove all jobs for a company that haven't completed all pipeline stages.

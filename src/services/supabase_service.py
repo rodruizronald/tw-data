@@ -216,6 +216,29 @@ class SupabaseService:
             logger.error(f"Failed to get technology '{name}': {e}")
             raise
 
+    def get_technology_by_id(self, technology_id: int) -> Technology:
+        """
+        Get technology by ID.
+
+        Args:
+            technology_id: Technology ID to search for
+
+        Returns:
+            Technology instance matching the ID
+
+        Raises:
+            SupabaseNotFoundError: If technology with given ID doesn't exist
+            SupabaseConnectionError: On connection/network errors
+        """
+        try:
+            logger.info(f"Getting technology by ID: {technology_id}")
+            technology = self.technologies.get_by_id(technology_id=technology_id)
+            logger.info(f"Successfully retrieved technology: {technology.name}")
+            return technology
+        except Exception as e:
+            logger.error(f"Failed to get technology with ID {technology_id}: {e}")
+            raise
+
     def get_all_technology_names(self) -> list[str]:
         """
         Get all technology names.

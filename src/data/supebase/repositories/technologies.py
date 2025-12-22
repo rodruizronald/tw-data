@@ -104,6 +104,39 @@ class TechnologiesRepository(BaseRepository):
 
         return technology
 
+    def get_by_id(self, technology_id: int) -> Technology:
+        """
+        Get technology by ID.
+
+        Args:
+            technology_id: Technology ID to search for
+
+        Returns:
+            Technology instance matching the ID
+
+        Raises:
+            SupabaseNotFoundError: If technology with given ID doesn't exist
+            SupabaseConnectionError: On connection/network errors
+
+        Example:
+            ```python
+            repo = TechnologiesRepository(client)
+            technology = repo.get_by_id(technology_id=5)
+            print(technology.name)  # Technology name
+            ```
+        """
+        # Query by ID
+        records = self.select(filters={"id": technology_id}, limit=1)
+
+        # Check if technology was found
+        if not records or len(records) == 0:
+            raise SupabaseNotFoundError(f"Technology with ID {technology_id} not found")
+
+        # Convert to domain model
+        technology = Technology(**records[0])
+
+        return technology
+
     def get_all_names(self) -> list[str]:
         """
         Get all technology names.

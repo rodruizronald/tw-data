@@ -12,6 +12,7 @@ from pipeline.flows.stage_1_flow import stage_1_flow
 from pipeline.flows.stage_2_flow import stage_2_flow
 from pipeline.flows.stage_3_flow import stage_3_flow
 from pipeline.flows.stage_4_flow import stage_4_flow
+from pipeline.flows.stage_5_flow import stage_5_flow
 from pipeline.flows.stage_6_flow import stage_6_flow
 from services.data_service import JobDataService
 
@@ -147,6 +148,14 @@ async def _execute_stages(
             logger,
         )
 
+    # Stage 5: Supabase Upload
+    if config.stage_5.enabled:
+        await _execute_stage_5(
+            config,
+            companies,
+            logger,
+        )
+
     # Stage 6: Company Completion Metrics and Daily Aggregates
     await _execute_stage_6(
         config,
@@ -247,6 +256,29 @@ async def _execute_stage_4(
         logger.error(f"Stage 4 failed: {e}")
 
         logger.error("Critical failure in Stage 4 - stopping pipeline")
+        raise
+
+
+async def _execute_stage_5(
+    config: PipelineConfig,
+    companies: list[CompanyData],
+    logger,
+) -> None:
+    """Execute Stage 5: Supabase Upload."""
+    logger.info("Stage 5 starting...")
+
+    try:
+        await stage_5_flow(
+            companies=companies,
+            config=config,
+        )
+
+        logger.info("Stage 5 completed successfully")
+
+    except Exception as e:
+        logger.error(f"Stage 5 failed: {e}")
+
+        logger.error("Critical failure in Stage 5 - stopping pipeline")
         raise
 
 

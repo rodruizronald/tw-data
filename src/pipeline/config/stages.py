@@ -40,6 +40,16 @@ class StageConfig:
 
 
 @dataclass
+class Stage5Config:
+    """Configuration for Stage 5 processing (Supabase upload)."""
+
+    name: str
+    tag: str
+    description: str
+    enabled: bool
+
+
+@dataclass
 class StagesConfig:
     """Configuration for all stages."""
 
@@ -47,6 +57,7 @@ class StagesConfig:
     stage_2: StageConfig
     stage_3: StageConfig
     stage_4: StageConfig
+    stage_5: Stage5Config
 
     def get_enabled_stage_tags(self) -> list[str]:
         """
@@ -68,5 +79,8 @@ class StagesConfig:
 
         if self.stage_4.enabled:
             enabled_stages.append(self.stage_4.tag)
+
+        if self.stage_5.enabled:
+            enabled_stages.append(self.stage_5.tag)
 
         return enabled_stages

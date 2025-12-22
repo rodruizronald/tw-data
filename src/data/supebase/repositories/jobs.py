@@ -190,6 +190,130 @@ class JobsRepository(BaseRepository):
 
         return job
 
+    def exists_by_signature(self, signature: str) -> bool:
+        """
+        Check if a job with the given signature exists.
+
+        Args:
+            signature: Unique job signature to check
+
+        Returns:
+            True if job exists, False otherwise
+
+        Raises:
+            SupabaseConnectionError: On connection/network errors
+
+        Example:
+            ```python
+            repo = JobsRepository(client)
+            if repo.exists_by_signature("abc123..."):
+                print("Job already exists")
+            ```
+        """
+        records = self.select(filters={"signature": signature}, limit=1)
+        return len(records) > 0
+
+    def update_by_signature(
+        self,
+        signature: str,
+        company_id: int,
+        title: str,
+        description: str,
+        experience_level: ExperienceLevel,
+        employment_type: EmploymentType,
+        location: Location,
+        city: str,
+        province: Province,
+        work_mode: WorkMode,
+        job_function: JobFunction,
+        application_url: str,
+        responsibilities: list[str] | None = None,
+        skill_must_have: list[str] | None = None,
+        skill_nice_have: list[str] | None = None,
+        main_technologies: list[str] | None = None,
+        benefits: list[str] | None = None,
+        is_active: bool = True,
+    ) -> Job:
+        """
+        Update an existing job posting by its signature.
+
+        Args:
+            signature: Unique job signature to update
+            company_id: Foreign key reference to companies table
+            title: Job title
+            description: Full job description
+            experience_level: Required seniority level
+            employment_type: Type of employment
+            location: Geographic region (costa-rica or latam)
+            city: City where the job is located
+            province: Province in Costa Rica
+            work_mode: Work arrangement (remote/hybrid/onsite)
+            job_function: Functional area or department
+            application_url: URL to apply for the job
+            responsibilities: List of job responsibilities (optional)
+            skill_must_have: Required skills for the position (optional)
+            skill_nice_have: Nice-to-have skills for the position (optional)
+            main_technologies: Main technologies used in the role (optional)
+            benefits: Job benefits offered (optional)
+            is_active: Whether the job should be active (default: True)
+
+        Returns:
+            Updated Job instance
+
+        Raises:
+            SupabaseNotFoundError: If job with given signature doesn't exist
+            SupabaseValidationError: If data violates database constraints
+            SupabaseConnectionError: On connection/network errors
+
+        Example:
+            ```python
+            repo = JobsRepository(client)
+            job = repo.update_by_signature(
+                signature="abc123...",
+                company_id=1,
+                title="Updated Title",
+                ...
+            )
+            ```
+        """
+        # Build update data
+        data: dict = {
+            "company_id": company_id,
+            "title": title,
+            "description": description,
+            "experience_level": experience_level.value,
+            "employment_type": employment_type.value,
+            "location": location.value,
+            "city": city,
+            "province": province.value,
+            "work_mode": work_mode.value,
+            "job_function": job_function.value,
+            "application_url": application_url,
+            "is_active": is_active,
+            "updated_at": datetime.now(UTC).isoformat(),
+        }
+
+        # Add optional fields (set to None if not provided to clear them)
+        data["responsibilities"] = responsibilities
+        data["skill_must_have"] = skill_must_have
+        data["skill_nice_have"] = skill_nice_have
+        data["main_technologies"] = main_technologies
+        data["benefits"] = benefits
+
+        # Update record
+        result = self.update(data=data, filters={"signature": signature})
+
+        # Handle response - check if job was found
+        if not result or (isinstance(result, list) and len(result) == 0):
+            raise SupabaseNotFoundError(f"Job with signature '{signature}' not found")
+
+        data_result = result[0] if isinstance(result, list) else result
+
+        # Convert to domain model
+        job = Job(**data_result)
+
+        return job
+
     def deactivate(self, signature: str) -> Job:
         """
         Deactivate a job posting (soft delete).

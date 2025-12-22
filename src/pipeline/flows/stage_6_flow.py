@@ -1,5 +1,5 @@
 """
-Stage 5 Flow: Company Completion Metrics and Daily Aggregates.
+Stage 6 Flow: Company Completion Metrics and Daily Aggregates.
 
 This flow records company completion metrics for each company after all stages
 have been processed, and calculates daily aggregates for the entire pipeline.
@@ -16,19 +16,19 @@ from utils.timezone import now_utc
 
 
 @flow(
-    name="stage_5_metrics_completion",
+    name="stage_6_metrics_completion",
     description="Record company completion metrics and calculate daily aggregates",
     version="1.0.0",
     retries=0,
     retry_delay_seconds=60,
     timeout_seconds=600,  # 10 minutes timeout
 )
-async def stage_5_flow(
+async def stage_6_flow(
     companies: list[CompanyData],
     config: PipelineConfig,
 ) -> None:
     """
-    Main flow for Stage 5: Record company completion metrics and calculate daily aggregates.
+    Main flow for Stage 6: Record company completion metrics and calculate daily aggregates.
 
     This flow processes each company to:
     1. Gather statistics from the database
@@ -41,7 +41,7 @@ async def stage_5_flow(
         config: Pipeline configuration
     """
     logger = get_run_logger()
-    logger.info("STAGE 5: Company Completion Metrics and Daily Aggregates")
+    logger.info("STAGE 6: Company Completion Metrics and Daily Aggregates")
 
     db_service = JobDataService()
     metrics_service = JobMetricsService()

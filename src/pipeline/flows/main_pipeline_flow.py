@@ -12,7 +12,7 @@ from pipeline.flows.stage_1_flow import stage_1_flow
 from pipeline.flows.stage_2_flow import stage_2_flow
 from pipeline.flows.stage_3_flow import stage_3_flow
 from pipeline.flows.stage_4_flow import stage_4_flow
-from pipeline.flows.stage_5_flow import stage_5_flow
+from pipeline.flows.stage_6_flow import stage_6_flow
 from services.data_service import JobDataService
 
 
@@ -147,8 +147,8 @@ async def _execute_stages(
             logger,
         )
 
-    # Stage 5: Company Completion Metrics and Daily Aggregates
-    await _execute_stage_5(
+    # Stage 6: Company Completion Metrics and Daily Aggregates
+    await _execute_stage_6(
         config,
         companies,
         logger,
@@ -250,7 +250,7 @@ async def _execute_stage_4(
         raise
 
 
-async def _execute_stage_5(
+async def _execute_stage_6(
     config: PipelineConfig,
     companies: list[CompanyData],
     logger,
@@ -259,7 +259,7 @@ async def _execute_stage_5(
     logger.info("Stage 5 starting...")
 
     try:
-        await stage_5_flow(
+        await stage_6_flow(
             companies=companies,
             config=config,
         )

@@ -8,6 +8,15 @@ from prefect import task
 from prefect.logging import get_run_logger
 
 from core.models.jobs import CompanyData, Job
+from data.supebase.exceptions import (
+    SupabaseAuthError,
+    SupabaseConflictError,
+    SupabaseConnectionError,
+    SupabaseNotFoundError,
+    SupabaseRateLimitError,
+    SupabaseServerError,
+    SupabaseValidationError,
+)
 from pipeline.config import PipelineConfig
 from pipeline.stages.stage_5 import Stage5Processor
 from pipeline.tasks.helpers import company_task_run_name
@@ -54,14 +63,33 @@ def upload_jobs_to_supabase_task(
 
         return results
 
-    except ValidationError as e:
+    except (ValidationError, SupabaseValidationError) as e:
         # Non-retryable errors - don't retry these
         logger.error(f"Validation error for {company.name}: {e}")
         return []
 
-    except DatabaseOperationError as e:
+    except SupabaseAuthError as e:
+        logger.error(f"Auth error for {company.name}: {e}")
+        return []
+
+    except SupabaseNotFoundError as e:
+        logger.error(f"Resource not found for {company.name}: {e}")
+        return []
+
+    except SupabaseConflictError as e:
+        # Conflict might be acceptable (job already exists)
+        logger.warning(f"Conflict for {company.name}: {e}")
+        return []
+
+    # === Retryable errors (re-raise for Prefect retry) ===
+    except (
+        DatabaseOperationError,
+        SupabaseConnectionError,  # Includes Timeout and Network errors
+        SupabaseServerError,
+        SupabaseRateLimitError,
+    ) as e:
         # Retryable errors - let Prefect handle retries
-        logger.warning(f"Database error for {company.name}: {e}")
+        logger.warning(f"Retryable error for {company.name}: {e}")
         # Re-raise to trigger Prefect retry mechanism
         raise
 

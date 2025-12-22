@@ -12,6 +12,15 @@ from prefect.logging import get_run_logger
 
 from core.models.jobs import Job
 from core.models.metrics import StageMetricsInput, StageStatus
+from data.supebase.exceptions import (
+    SupabaseAuthError,
+    SupabaseConflictError,
+    SupabaseConnectionError,
+    SupabaseNotFoundError,
+    SupabaseRateLimitError,
+    SupabaseServerError,
+    SupabaseValidationError,
+)
 from pipeline.config import PipelineConfig
 from services.data_service import JobDataService
 from services.metrics_service import JobMetricsService
@@ -76,6 +85,15 @@ class Stage5Processor:
         except DatabaseOperationError:
             raise
 
+        # Critical Supabase errors - bubble up for task-level retry
+        except (
+            SupabaseAuthError,
+            SupabaseConnectionError,
+            SupabaseServerError,
+            SupabaseRateLimitError,
+        ):
+            raise
+
         except Exception as e:
             self.logger.error(f"Error processing jobs for {company_name}: {e!s}")
             error_message = str(e)
@@ -100,9 +118,12 @@ class Stage5Processor:
             self.logger.info(f"Found company '{company_name}' with ID: {company.id}")
             company_id: int = company.id
             return company_id
-        except Exception as e:
-            self.logger.error(f"Company '{company_name}' not found in Supabase: {e}")
+        except SupabaseNotFoundError:
+            self.logger.error(f"Company '{company_name}' not found in Supabase")
             return None
+        except (SupabaseAuthError, SupabaseConnectionError, SupabaseServerError):
+            # Critical errors - let them bubble up
+            raise
 
     def _upload_jobs_batch(
         self, jobs: list[Job], company_id: int
@@ -116,6 +137,21 @@ class Stage5Processor:
                 self._upload_job_to_supabase(job, company_id)
                 processed_jobs.append(job)
                 self.logger.info(f"Job '{job.title}' successfully uploaded to Supabase")
+
+            # Per-job recoverable errors - skip and continue
+            except (SupabaseValidationError, SupabaseConflictError) as e:
+                failed_count += 1
+                self.logger.warning(f"Skipping job '{job.title}': {e}")
+
+            # Critical errors - stop batch and bubble up
+            except (
+                SupabaseAuthError,
+                SupabaseConnectionError,
+                SupabaseServerError,
+                SupabaseRateLimitError,
+            ):
+                raise
+
             except Exception as e:
                 failed_count += 1
                 self.logger.error(f"Failed to upload job '{job.title}': {e}")

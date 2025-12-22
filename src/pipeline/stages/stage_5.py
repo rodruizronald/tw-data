@@ -115,7 +115,6 @@ class Stage5Processor:
         """Get company ID from Supabase by name."""
         try:
             company = self.supabase_service.get_company_by_name(company_name)
-            self.logger.info(f"Found company '{company_name}' with ID: {company.id}")
             company_id: int = company.id
             return company_id
         except SupabaseNotFoundError:
@@ -228,9 +227,7 @@ class Stage5Processor:
         # Check if job already exists in Supabase
         if self.supabase_service.job_exists(job.signature):
             # Update existing job
-            self.logger.debug(f"Job '{job.title}' exists, updating...")
             self.supabase_service.update_job(job, company_id)
         else:
             # Create new job
-            self.logger.debug(f"Job '{job.title}' is new, creating...")
             self.supabase_service.create_job(job, company_id)

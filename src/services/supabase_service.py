@@ -13,9 +13,11 @@ from data.supebase import supabase_manager
 from data.supebase.mappers.job_mapper import JobEnumMapper
 from data.supebase.models.company import Company
 from data.supebase.models.job import Job as SupabaseJob
+from data.supebase.models.job_technology import JobTechnology
 from data.supebase.models.technology import Technology
 from data.supebase.models.technology_alias import TechnologyAlias
 from data.supebase.repositories.companies import CompaniesRepository
+from data.supebase.repositories.job_technologies import JobTechnologiesRepository
 from data.supebase.repositories.jobs import JobsRepository
 from data.supebase.repositories.technologies import TechnologiesRepository
 from data.supebase.repositories.technology_aliases import TechnologyAliasesRepository
@@ -30,6 +32,7 @@ class SupabaseService:
         """Initialize Supabase data service."""
         self.companies = CompaniesRepository(supabase_manager.get_client())
         self.jobs = JobsRepository(supabase_manager.get_client())
+        self.job_technologies = JobTechnologiesRepository(supabase_manager.get_client())
         self.technologies = TechnologiesRepository(supabase_manager.get_client())
         self.technology_aliases = TechnologyAliasesRepository(
             supabase_manager.get_client()
@@ -515,4 +518,39 @@ class SupabaseService:
             return job
         except Exception as e:
             logger.error(f"Failed to deactivate job with signature: {e}")
+            raise
+
+    def create_job_technology(self, job_id: int, technology_id: int) -> JobTechnology:
+        """
+        Create a new job-technology association.
+
+        Links a job to a technology in the job_technologies junction table.
+
+        Args:
+            job_id: ID of the job to associate
+            technology_id: ID of the technology to associate
+
+        Returns:
+            Created JobTechnology instance
+
+        Raises:
+            SupabaseConflictError: If job-technology association already exists
+            SupabaseValidationError: If job_id or technology_id are invalid
+            SupabaseConnectionError: On connection/network errors
+        """
+        try:
+            logger.info(
+                f"Creating job technology: job_id={job_id}, technology_id={technology_id}"
+            )
+            job_technology = self.job_technologies.create(
+                job_id=job_id, technology_id=technology_id
+            )
+            logger.info(
+                f"Successfully created job technology with ID: {job_technology.id}"
+            )
+            return job_technology
+        except Exception as e:
+            logger.error(
+                f"Failed to create job technology (job_id={job_id}, technology_id={technology_id}): {e}"
+            )
             raise

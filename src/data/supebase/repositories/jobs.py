@@ -190,26 +190,26 @@ class JobsRepository(BaseRepository):
 
         return job
 
-    def deactivate(self, job_id: int) -> Job:
+    def deactivate(self, signature: str) -> Job:
         """
         Deactivate a job posting (soft delete).
 
         Sets is_active=False and updates the updated_at timestamp.
 
         Args:
-            job_id: ID of the job to deactivate
+            signature: Unique job signature to deactivate
 
         Returns:
             Updated Job instance with is_active=False
 
         Raises:
-            SupabaseNotFoundError: If job with given ID doesn't exist
+            SupabaseNotFoundError: If job with given signature doesn't exist
             SupabaseConnectionError: On connection/network errors
 
         Example:
             ```python
             repo = JobsRepository(client)
-            deactivated = repo.deactivate(job_id=5)
+            deactivated = repo.deactivate(signature="abc123def456...")
             assert deactivated.is_active is False
             ```
         """
@@ -219,13 +219,13 @@ class JobsRepository(BaseRepository):
                 "is_active": False,
                 "updated_at": datetime.now(UTC).isoformat(),
             },
-            filters={"id": job_id},
+            filters={"signature": signature},
         )
 
         # Handle response - check if job was found
         if not result or (isinstance(result, list) and len(result) == 0):
             raise SupabaseNotFoundError(
-                f"Job with ID {job_id} not found or already deactivated"
+                f"Job with signature '{signature}' not found or already deactivated"
             )
 
         data = result[0] if isinstance(result, list) else result

@@ -373,25 +373,25 @@ class SupabaseService:
             logger.error(f"Failed to get job by signature: {e}")
             raise
 
-    def deactivate_job(self, job_id: int) -> SupabaseJob:
+    def deactivate_job(self, signature: str) -> SupabaseJob:
         """
         Deactivate a job posting (soft delete).
 
         Args:
-            job_id: ID of the job to deactivate
+            signature: Unique job signature to deactivate
 
         Returns:
             Updated SupabaseJob instance with is_active=False
 
         Raises:
-            SupabaseNotFoundError: If job with given ID doesn't exist
+            SupabaseNotFoundError: If job with given signature doesn't exist
             SupabaseConnectionError: On connection/network errors
         """
         try:
-            logger.info(f"Deactivating job with ID: {job_id}")
-            job = self.jobs.deactivate(job_id=job_id)
+            logger.info(f"Deactivating job with signature: {signature[:20]}...")
+            job = self.jobs.deactivate(signature=signature)
             logger.info(f"Successfully deactivated job: {job.title}")
             return job
         except Exception as e:
-            logger.error(f"Failed to deactivate job {job_id}: {e}")
+            logger.error(f"Failed to deactivate job with signature: {e}")
             raise

@@ -197,7 +197,7 @@ class JobDataService:
 
     def deactivate_missing_jobs(
         self, company_name: str, current_signatures: set[str]
-    ) -> int:
+    ) -> list[str]:
         """
         Deactivate jobs that are no longer present in the current scrape.
 
@@ -208,7 +208,7 @@ class JobDataService:
             current_signatures: Set of signatures from current scrape
 
         Returns:
-            int: Number of jobs deactivated
+            list[str]: List of signatures of deactivated jobs
         """
         try:
             # Get all active jobs for company
@@ -218,20 +218,22 @@ class JobDataService:
                 limit=10000,
             )
 
-            deactivated_count = 0
+            deactivated_signatures: list[str] = []
 
             for job_listing in active_jobs:
                 if job_listing.signature not in current_signatures:
                     job_listing.deactivate()
                     if self.repository.update(job_listing):
-                        deactivated_count += 1
+                        deactivated_signatures.append(job_listing.signature)
 
-            logger.info(f"Deactivated {deactivated_count} jobs for {company_name}")
-            return deactivated_count
+            logger.info(
+                f"Deactivated {len(deactivated_signatures)} jobs for {company_name}"
+            )
+            return deactivated_signatures
 
         except Exception as e:
             logger.error(f"Error deactivating jobs for {company_name}: {e}")
-            return 0
+            return []
 
     def get_stage_statistics(self, company_name: str | None = None) -> dict[str, Any]:
         """

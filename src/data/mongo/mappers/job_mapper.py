@@ -106,6 +106,7 @@ class JobMapper:
             stage_2_completed=job.details is not None,
             stage_3_completed=job.requirements is not None,
             stage_4_completed=job.technologies is not None,
+            stage_5_completed=False,  # Supabase sync - handled separately
         )
 
         return job_listing

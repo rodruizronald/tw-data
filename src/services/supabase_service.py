@@ -8,11 +8,15 @@ for companies and other Supabase entities across the application.
 import logging
 from typing import cast
 
+from core.models.jobs import Job as CoreJob
 from data.supebase import supabase_manager
+from data.supebase.mappers.job_mapper import JobEnumMapper
 from data.supebase.models.company import Company
+from data.supebase.models.job import Job as SupabaseJob
 from data.supebase.models.technology import Technology
 from data.supebase.models.technology_alias import TechnologyAlias
 from data.supebase.repositories.companies import CompaniesRepository
+from data.supebase.repositories.jobs import JobsRepository
 from data.supebase.repositories.technologies import TechnologiesRepository
 from data.supebase.repositories.technology_aliases import TechnologyAliasesRepository
 
@@ -25,6 +29,7 @@ class SupabaseService:
     def __init__(self):
         """Initialize Supabase data service."""
         self.companies = CompaniesRepository(supabase_manager.get_client())
+        self.jobs = JobsRepository(supabase_manager.get_client())
         self.technologies = TechnologiesRepository(supabase_manager.get_client())
         self.technology_aliases = TechnologyAliasesRepository(
             supabase_manager.get_client()
@@ -265,4 +270,128 @@ class SupabaseService:
             return technology_alias
         except Exception as e:
             logger.error(f"Failed to create technology alias '{alias}': {e}")
+            raise
+
+    def create_job(self, job: CoreJob, company_id: int) -> SupabaseJob:
+        """
+        Create a new job posting from a core Job model.
+
+        Maps the core Job model fields to the Supabase schema and creates the record.
+
+        Args:
+            job: Core Job model containing job details, requirements, and technologies
+            company_id: Foreign key reference to companies table
+
+        Returns:
+            Created SupabaseJob instance with all fields populated
+
+        Raises:
+            SupabaseConflictError: If job signature already exists
+            SupabaseValidationError: If data violates database constraints
+            SupabaseConnectionError: On connection/network errors
+            ValueError: If job is missing required details (stage 2 not processed)
+        """
+        try:
+            if not job.is_stage_2_processed or job.details is None:
+                raise ValueError("Job must have details (stage 2 processed) to create")
+
+            logger.info(f"Creating job: {job.title} for company_id={company_id}")
+
+            # Map core enums to Supabase enums using JobEnumMapper
+            experience_level = JobEnumMapper.map_experience_level(
+                job.details.experience_level
+            )
+            employment_type = JobEnumMapper.map_employment_type(
+                job.details.employment_type
+            )
+            location = JobEnumMapper.map_location(job.details.location)
+            province = JobEnumMapper.map_province(job.details.province)
+            work_mode = JobEnumMapper.map_work_mode(job.details.work_mode)
+            job_function = JobEnumMapper.map_job_function(job.details.job_function)
+
+            # Extract optional fields from requirements (stage 3)
+            responsibilities = None
+            skill_must_have = None
+            skill_nice_have = None
+            benefits = None
+            if job.requirements is not None:
+                responsibilities = job.requirements.responsibilities or None
+                skill_must_have = job.requirements.skill_must_have or None
+                skill_nice_have = job.requirements.skill_nice_to_have or None
+                benefits = job.requirements.benefits or None
+
+            # Extract main technologies (stage 4)
+            main_technologies = None
+            if job.technologies is not None:
+                main_technologies = job.technologies.main_technologies or None
+
+            created_job = self.jobs.create(
+                company_id=company_id,
+                title=job.title,
+                description=job.details.description,
+                experience_level=experience_level,
+                employment_type=employment_type,
+                location=location,
+                city=job.details.city,
+                province=province,
+                work_mode=work_mode,
+                job_function=job_function,
+                application_url=job.url,
+                responsibilities=responsibilities,
+                skill_must_have=skill_must_have,
+                skill_nice_have=skill_nice_have,
+                main_technologies=main_technologies,
+                benefits=benefits,
+                signature=job.signature,
+            )
+            logger.info(f"Successfully created job with ID: {created_job.id}")
+            return created_job
+        except Exception as e:
+            logger.error(f"Failed to create job '{job.title}': {e}")
+            raise
+
+    def get_job_by_signature(self, signature: str) -> SupabaseJob:
+        """
+        Get job by unique signature.
+
+        Args:
+            signature: Unique job signature to search for
+
+        Returns:
+            SupabaseJob instance matching the signature
+
+        Raises:
+            SupabaseNotFoundError: If job with given signature doesn't exist
+            SupabaseConnectionError: On connection/network errors
+        """
+        try:
+            logger.info(f"Getting job by signature: {signature[:20]}...")
+            job = self.jobs.get_by_signature(signature=signature)
+            logger.info(f"Successfully retrieved job with ID: {job.id}")
+            return job
+        except Exception as e:
+            logger.error(f"Failed to get job by signature: {e}")
+            raise
+
+    def deactivate_job(self, signature: str) -> SupabaseJob:
+        """
+        Deactivate a job posting (soft delete).
+
+        Args:
+            signature: Unique job signature to deactivate
+
+        Returns:
+            Updated SupabaseJob instance with is_active=False
+
+        Raises:
+            SupabaseNotFoundError: If job with given signature doesn't exist
+            SupabaseConnectionError: On connection/network errors
+        """
+        try:
+            logger.info(f"Deactivating job with signature: {signature[:20]}...")
+            job = self.jobs.deactivate(signature=signature)
+            logger.info(f"Successfully deactivated job: {job.title}")
+            return job
+        except Exception as e:
+            logger.error(f"Failed to deactivate job with signature: {e}")
             raise

@@ -9,6 +9,7 @@ from pipeline.config import PipelineConfig
 from services.data_service import JobDataService
 from services.metrics_service import JobMetricsService
 from services.openai_service import OpenAIRequest, OpenAIService
+from services.supabase_service import SupabaseService
 from services.web_extraction_service import WebExtractionService
 from utils.exceptions import (
     CompanyProcessingError,
@@ -41,6 +42,7 @@ class Stage1Processor:
         self.database_service = JobDataService()
         self.metrics_service = JobMetricsService()
         self.web_extraction_service = WebExtractionService(config.web_extraction)
+        self.supabase_service = SupabaseService()
         # Initialize mapper
         self.job_mapper = JobMapper()
 
@@ -254,12 +256,20 @@ class Stage1Processor:
         """Deactivate jobs that are no longer on the career page."""
         current_signatures = {job.signature for job in jobs}
         try:
-            deactivated_count = self.database_service.deactivate_missing_jobs(
+            deactivated_signatures = self.database_service.deactivate_missing_jobs(
                 company.name, current_signatures
             )
-            if deactivated_count > 0:
+            if deactivated_signatures:
+                # Deactivate jobs in Supabase by signature
+                for signature in deactivated_signatures:
+                    try:
+                        self.supabase_service.deactivate_job(signature)
+                    except Exception as e:
+                        self.logger.warning(
+                            f"Failed to deactivate job in Supabase: {signature[:20]}... - {e}"
+                        )
                 self.logger.info(
-                    f"Deactivated {deactivated_count} jobs no longer on career page"
+                    f"Deactivated {len(deactivated_signatures)} jobs no longer on career page"
                 )
         except Exception as e:
             raise DatabaseOperationError(

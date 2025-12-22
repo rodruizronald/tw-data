@@ -269,7 +269,7 @@ class JobListingRepository(BaseRepository[JobListing]):
         Find jobs that need processing for a specific stage.
 
         Args:
-            stage: Stage number (2, 3, or 4)
+            stage: Stage number (2, 3, 4, or 5)
             limit: Maximum number of results
 
         Returns:
@@ -290,6 +290,12 @@ class JobListingRepository(BaseRepository[JobListing]):
                 query["stage_2_completed"] = True
                 query["stage_3_completed"] = True
                 query["stage_4_completed"] = False
+            elif stage == 5:
+                query["stage_1_completed"] = True
+                query["stage_2_completed"] = True
+                query["stage_3_completed"] = True
+                query["stage_4_completed"] = True
+                query["stage_5_completed"] = False
             else:
                 logger.warning(f"Invalid stage number: {stage}")
                 return []
@@ -311,30 +317,46 @@ class JobListingRepository(BaseRepository[JobListing]):
 
         Args:
             company: Company name
-            stage: Stage number (2, 3, or 4)
+            stage: Stage number (2, 3, 4, or 5)
             limit: Maximum number of results
 
         Returns:
             list[JobListing]: List of jobs ready for the specified stage
         """
         try:
-            query: dict[str, Any] = {"active": True, "company": company}
+            # Get today's date range in UTC
+            today_start = now_utc().replace(hour=0, minute=0, second=0, microsecond=0)
+
+            query: dict[str, Any] = {
+                "active": True,
+                "company": company,
+                "created_at": {"$gte": today_start},
+            }
 
             if stage == 2:
                 query["stage_1_completed"] = True
                 query["stage_2_completed"] = False
                 query["stage_3_completed"] = False
                 query["stage_4_completed"] = False
+                query["stage_5_completed"] = False
             elif stage == 3:
                 query["stage_1_completed"] = True
                 query["stage_2_completed"] = True
                 query["stage_3_completed"] = False
                 query["stage_4_completed"] = False
+                query["stage_5_completed"] = False
             elif stage == 4:
                 query["stage_1_completed"] = True
                 query["stage_2_completed"] = True
                 query["stage_3_completed"] = True
                 query["stage_4_completed"] = False
+                query["stage_5_completed"] = False
+            elif stage == 5:
+                query["stage_1_completed"] = True
+                query["stage_2_completed"] = True
+                query["stage_3_completed"] = True
+                query["stage_4_completed"] = True
+                query["stage_5_completed"] = False
             else:
                 logger.warning(f"Invalid stage number: {stage}")
                 return []
@@ -370,13 +392,17 @@ class JobListingRepository(BaseRepository[JobListing]):
                     {"stage_3_completed": True, "stage_4_completed": False}
                 ),
                 "stage_4_completed": self.collection.count_documents(
-                    {"stage_4_completed": True}
+                    {"stage_4_completed": True, "stage_5_completed": False}
+                ),
+                "stage_5_completed": self.collection.count_documents(
+                    {"stage_5_completed": True}
                 ),
                 "fully_processed": self.collection.count_documents(
                     {
                         "stage_2_completed": True,
                         "stage_3_completed": True,
                         "stage_4_completed": True,
+                        "stage_5_completed": True,
                     }
                 ),
             }
@@ -429,6 +455,7 @@ class JobListingRepository(BaseRepository[JobListing]):
                     {"stage_2_completed": False},
                     {"stage_3_completed": False},
                     {"stage_4_completed": False},
+                    {"stage_5_completed": False},
                 ],
             }
 

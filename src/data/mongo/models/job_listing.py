@@ -80,6 +80,7 @@ class JobListing:
     stage_2_completed: bool = False  # Details extraction completed
     stage_3_completed: bool = False  # Requirements extraction completed
     stage_4_completed: bool = False  # Technologies extraction completed
+    stage_5_completed: bool = False  # Supabase sync completed
 
     # Database metadata
     _id: ObjectId | None = None
@@ -140,6 +141,11 @@ class JobListing:
         self.stage_4_completed = True
         self.update_timestamp()
 
+    def mark_stage_5_completed(self) -> None:
+        """Mark Stage 5 (Supabase sync) as completed."""
+        self.stage_5_completed = True
+        self.update_timestamp()
+
     @property
     def completed_stages(self) -> list[int]:
         """Get list of completed stage numbers."""
@@ -150,6 +156,8 @@ class JobListing:
             stages.append(3)
         if self.stage_4_completed:
             stages.append(4)
+        if self.stage_5_completed:
+            stages.append(5)
         return stages
 
     @property
@@ -161,13 +169,18 @@ class JobListing:
             return 3
         if not self.stage_4_completed:
             return 4
+        if not self.stage_5_completed:
+            return 5
         return None
 
     @property
     def is_fully_processed(self) -> bool:
         """Check if all stages are completed."""
         return (
-            self.stage_2_completed and self.stage_3_completed and self.stage_4_completed
+            self.stage_2_completed
+            and self.stage_3_completed
+            and self.stage_4_completed
+            and self.stage_5_completed
         )
 
     def to_dict(self) -> dict[str, Any]:
@@ -201,6 +214,7 @@ class JobListing:
             "stage_2_completed": self.stage_2_completed,
             "stage_3_completed": self.stage_3_completed,
             "stage_4_completed": self.stage_4_completed,
+            "stage_5_completed": self.stage_5_completed,
             "created_at": self.created_at,
             "updated_at": self.updated_at,
         }
@@ -252,6 +266,7 @@ class JobListing:
             stage_2_completed=data.get("stage_2_completed", False),
             stage_3_completed=data.get("stage_3_completed", False),
             stage_4_completed=data.get("stage_4_completed", False),
+            stage_5_completed=data.get("stage_5_completed", False),
         )
 
         # Set MongoDB metadata

@@ -121,6 +121,16 @@ class CompanyDailyMetrics:
     stage_4_completed_at: datetime | None = None
     stage_4_error_message: str | None = None
 
+    # Stage 5 metrics (flat fields matching MongoDB storage)
+    stage_5_status: str | None = None
+    stage_5_jobs_processed: int = 0
+    stage_5_jobs_completed: int = 0
+    stage_5_jobs_failed: int = 0
+    stage_5_execution_seconds: float = 0.0
+    stage_5_started_at: datetime | None = None
+    stage_5_completed_at: datetime | None = None
+    stage_5_error_message: str | None = None
+
     # Metadata
     prefect_flow_run_id: str | None = None
     pipeline_version: str | None = None
@@ -171,7 +181,7 @@ class CompanyDailyMetrics:
             doc["last_updated_stage"] = self.last_updated_stage
 
         # Add all stage metrics (already flat in the model)
-        for stage_num in range(1, 5):
+        for stage_num in range(1, 6):
             # Add status if present
             status = getattr(self, f"stage_{stage_num}_status")
             if status is not None:
@@ -215,7 +225,7 @@ class CompanyDailyMetrics:
         """
         # Extract stage metrics fields with proper type handling
         stage_fields: dict[str, Any] = {}
-        for stage_num in range(1, 5):
+        for stage_num in range(1, 6):
             stage_fields[f"stage_{stage_num}_status"] = data.get(
                 f"stage_{stage_num}_status"
             )

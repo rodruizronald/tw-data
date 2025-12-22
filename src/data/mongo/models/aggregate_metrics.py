@@ -54,6 +54,10 @@ class DailyAggregateMetrics:
     stage_4_success_rate: float = 0.0
     stage_4_avg_execution_seconds: float = 0.0
 
+    stage_5_total_processed: int = 0
+    stage_5_success_rate: float = 0.0
+    stage_5_avg_execution_seconds: float = 0.0
+
     # Metadata
     calculation_timestamp: datetime = field(default_factory=now_utc)
     pipeline_run_count: int = 0
@@ -96,6 +100,9 @@ class DailyAggregateMetrics:
             "stage_4_total_processed": self.stage_4_total_processed,
             "stage_4_success_rate": self.stage_4_success_rate,
             "stage_4_avg_execution_seconds": self.stage_4_avg_execution_seconds,
+            "stage_5_total_processed": self.stage_5_total_processed,
+            "stage_5_success_rate": self.stage_5_success_rate,
+            "stage_5_avg_execution_seconds": self.stage_5_avg_execution_seconds,
             "calculation_timestamp": self.calculation_timestamp,
             "pipeline_run_count": self.pipeline_run_count,
             "created_at": self.created_at,
@@ -143,6 +150,11 @@ class DailyAggregateMetrics:
             stage_4_success_rate=data.get("stage_4_success_rate", 0.0),
             stage_4_avg_execution_seconds=data.get(
                 "stage_4_avg_execution_seconds", 0.0
+            ),
+            stage_5_total_processed=data.get("stage_5_total_processed", 0),
+            stage_5_success_rate=data.get("stage_5_success_rate", 0.0),
+            stage_5_avg_execution_seconds=data.get(
+                "stage_5_avg_execution_seconds", 0.0
             ),
             calculation_timestamp=data.get("calculation_timestamp", now_utc()),
             pipeline_run_count=data.get("pipeline_run_count", 0),

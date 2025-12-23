@@ -10,10 +10,14 @@ from data.mongo.repositories.aggregate_metrics_repo import AggregateMetricsRepos
 from data.mongo.repositories.base_repo import BaseRepository
 from data.mongo.repositories.daily_metrics_repo import DailyMetricsRepository
 from data.mongo.repositories.job_listing_repo import JobListingRepository
+from data.mongo.repositories.unmatched_technology_repo import (
+    UnmatchedTechnologyRepository,
+)
 
 __all__ = [
     "AggregateMetricsRepository",
     "BaseRepository",
     "DailyMetricsRepository",
     "JobListingRepository",
+    "UnmatchedTechnologyRepository",
 ]

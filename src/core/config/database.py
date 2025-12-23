@@ -70,6 +70,13 @@ class DatabaseConfig:
         )
     )
 
+    # Unmatched technologies collection
+    unmatched_technologies_collection: str = field(
+        default_factory=lambda: os.getenv(
+            "MONGO_UNMATCHED_TECHNOLOGIES_COLLECTION", "unmatched_technologies"
+        )
+    )
+
     def build_connection_string(self) -> str:
         """Build MongoDB connection string from configuration."""
         if self.connection_string:
@@ -93,6 +100,7 @@ class DatabaseConfig:
             "job_listings_collection": self.job_listings_collection,
             "job_metrics_daily_collection": self.job_metrics_daily_collection,
             "job_metrics_aggregates_collection": self.job_metrics_aggregates_collection,
+            "unmatched_technologies_collection": self.unmatched_technologies_collection,
         }
 
 

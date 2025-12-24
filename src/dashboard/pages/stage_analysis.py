@@ -44,7 +44,7 @@ if not aggregate:
 # === STAGE SELECTOR ===
 st.subheader("📊 Select Stage")
 
-stage_tabs = st.tabs([f"Stage {i}" for i in range(1, 5)])
+stage_tabs = st.tabs([f"Stage {i}" for i in range(1, 6)])
 
 for stage_idx, tab in enumerate(stage_tabs):
     stage = stage_idx + 1

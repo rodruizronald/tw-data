@@ -109,7 +109,7 @@ st.subheader("🔄 Stage Performance")
 
 # Create stage performance data
 stage_data = []
-for stage in range(1, 5):
+for stage in range(1, 6):
     stage_data.append(
         {
             "Stage": f"Stage {stage}",
@@ -126,8 +126,8 @@ st.dataframe(df, use_container_width=True, hide_index=True)
 # === STAGE PERFORMANCE BARS ===
 st.markdown("#### Success Rate by Stage")
 
-stage_cols = st.columns(4)
-for i, stage in enumerate(range(1, 5)):
+stage_cols = st.columns(5)
+for i, stage in enumerate(range(1, 6)):
     with stage_cols[i]:
         success_rate = getattr(aggregate, f"stage_{stage}_success_rate")
         processed = getattr(aggregate, f"stage_{stage}_total_processed")

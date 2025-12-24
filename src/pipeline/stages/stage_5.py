@@ -3,7 +3,8 @@ Stage 5: Upload jobs to Supabase.
 
 This stage takes jobs that have completed stages 1-4 and uploads them
 to Supabase for storage. If a job already exists (same signature),
-it will be updated instead of created.
+it will be updated instead of created. Additionally, it associates
+technologies with jobs and tracks unmatched technologies.
 """
 
 import time
@@ -21,8 +22,9 @@ from data.supebase.exceptions import (
     SupabaseServerError,
     SupabaseValidationError,
 )
+from data.supebase.models.job import Job as SupabaseJob
 from pipeline.config import PipelineConfig
-from services.data_service import JobDataService
+from services.data_service import JobDataService, TechDataService
 from services.metrics_service import JobMetricsService
 from services.supabase_service import SupabaseService
 from utils.exceptions import DatabaseOperationError
@@ -43,6 +45,7 @@ class Stage5Processor:
         self.supabase_service = SupabaseService()
         self.database_service = JobDataService()
         self.metrics_service = JobMetricsService()
+        self.tech_data_service = TechDataService()
 
     def process_jobs(self, jobs: list[Job], company_name: str) -> list[Job]:
         """
@@ -125,15 +128,29 @@ class Stage5Processor:
             raise
 
     def _upload_jobs_batch(self, jobs: list[Job], company_id: int) -> list[Job]:
-        """Upload a batch of jobs to Supabase."""
+        """Upload a batch of jobs to Supabase and associate technologies."""
         processed_jobs: list[Job] = []
         failed_count = 0
 
         for job in jobs:
             try:
-                self._upload_job_to_supabase(job, company_id)
-                processed_jobs.append(job)
+                # Upload job to Supabase
+                supabase_job = self._upload_job_to_supabase(job, company_id)
                 self.logger.info(f"Job '{job.title}' successfully uploaded to Supabase")
+
+                # Associate technologies with the job
+                tech_success = self._associate_job_technologies(job, supabase_job.id)
+
+                if tech_success:
+                    processed_jobs.append(job)
+                    self.logger.info(
+                        f"Job '{job.title}' technologies associated successfully"
+                    )
+                else:
+                    failed_count += 1
+                    self.logger.warning(
+                        f"Job '{job.title}' uploaded but technology association failed"
+                    )
 
             # Per-job recoverable errors - skip and continue
             except (SupabaseValidationError, SupabaseConflictError) as e:
@@ -153,7 +170,7 @@ class Stage5Processor:
                 failed_count += 1
                 self.logger.error(f"Failed to upload job '{job.title}': {e}")
 
-        self.logger.info("Failed to upload {failed_count} jobs to supabase")
+        self.logger.info(f"Failed to process {failed_count} jobs")
         return processed_jobs
 
     def _save_processed_jobs(
@@ -207,7 +224,7 @@ class Stage5Processor:
             metrics_input=metrics_input,
         )
 
-    def _upload_job_to_supabase(self, job: Job, company_id: int) -> None:
+    def _upload_job_to_supabase(self, job: Job, company_id: int) -> SupabaseJob:
         """
         Upload a single job to Supabase (create or update).
 
@@ -215,13 +232,116 @@ class Stage5Processor:
             job: Job object to upload
             company_id: Supabase company ID
 
+        Returns:
+            SupabaseJob: The created or updated Supabase job
+
         Raises:
             Exception: If upload fails
         """
         # Check if job already exists in Supabase
         if self.supabase_service.job_exists(job.signature):
             # Update existing job
-            self.supabase_service.update_job(job, company_id)
+            return self.supabase_service.update_job(job, company_id)
         else:
             # Create new job
-            self.supabase_service.create_job(job, company_id)
+            return self.supabase_service.create_job(job, company_id)
+
+    def _associate_job_technologies(self, job: Job, job_id: int) -> bool:
+        """
+        Associate technologies from the job posting with the Supabase job.
+
+        For each technology mentioned in the job posting:
+        1. Search for the technology in the database by exact name
+        2. If not found by name, search using technology aliases
+        3. Create a link between the job and the technology
+        4. If a technology cannot be found at all, store it in unmatched_technologies
+
+        Args:
+            job: Job object containing technologies
+            job_id: Supabase job ID
+
+        Returns:
+            bool: True if all technologies were successfully processed, False otherwise
+        """
+        # Check if job has technologies
+        if job.technologies is None or not job.technologies.technologies:
+            self.logger.debug(f"Job '{job.title}' has no technologies to associate")
+            return True
+
+        all_succeeded = True
+
+        for tech in job.technologies.technologies:
+            tech_name = tech.name
+
+            try:
+                # Try to resolve the technology ID
+                technology_id = self._resolve_technology_id(tech_name)
+
+                if technology_id is not None:
+                    # Create the job-technology association
+                    self.supabase_service.create_job_technology(job_id, technology_id)
+                    self.logger.debug(
+                        f"Associated technology '{tech_name}' with job '{job.title}'"
+                    )
+                else:
+                    # Technology not found - store as unmatched
+                    self.tech_data_service.create_unmatched_technology(tech_name)
+                    self.logger.warning(
+                        f"Technology '{tech_name}' not found, stored as unmatched"
+                    )
+
+            except SupabaseConflictError:
+                # Job-technology association already exists - this is OK
+                self.logger.debug(
+                    f"Technology '{tech_name}' already associated with job '{job.title}'"
+                )
+
+            except (
+                SupabaseAuthError,
+                SupabaseConnectionError,
+                SupabaseServerError,
+                SupabaseRateLimitError,
+            ):
+                # Critical errors - bubble up
+                raise
+
+            except Exception as e:
+                # Log error and mark as failed, but continue with other technologies
+                self.logger.error(
+                    f"Failed to associate technology '{tech_name}' with job "
+                    f"'{job.title}': {e}"
+                )
+                all_succeeded = False
+
+        return all_succeeded
+
+    def _resolve_technology_id(self, tech_name: str) -> int | None:
+        """
+        Resolve a technology name to its Supabase ID.
+
+        First tries to find by exact name, then by alias.
+
+        Args:
+            tech_name: Technology name to resolve
+
+        Returns:
+            int: Technology ID if found, None otherwise
+        """
+        # Try to find by exact name
+        try:
+            technology = self.supabase_service.get_technology_by_name(tech_name)
+            technology_id: int = technology.id
+            return technology_id
+        except SupabaseNotFoundError:
+            pass
+
+        # Try to find by alias
+        try:
+            alias = self.supabase_service.get_technology_alias_by_name(tech_name)
+            alias_technology_id: int = alias.technology_id
+            return alias_technology_id
+        except SupabaseNotFoundError:
+            pass
+
+        # Technology not found
+        return None

@@ -1,21 +1,19 @@
 ---
 name: tw-data
 
-# Top-level env_file applies to all services
-env_file:
-  - ../.env
-
 services:
   # MongoDB Database
   mongo:
     image: mongo:7.0
     restart: unless-stopped
+    env_file:
+      - ../.env
     ports:
       - "${MONGO_PORT}:27017"
     environment:
-      MONGO_USERNAME: ${MONGO_USERNAME}
-      MONGO_PASSWORD: ${MONGO_PASSWORD}
-      MONGO_DATABASE: ${MONGO_DATABASE}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
     volumes:
       - mongodb_data:/data/db
       - ../mongo:/docker-entrypoint-initdb.d
@@ -33,6 +31,8 @@ services:
       context: ..
       dockerfile: docker/prefect.dockerfile
     restart: unless-stopped
+    env_file:
+      - ../.env
     ports:
       - "${PREFECT_SERVER_API_PORT}:4200"
     environment:
@@ -62,6 +62,8 @@ services:
       context: ..
       dockerfile: docker/pipeline.dockerfile
     restart: unless-stopped
+    env_file:
+      - ../.env
     depends_on:
       prefect:
         condition: service_healthy
@@ -104,6 +106,8 @@ services:
       context: ..
       dockerfile: docker/dashboard.dockerfile
     restart: unless-stopped
+    env_file:
+      - ../.env
     depends_on:
       mongo:
         condition: service_healthy

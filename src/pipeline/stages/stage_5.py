@@ -13,7 +13,6 @@ from prefect.logging import get_run_logger
 
 from core.models.jobs import Job
 from core.models.metrics import StageMetricsInput, StageStatus
-from data.mongo import unmatched_technology_repository
 from data.supebase.exceptions import (
     SupabaseAuthError,
     SupabaseConflictError,
@@ -25,7 +24,7 @@ from data.supebase.exceptions import (
 )
 from data.supebase.models.job import Job as SupabaseJob
 from pipeline.config import PipelineConfig
-from services.data_service import JobDataService
+from services.data_service import JobDataService, TechDataService
 from services.metrics_service import JobMetricsService
 from services.supabase_service import SupabaseService
 from utils.exceptions import DatabaseOperationError
@@ -46,9 +45,7 @@ class Stage5Processor:
         self.supabase_service = SupabaseService()
         self.database_service = JobDataService()
         self.metrics_service = JobMetricsService()
-
-        # Initialize repositories
-        self.unmatched_tech_repo = unmatched_technology_repository
+        self.tech_data_service = TechDataService()
 
     def process_jobs(self, jobs: list[Job], company_name: str) -> list[Job]:
         """
@@ -288,7 +285,7 @@ class Stage5Processor:
                     )
                 else:
                     # Technology not found - store as unmatched
-                    self.unmatched_tech_repo.create_if_not_exists(tech_name)
+                    self.tech_data_service.create_unmatched_technology(tech_name)
                     self.logger.warning(
                         f"Technology '{tech_name}' not found, stored as unmatched"
                     )

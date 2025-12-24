@@ -11,6 +11,7 @@ from typing import Any
 from core.models.jobs import Job
 from data.mongo import (
     job_listing_repository,
+    unmatched_technology_repository,
 )
 from data.mongo.mappers.job_mapper import JobMapper
 from utils.timezone import UTC_TZ, now_utc
@@ -364,3 +365,103 @@ class JobDataService:
             error_msg = f"Failed to remove incomplete jobs for {company_name}: {e}"
             logger.error(error_msg)
             raise
+
+
+class TechDataService:
+    """Service for handling unmatched technology database operations."""
+
+    def __init__(self):
+        """Initialize tech data service."""
+        self.repository = unmatched_technology_repository
+
+    def create_unmatched_technology(self, name: str) -> bool:
+        """
+        Create an unmatched technology entry if it doesn't already exist.
+
+        Args:
+            name: Technology name that couldn't be matched
+
+        Returns:
+            bool: True if created or already exists, False on error
+        """
+        try:
+            result = self.repository.create_if_not_exists(name)
+            if result:
+                logger.debug(f"Unmatched technology recorded: {name}")
+                return True
+            return False
+
+        except Exception as e:
+            logger.error(f"Failed to create unmatched technology '{name}': {e}")
+            return False
+
+    def get_unmatched_technology(self, name: str) -> Any | None:
+        """
+        Retrieve an unmatched technology by name.
+
+        Args:
+            name: Technology name
+
+        Returns:
+            UnmatchedTechnology object if found, None otherwise
+        """
+        try:
+            return self.repository.get_by_name(name)
+
+        except Exception as e:
+            logger.error(f"Failed to get unmatched technology '{name}': {e}")
+            return None
+
+    def exists(self, name: str) -> bool:
+        """
+        Check if an unmatched technology exists by name.
+
+        Args:
+            name: Technology name
+
+        Returns:
+            bool: True if exists, False otherwise
+        """
+        try:
+            exists: bool = self.repository.exists_by_name(name)
+            return exists
+
+        except Exception as e:
+            logger.error(f"Failed to check unmatched technology '{name}': {e}")
+            return False
+
+    def delete_unmatched_technology(self, name: str) -> bool:
+        """
+        Delete an unmatched technology by name.
+
+        Args:
+            name: Technology name
+
+        Returns:
+            bool: True if deleted, False otherwise
+        """
+        try:
+            result: bool = self.repository.delete_by_name(name)
+            if result:
+                logger.info(f"Deleted unmatched technology: {name}")
+            return result
+
+        except Exception as e:
+            logger.error(f"Failed to delete unmatched technology '{name}': {e}")
+            return False
+
+    def get_all_unmatched_names(self) -> list[str]:
+        """
+        Get all unmatched technology names.
+
+        Returns:
+            list[str]: List of all unmatched technology names
+        """
+        try:
+            names: list[str] = self.repository.get_all_names()
+            logger.info(f"Retrieved {len(names)} unmatched technology names")
+            return names
+
+        except Exception as e:
+            logger.error(f"Failed to get all unmatched technology names: {e}")
+            return []

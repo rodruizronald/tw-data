@@ -161,6 +161,8 @@ def _get_enabled_stages(config: PipelineConfig) -> list[int]:
         enabled_stages.append(3)
     if config.stage_4.enabled:
         enabled_stages.append(4)
+    if config.stage_5.enabled:
+        enabled_stages.append(5)
     return enabled_stages
 
 

@@ -190,7 +190,7 @@ class JobMetricsService:
 
             # Calculate stage success rates
             stage_success_rates = {}
-            for stage in range(1, 5):
+            for stage in range(1, 6):  # Changed from range(1, 5)
                 processed = aggregated_data.get(f"stage_{stage}_processed", 0)
                 completed = aggregated_data.get(f"stage_{stage}_completed", 0)
                 stage_success_rates[f"stage_{stage}_success_rate"] = (

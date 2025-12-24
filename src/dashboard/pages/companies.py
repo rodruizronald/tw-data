@@ -186,7 +186,7 @@ if company_names:
         st.markdown("#### Stage Details")
 
         stage_details = []
-        for stage in range(1, 5):
+        for stage in range(1, 6):
             status = getattr(selected_company, f"stage_{stage}_status", None)
             processed = getattr(selected_company, f"stage_{stage}_jobs_processed", 0)
             completed = getattr(selected_company, f"stage_{stage}_jobs_completed", 0)
@@ -209,7 +209,7 @@ if company_names:
 
         # Show errors if any
         errors = []
-        for stage in range(1, 5):
+        for stage in range(1, 6):
             error = getattr(selected_company, f"stage_{stage}_error_message", None)
             if error:
                 errors.append(f"**Stage {stage}:** {error}")

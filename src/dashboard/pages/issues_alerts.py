@@ -93,7 +93,7 @@ st.subheader("🔴 Critical Errors Summary")
 # Collect all errors
 all_errors: dict[str, dict[str, int | list[str] | list[int]]] = {}
 for company in failed_companies + partial_companies:
-    for stage in range(1, 5):
+    for stage in range(1, 6):
         error = getattr(company, f"stage_{stage}_error_message", None)
         if error and error != "None":
             if error not in all_errors:
@@ -171,7 +171,7 @@ if failed_companies:
     for company in failed_companies:
         # Collect all errors for this company
         company_errors = []
-        for stage in range(1, 5):
+        for stage in range(1, 6):
             error = getattr(company, f"stage_{stage}_error_message", None)
             if error and error != "None":
                 company_errors.append(f"S{stage}: {error[:50]}...")
@@ -211,7 +211,7 @@ if failed_companies:
         st.markdown("#### Stage Status")
 
         stage_data = []
-        for stage in range(1, 5):
+        for stage in range(1, 6):
             status = getattr(company, f"stage_{stage}_status", "N/A")
             error = getattr(company, f"stage_{stage}_error_message", None)
 
@@ -228,7 +228,7 @@ if failed_companies:
 
         # Show all errors
         st.markdown("#### 🔴 Error Details")
-        for stage in range(1, 5):
+        for stage in range(1, 6):
             error = getattr(company, f"stage_{stage}_error_message", None)
             if error and error != "None":
                 st.error(f"**Stage {stage}:** {error}")
@@ -250,7 +250,7 @@ if partial_companies:
         successful_stages = 0
         failed_stages = 0
 
-        for stage in range(1, 5):
+        for stage in range(1, 6):
             status = getattr(company, f"stage_{stage}_status", None)
             if status == "success":
                 successful_stages += 1
@@ -259,7 +259,7 @@ if partial_companies:
 
         # Collect errors
         company_errors = []
-        for stage in range(1, 5):
+        for stage in range(1, 6):
             error = getattr(company, f"stage_{stage}_error_message", None)
             if error and error != "None":
                 company_errors.append(f"S{stage}: {error[:50]}...")
@@ -301,7 +301,7 @@ if partial_companies:
         st.markdown("#### Stage Status")
 
         stage_data = []
-        for stage in range(1, 5):
+        for stage in range(1, 6):
             status = getattr(company, f"stage_{stage}_status", "N/A")
             processed = getattr(company, f"stage_{stage}_jobs_processed", 0)
             completed = getattr(company, f"stage_{stage}_jobs_completed", 0)
@@ -323,7 +323,7 @@ if partial_companies:
         # Show errors from failed stages
         st.markdown("#### ⚠️ Error Details")
         has_errors = False
-        for stage in range(1, 5):
+        for stage in range(1, 6):
             error = getattr(company, f"stage_{stage}_error_message", None)
             if error and error != "None":
                 has_errors = True

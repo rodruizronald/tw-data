@@ -11,8 +11,39 @@ from services.metrics_service import job_metrics_service
 from utils.timezone import today_local
 
 
+def _inject_custom_css() -> None:
+    """Inject custom CSS to fix dark mode styling issues."""
+    st.markdown(
+        """
+        <style>
+        /* Fix dataframe row colors in dark mode */
+        [data-testid="stDataFrame"] [data-testid="glideDataEditor"] {
+            --gdg-bg-cell: var(--background-color) !important;
+            --gdg-bg-cell-medium: var(--secondary-background-color) !important;
+            --gdg-bg-header: var(--secondary-background-color) !important;
+            --gdg-bg-header-has-focus: var(--secondary-background-color) !important;
+            --gdg-bg-header-hovered: var(--secondary-background-color) !important;
+            --gdg-text-dark: var(--text-color) !important;
+            --gdg-text-medium: var(--text-color) !important;
+            --gdg-text-light: var(--text-color) !important;
+            --gdg-text-header: var(--text-color) !important;
+        }
+
+        /* Ensure alternating row colors work in dark mode */
+        [data-testid="stDataFrame"] canvas {
+            background-color: transparent !important;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
 def render_sidebar() -> None:
     """Render the sidebar with calendar, heatmap, and navigation."""
+    # Inject custom CSS for dark mode fixes
+    _inject_custom_css()
+
     with st.sidebar:
         st.title("📅 Calendar & Navigation")
 

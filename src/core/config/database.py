@@ -110,14 +110,10 @@ class SupabaseConfig:
 
     # Required settings
     supabase_url: str = field(default_factory=lambda: os.getenv("SUPABASE_URL", ""))
-    supabase_service_key: str = field(
-        default_factory=lambda: os.getenv("SUPABASE_SERVICE_KEY", "")
+    supabase_secret_key: str = field(
+        default_factory=lambda: os.getenv("SUPABASE_SECRET_KEY", "")
     )
 
-    # Optional settings
-    supabase_anon_key: str | None = field(
-        default_factory=lambda: os.getenv("SUPABASE_ANON_KEY")
-    )
     supabase_schema: str = field(
         default_factory=lambda: os.getenv("SUPABASE_SCHEMA", "public")
     )
@@ -165,8 +161,8 @@ class SupabaseConfig:
         self.supabase_url = self.supabase_url.rstrip("/")
 
         # Validate service key
-        if not self.supabase_service_key or not self.supabase_service_key.strip():
-            raise ValueError("Supabase service key is required (SUPABASE_SERVICE_KEY)")
+        if not self.supabase_secret_key or not self.supabase_secret_key.strip():
+            raise ValueError("Supabase service key is required (SUPABASE_SECRET_KEY)")
 
         # Validate retry waits
         if self.supabase_retry_max_wait <= self.supabase_retry_min_wait:

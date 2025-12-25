@@ -26,9 +26,9 @@ COMPOSE_FILE  := docker/docker-compose.yml
 COMPOSE       := docker-compose -f $(COMPOSE_FILE)
 
 # Container names
-CONTAINER_DB        := tw-mongodb
-CONTAINER_PIPELINE  := tw-pipeline
-CONTAINER_DASHBOARD := tw-dashboard
+CONTAINER_DB        := tw-data-mongo-1
+CONTAINER_PIPELINE  := tw-data-pipeline-1
+CONTAINER_DASHBOARD := tw-data-dashboard-1
 
 # Paths
 BACKUP_DIR    := ./backups
@@ -455,7 +455,7 @@ help: ## Show this help message
 		/^# ╔.*4\. / {section="🗄️  DATABASE OPERATIONS"; printf "\n\033[1;34m%s\033[0m\n", section} \
 		/^# ╔.*5\. / {section="📊 DASHBOARD"; printf "\n\033[1;34m%s\033[0m\n", section} \
 		/^# ╔.*6\. / {section="🔮 PREFECT MANAGEMENT"; printf "\n\033[1;34m%s\033[0m\n", section} \
-		/^[a-zA-Z_-]+:.*##/ {printf "    \033[0;32m%-22s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
+		/^[a-zA-Z_-]+:.*##/ {printf "    \033[0;32m%-22s\033[0m %s\n", $1, $2}' $(MAKEFILE_LIST)
 	@echo ""
 	@echo "────────────────────────────────────────────────────────────────────────────────"
 	@echo ""

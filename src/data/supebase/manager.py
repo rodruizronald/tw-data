@@ -83,7 +83,7 @@ class SupabaseManager:
                 # Create client with service role key (admin access)
                 self._client = create_client(
                     supabase_url=self._config.supabase_url,
-                    supabase_key=self._config.supabase_service_key,
+                    supabase_key=self._config.supabase_secret_key,
                     options=options,
                 )
 

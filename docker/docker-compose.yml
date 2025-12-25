@@ -89,8 +89,7 @@ services:
 
       # Supabase Configuration
       - SUPABASE_URL=${SUPABASE_URL}
-      - SUPABASE_SERVICE_KEY=${SUPABASE_SERVICE_KEY}
-      - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
+      - SUPABASE_SECRET_KEY=${SUPABASE_SECRET_KEY}
       - SUPABASE_SCHEMA=${SUPABASE_SCHEMA}
       - SUPABASE_TIMEOUT=${SUPABASE_TIMEOUT}
       - SUPABASE_CONNECT_TIMEOUT=${SUPABASE_CONNECT_TIMEOUT}
@@ -112,6 +111,7 @@ services:
       - ../prompts:/app/prompts
       - ../pipeline.yaml:/app/pipeline.yaml
       - ../companies.yaml:/app/companies.yaml
+      - ../technologies.json:/app/technologies.json
     networks:
       - network
 

@@ -42,10 +42,6 @@ until prefect work-pool get-default-queue job-scraper-pool >/dev/null 2>&1; do
 done
 echo 'Worker is ready!'
 
-echo 'Triggering initial deployment...'
-prefect deployment run 'job_processing_pipeline/job-scraper-production'
-echo 'Initial deployment triggered!'
-
 echo 'Worker running. Pipeline will execute shortly...'
 echo 'View progress at: http://localhost:4200'
 

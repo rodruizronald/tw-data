@@ -66,15 +66,15 @@
     "is_parent": true
   },
   {
-    "name": "Elixir",
-    "alias": ["EX"],
-    "parent": "Erlang",
-    "is_parent": true
-  },
-  {
     "name": "Erlang",
     "alias": ["BEAM VM"],
     "parent": "",
+    "is_parent": true
+  },
+  {
+    "name": "Elixir",
+    "alias": ["EX"],
+    "parent": "Erlang",
     "is_parent": true
   },
   {

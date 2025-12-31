@@ -10,3 +10,4 @@ class ParserType(str, Enum):
     GREENHOUSE = "greenhouse"
     ANGULAR = "angular"
     DYNAMIC_JS = "dynamic_js"
+    IFRAME = "iframe"

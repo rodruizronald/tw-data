@@ -25,6 +25,7 @@ from services.parsers.instances import (
     DefaultParser,
     DynamicJSParser,
     GreenhouseParser,
+    IframeParser,
 )
 from services.parsers.models import ElementResult, ParseContext
 
@@ -34,6 +35,7 @@ __all__ = [
     "DynamicJSParser",
     "ElementResult",
     "GreenhouseParser",
+    "IframeParser",
     "ParseContext",
     "ParserFactory",
     "SelectorParser",

@@ -11,6 +11,7 @@ from services.parsers.instances import (
     DefaultParser,
     DynamicJSParser,
     GreenhouseParser,
+    IframeParser,
 )
 
 
@@ -22,6 +23,7 @@ class ParserFactory:
         ParserType.GREENHOUSE: GreenhouseParser,
         ParserType.ANGULAR: AngularParser,
         ParserType.DYNAMIC_JS: DynamicJSParser,
+        ParserType.IFRAME: IframeParser,
     }
 
     @classmethod

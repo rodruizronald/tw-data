@@ -221,3 +221,107 @@ class DynamicJSParser(SelectorParser):
     ) -> ElementResult:
         """Extract element with extended timeout for dynamic JS content."""
         return await super().extract_element(context, selector, timeout)
+
+
+class IframeParser(SelectorParser):
+    """Parser for extracting content from within iframes.
+
+    This parser automatically finds the first iframe on the page, accesses its
+    content frame, and extracts elements from within. It's useful for pages that
+    embed external content (like job boards) inside iframes.
+
+    Usage:
+        url = "https://example.com/careers"  # Parent page with iframe
+        selectors = ["xpath=/html/body/div/main/ul"]  # Selectors for iframe content
+        parser_type = ParserType.IFRAME
+    """
+
+    def __init__(self, page, selectors):
+        super().__init__(page, selectors)
+        self.parser_type = ParserType.IFRAME
+
+    async def setup(self) -> ParseContext:
+        """Setup iframe context by finding and accessing the first iframe."""
+        logger.debug("Using Iframe parser - looking for first iframe on page")
+
+        try:
+            # Wait for the page to have at least one iframe
+            iframe_element = await self.page.wait_for_selector("iframe", timeout=10000)
+
+            if iframe_element:
+                # Get iframe src for logging
+                iframe_src = await iframe_element.get_attribute("src")
+                logger.debug(f"Found iframe with src: {iframe_src}")
+
+                frame = await iframe_element.content_frame()
+                if frame:
+                    logger.debug("Successfully accessed iframe content frame")
+                    return ParseContext(
+                        page=self.page, frame=frame, parser_type=ParserType.IFRAME
+                    )
+                else:
+                    logger.warning(
+                        "Could not access iframe content frame, falling back to main page"
+                    )
+        except PlaywrightTimeoutError:
+            logger.warning("No iframe found on page within timeout, using main page")
+        except Exception as e:
+            logger.warning(f"Error accessing iframe: {e}, using main page")
+
+        return ParseContext(page=self.page, parser_type=ParserType.IFRAME)
+
+    async def wait_for_content(self, context: ParseContext) -> None:
+        """Wait for iframe content to fully load."""
+        try:
+            if context.frame:
+                # Wait for iframe DOM to be ready
+                await context.frame.wait_for_load_state(
+                    "domcontentloaded", timeout=30000
+                )
+                logger.debug("Iframe content loaded (domcontentloaded)")
+
+                # Try to wait for network idle for dynamic content inside iframe
+                try:
+                    await context.frame.wait_for_load_state(
+                        "networkidle", timeout=15000
+                    )
+                    logger.debug("Iframe reached network idle state")
+                except PlaywrightTimeoutError:
+                    logger.debug(
+                        "Iframe network idle timeout - continuing with available content"
+                    )
+
+                # Additional wait for JS rendering inside iframe
+                await context.frame.wait_for_timeout(1000)
+                logger.debug("Completed iframe content wait period")
+            else:
+                await context.page.wait_for_load_state(
+                    "domcontentloaded", timeout=30000
+                )
+        except PlaywrightTimeoutError:
+            logger.warning("Iframe load timeout - proceeding with available content")
+        except Exception as e:
+            logger.error(f"Unexpected error waiting for iframe content: {e}")
+
+    async def extract_element(
+        self,
+        context: ParseContext,
+        selector: str,
+        timeout: int = 10000,  # Longer timeout for iframe content
+    ) -> ElementResult:
+        """Extract element from iframe with fallback to main page."""
+        # Try iframe first if available
+        if context.frame:
+            result = await super().extract_element(context, selector, timeout)
+            if result.found:
+                return result
+
+            # Fallback to main page if not found in iframe
+            logger.info(f"Selector not found in iframe, trying main page: {selector}")
+            main_context = ParseContext(
+                page=context.page, parser_type=context.parser_type
+            )
+            return await super().extract_element(main_context, selector, timeout=5000)
+
+        # No iframe available, use main page
+        return await super().extract_element(context, selector, timeout)

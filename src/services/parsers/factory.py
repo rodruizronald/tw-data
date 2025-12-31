@@ -9,6 +9,7 @@ from services.parsers.base import SelectorParser
 from services.parsers.instances import (
     AngularParser,
     DefaultParser,
+    DynamicJSParser,
     GreenhouseParser,
 )
 
@@ -20,6 +21,7 @@ class ParserFactory:
         ParserType.DEFAULT: DefaultParser,
         ParserType.GREENHOUSE: GreenhouseParser,
         ParserType.ANGULAR: AngularParser,
+        ParserType.DYNAMIC_JS: DynamicJSParser,
     }
 
     @classmethod

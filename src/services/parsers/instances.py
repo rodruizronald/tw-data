@@ -27,9 +27,9 @@ class DefaultParser(SelectorParser):
         """Wait for standard page load."""
         try:
             await context.page.wait_for_load_state("domcontentloaded", timeout=30000)
-            logger.debug("Page reached network idle state")
+            logger.debug("Page reached domcontentloaded state")
         except PlaywrightTimeoutError:
-            logger.warning("Network idle timeout - proceeding with available content")
+            logger.warning("Page load timeout - proceeding with available content")
             # Continue anyway - content might still be available
 
 
@@ -167,4 +167,57 @@ class AngularParser(SelectorParser):
         timeout: int = 10000,  # Longer timeout for Angular
     ) -> ElementResult:
         """Extract element with extended timeout for Angular."""
+        return await super().extract_element(context, selector, timeout)
+
+
+class DynamicJSParser(SelectorParser):
+    """Parser for JavaScript framework applications (React, Next.js, Vue, etc.).
+
+    This parser is designed for modern JavaScript frameworks that render content
+    dynamically after the initial page load. It waits for network activity to settle
+    and allows additional time for client-side hydration and rendering.
+    """
+
+    def __init__(self, page, selectors):
+        super().__init__(page, selectors)
+        self.parser_type = ParserType.DYNAMIC_JS
+
+    async def setup(self) -> ParseContext:
+        """Setup for dynamic JS parsing."""
+        logger.debug("Using DynamicJS parser for JavaScript framework content")
+        return ParseContext(page=self.page, parser_type=ParserType.DYNAMIC_JS)
+
+    async def wait_for_content(self, context: ParseContext) -> None:
+        """Wait for JavaScript framework to render dynamic content."""
+        try:
+            # Wait for initial DOM to be ready
+            await context.page.wait_for_load_state("domcontentloaded", timeout=30000)
+            logger.debug("DOM content loaded")
+
+            # Wait for network idle - critical for JS frameworks that fetch data
+            try:
+                await context.page.wait_for_load_state("networkidle", timeout=15000)
+                logger.debug("Page reached network idle state")
+            except PlaywrightTimeoutError:
+                logger.debug("Network idle timeout - continuing with available content")
+
+            # Additional delay for client-side hydration and rendering
+            # React, Next.js, Vue need time to hydrate and render after data fetch
+            await context.page.wait_for_timeout(1500)
+            logger.debug("Completed hydration wait period")
+
+        except PlaywrightTimeoutError as e:
+            logger.warning(f"DynamicJS content wait timeout: {e}")
+            # Don't re-raise - continue with what we have
+        except Exception as e:
+            logger.error(f"Unexpected error waiting for DynamicJS content: {e}")
+            # Don't re-raise - continue with what we have
+
+    async def extract_element(
+        self,
+        context: ParseContext,
+        selector: str,
+        timeout: int = 10000,  # Longer timeout for dynamic content
+    ) -> ElementResult:
+        """Extract element with extended timeout for dynamic JS content."""
         return await super().extract_element(context, selector, timeout)

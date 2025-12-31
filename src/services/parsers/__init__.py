@@ -23,6 +23,7 @@ from services.parsers.factory import ParserFactory
 from services.parsers.instances import (
     AngularParser,
     DefaultParser,
+    DynamicJSParser,
     GreenhouseParser,
 )
 from services.parsers.models import ElementResult, ParseContext
@@ -30,6 +31,7 @@ from services.parsers.models import ElementResult, ParseContext
 __all__ = [
     "AngularParser",
     "DefaultParser",
+    "DynamicJSParser",
     "ElementResult",
     "GreenhouseParser",
     "ParseContext",

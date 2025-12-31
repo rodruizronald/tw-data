@@ -9,3 +9,4 @@ class ParserType(str, Enum):
     DEFAULT = "default"
     GREENHOUSE = "greenhouse"
     ANGULAR = "angular"
+    DYNAMIC_JS = "dynamic_js"

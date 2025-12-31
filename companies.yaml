@@ -8,47 +8,46 @@ companies:
       type: default
       selectors:
         job_board:
-          - "#jobs_list_container"
+          - "xpath=/html/body/main/section[1]/turbo-frame/div/div[2]/div/div[2]/div/ul"
         job_card:
-          - "main section div dl.company-links"
-          - "main section.company-links"
+          - "xpath=/html/body/main/section[2]"
+          - "xpath=/html/body/main/section[3]"
 
   - name: Akurey
-    enabled: false
+    enabled: true
     career_url: https://www.akurey.com/careers/
     web_parser:
-      type: default
+      type: dynamic_js
       selectors:
         job_board:
-          - "body div.hEqhpu"
+          - "xpath=/html/body/div/section/div[6]"
         job_card:
-          - "body div.jnNIni"
-          - "body div.bUjZpO"
+          - "xpath=/html/body/div/section/div/div[1]"
+          - "xpath=/html/body/div/section/div/div[2]"
 
   - name: Golabs Tech
-    enabled: false
+    enabled: true
     career_url: >-
-      https://www.careers-page.com/golabstech#openings
+      https://golabstech.com/careers
     web_parser:
-      type: default
+      type: iframe
       selectors:
         job_board:
-          - "main ul.list-unstyled"
+          - "xpath=/html/body/div/main/ul"
         job_card:
-          - "main div.redactor-styles"
+          - "xpath=/html/body"
 
   - name: Gorilla Logic
-    enabled: false
+    enabled: true
     career_url: >-
-      https://gorillalogic.com/careers/open-roles?country=Remote%2C+Costa+Rica
+      https://gorillalogic.com/careers/open-roles/
     web_parser:
       type: default
       selectors:
         job_board:
-          - "main section.job-postings_parent__5Wlhh"
+          - "xpath=/html/body/div[2]/main/div/div[5]/div/div/div[2]"
         job_card:
-          - "[data-fabric-component='Flex'].css-1b6n4o1"
-          - "#descriptionWrapper"
+          - "xpath=/html/body/div[2]/main/div/div/div/div[1]/div[2]"
 
   - name: 10Pearls
     enabled: false

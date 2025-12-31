@@ -27,9 +27,9 @@ class DefaultParser(SelectorParser):
         """Wait for standard page load."""
         try:
             await context.page.wait_for_load_state("domcontentloaded", timeout=30000)
-            logger.debug("Page reached network idle state")
+            logger.debug("Page reached domcontentloaded state")
         except PlaywrightTimeoutError:
-            logger.warning("Network idle timeout - proceeding with available content")
+            logger.warning("Page load timeout - proceeding with available content")
             # Continue anyway - content might still be available
 
 
@@ -167,4 +167,161 @@ class AngularParser(SelectorParser):
         timeout: int = 10000,  # Longer timeout for Angular
     ) -> ElementResult:
         """Extract element with extended timeout for Angular."""
+        return await super().extract_element(context, selector, timeout)
+
+
+class DynamicJSParser(SelectorParser):
+    """Parser for JavaScript framework applications (React, Next.js, Vue, etc.).
+
+    This parser is designed for modern JavaScript frameworks that render content
+    dynamically after the initial page load. It waits for network activity to settle
+    and allows additional time for client-side hydration and rendering.
+    """
+
+    def __init__(self, page, selectors):
+        super().__init__(page, selectors)
+        self.parser_type = ParserType.DYNAMIC_JS
+
+    async def setup(self) -> ParseContext:
+        """Setup for dynamic JS parsing."""
+        logger.debug("Using DynamicJS parser for JavaScript framework content")
+        return ParseContext(page=self.page, parser_type=ParserType.DYNAMIC_JS)
+
+    async def wait_for_content(self, context: ParseContext) -> None:
+        """Wait for JavaScript framework to render dynamic content."""
+        try:
+            # Wait for initial DOM to be ready
+            await context.page.wait_for_load_state("domcontentloaded", timeout=30000)
+            logger.debug("DOM content loaded")
+
+            # Wait for network idle - critical for JS frameworks that fetch data
+            try:
+                await context.page.wait_for_load_state("networkidle", timeout=15000)
+                logger.debug("Page reached network idle state")
+            except PlaywrightTimeoutError:
+                logger.debug("Network idle timeout - continuing with available content")
+
+            # Additional delay for client-side hydration and rendering
+            # React, Next.js, Vue need time to hydrate and render after data fetch
+            await context.page.wait_for_timeout(1500)
+            logger.debug("Completed hydration wait period")
+
+        except PlaywrightTimeoutError as e:
+            logger.warning(f"DynamicJS content wait timeout: {e}")
+            # Don't re-raise - continue with what we have
+        except Exception as e:
+            logger.error(f"Unexpected error waiting for DynamicJS content: {e}")
+            # Don't re-raise - continue with what we have
+
+    async def extract_element(
+        self,
+        context: ParseContext,
+        selector: str,
+        timeout: int = 10000,  # Longer timeout for dynamic content
+    ) -> ElementResult:
+        """Extract element with extended timeout for dynamic JS content."""
+        return await super().extract_element(context, selector, timeout)
+
+
+class IframeParser(SelectorParser):
+    """Parser for extracting content from within iframes.
+
+    This parser automatically finds the first iframe on the page, accesses its
+    content frame, and extracts elements from within. It's useful for pages that
+    embed external content (like job boards) inside iframes.
+
+    Usage:
+        url = "https://example.com/careers"  # Parent page with iframe
+        selectors = ["xpath=/html/body/div/main/ul"]  # Selectors for iframe content
+        parser_type = ParserType.IFRAME
+    """
+
+    def __init__(self, page, selectors):
+        super().__init__(page, selectors)
+        self.parser_type = ParserType.IFRAME
+
+    async def setup(self) -> ParseContext:
+        """Setup iframe context by finding and accessing the first iframe."""
+        logger.debug("Using Iframe parser - looking for first iframe on page")
+
+        try:
+            # Wait for the page to have at least one iframe
+            iframe_element = await self.page.wait_for_selector("iframe", timeout=10000)
+
+            if iframe_element:
+                # Get iframe src for logging
+                iframe_src = await iframe_element.get_attribute("src")
+                logger.debug(f"Found iframe with src: {iframe_src}")
+
+                frame = await iframe_element.content_frame()
+                if frame:
+                    logger.debug("Successfully accessed iframe content frame")
+                    return ParseContext(
+                        page=self.page, frame=frame, parser_type=ParserType.IFRAME
+                    )
+                else:
+                    logger.warning(
+                        "Could not access iframe content frame, falling back to main page"
+                    )
+        except PlaywrightTimeoutError:
+            logger.warning("No iframe found on page within timeout, using main page")
+        except Exception as e:
+            logger.warning(f"Error accessing iframe: {e}, using main page")
+
+        return ParseContext(page=self.page, parser_type=ParserType.IFRAME)
+
+    async def wait_for_content(self, context: ParseContext) -> None:
+        """Wait for iframe content to fully load."""
+        try:
+            if context.frame:
+                # Wait for iframe DOM to be ready
+                await context.frame.wait_for_load_state(
+                    "domcontentloaded", timeout=30000
+                )
+                logger.debug("Iframe content loaded (domcontentloaded)")
+
+                # Try to wait for network idle for dynamic content inside iframe
+                try:
+                    await context.frame.wait_for_load_state(
+                        "networkidle", timeout=15000
+                    )
+                    logger.debug("Iframe reached network idle state")
+                except PlaywrightTimeoutError:
+                    logger.debug(
+                        "Iframe network idle timeout - continuing with available content"
+                    )
+
+                # Additional wait for JS rendering inside iframe
+                await context.frame.wait_for_timeout(1000)
+                logger.debug("Completed iframe content wait period")
+            else:
+                await context.page.wait_for_load_state(
+                    "domcontentloaded", timeout=30000
+                )
+        except PlaywrightTimeoutError:
+            logger.warning("Iframe load timeout - proceeding with available content")
+        except Exception as e:
+            logger.error(f"Unexpected error waiting for iframe content: {e}")
+
+    async def extract_element(
+        self,
+        context: ParseContext,
+        selector: str,
+        timeout: int = 10000,  # Longer timeout for iframe content
+    ) -> ElementResult:
+        """Extract element from iframe with fallback to main page."""
+        # Try iframe first if available
+        if context.frame:
+            result = await super().extract_element(context, selector, timeout)
+            if result.found:
+                return result
+
+            # Fallback to main page if not found in iframe
+            logger.info(f"Selector not found in iframe, trying main page: {selector}")
+            main_context = ParseContext(
+                page=context.page, parser_type=context.parser_type
+            )
+            return await super().extract_element(main_context, selector, timeout=5000)
+
+        # No iframe available, use main page
         return await super().extract_element(context, selector, timeout)

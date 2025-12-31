@@ -1,0 +1,267 @@
+[
+  {
+    "name": "JavaScript",
+    "alias": ["JS", "ECMAScript"],
+    "parent": ""
+  },
+  {
+    "name": "Python",
+    "alias": ["Py", "CPython", "Python3"],
+    "parent": ""
+  },
+  {
+    "name": "Java",
+    "alias": ["JVM", "JDK"],
+    "parent": ""
+  },
+  {
+    "name": "TypeScript",
+    "alias": ["TS", "Typed JS"],
+    "parent": "JavaScript"
+  },
+  {
+    "name": "C",
+    "alias": [],
+    "parent": ""
+  },
+  {
+    "name": "Go",
+    "alias": ["Golang"],
+    "parent": ""
+  },
+  {
+    "name": "Ruby",
+    "alias": ["RoR", "Ruby Rails"],
+    "parent": ""
+  },
+  {
+    "name": "PHP",
+    "alias": [],
+    "parent": ""
+  },
+  {
+    "name": "Swift",
+    "alias": ["Swift Lang"],
+    "parent": ""
+  },
+  {
+    "name": "Kotlin",
+    "alias": ["KT"],
+    "parent": "Java"
+  },
+  {
+    "name": "Rust",
+    "alias": ["Rustlang", "RS"],
+    "parent": ""
+  },
+  {
+    "name": "Elixir",
+    "alias": ["EX"],
+    "parent": "Erlang"
+  },
+  {
+    "name": "Erlang",
+    "alias": ["BEAM VM"],
+    "parent": ""
+  },
+  {
+    "name": "React",
+    "alias": ["React.js", "ReactJS"],
+    "parent": "JavaScript"
+  },
+  {
+    "name": "CSS",
+    "alias": ["CSS3"],
+    "parent": ""
+  },
+  {
+    "name": "Spring",
+    "alias": ["Spring MVC"],
+    "parent": "Java"
+  },
+  {
+    "name": ".NET",
+    "alias": [".NET Core"],
+    "parent": ""
+  },
+  {
+    "name": "ASP.NET",
+    "alias": ["ASP", "ASP.NET MVC"],
+    "parent": ".NET"
+  },
+  {
+    "name": "Node.js",
+    "alias": ["NodeJS", "Node"],
+    "parent": "JavaScript"
+  },
+  {
+    "name": "MySQL",
+    "alias": ["MySQL DB"],
+    "parent": ""
+  },
+  {
+    "name": "PostgreSQL",
+    "alias": ["Postgres", "PG", "PGSQL", "Postgre"],
+    "parent": ""
+  },
+  {
+    "name": "MongoDB",
+    "alias": ["Mongo", "MongoDB Atlas"],
+    "parent": ""
+  },
+  {
+    "name": "Redis",
+    "alias": [],
+    "parent": ""
+  },
+  {
+    "name": "InfluxDB",
+    "alias": ["Influx"],
+    "parent": ""
+  },
+  {
+    "name": "Amazon Web Services",
+    "alias": ["AWS", "Amazon Services"],
+    "parent": ""
+  },
+  {
+    "name": "Microsoft Azure",
+    "alias": ["Azure", "MS Azure"],
+    "parent": ""
+  },
+  {
+    "name": "Google Cloud Platform",
+    "alias": ["GCP", "GC"],
+    "parent": ""
+  },
+  {
+    "name": "IBM Cloud",
+    "alias": ["Bluemix"],
+    "parent": ""
+  },
+  {
+    "name": "Firebase",
+    "alias": ["FB"],
+    "parent": "Google Cloud Platform"
+  },
+  {
+    "name": "Kubernetes",
+    "alias": ["K8s", "Kube", "K8"],
+    "parent": ""
+  },
+  {
+    "name": "Grafana",
+    "alias": ["Grafana Dashboard"],
+    "parent": ""
+  },
+  {
+    "name": "Elastic Stack",
+    "alias": [],
+    "parent": ""
+  },
+  {
+    "name": "Linux",
+    "alias": ["GNU/Linux", "Linux Kernel"],
+    "parent": ""
+  },
+  {
+    "name": "Windows",
+    "alias": ["Win"],
+    "parent": ""
+  },
+  {
+    "name": "TensorFlow",
+    "alias": ["TensorFlow ML", "TF ML"],
+    "parent": "Python"
+  },
+  {
+    "name": "OpenAI",
+    "alias": ["GPT", "ChatGPT", "DALL-E"],
+    "parent": ""
+  },
+  {
+    "name": "Matplotlib",
+    "alias": ["MPL", "Python Plotting"],
+    "parent": "Python"
+  },
+  {
+    "name": "Git",
+    "alias": ["Git VCS"],
+    "parent": ""
+  },
+  {
+    "name": "GitHub",
+    "alias": ["GH", "GitHub.com"],
+    "parent": "Git"
+  },
+  {
+    "name": "Microsoft 365",
+    "alias": ["M365"],
+    "parent": ""
+  },
+  {
+    "name": "Google Workspace",
+    "alias": ["Google Apps"],
+    "parent": ""
+  },
+  {
+    "name": "JetBrains",
+    "alias": ["JetBrains Tools", "JetBrains IDEs"],
+    "parent": ""
+  },
+  {
+    "name": "Vim",
+    "alias": ["Vi IMproved"],
+    "parent": ""
+  },
+  {
+    "name": "Adobe Creative Cloud",
+    "alias": ["Adobe CC"],
+    "parent": ""
+  },
+  {
+    "name": "Blockchain",
+    "alias": ["DLT"],
+    "parent": ""
+  },
+  {
+    "name": "Ethereum",
+    "alias": ["ETH", "Ethereum Blockchain", "Smart Contracts"],
+    "parent": "Blockchain"
+  },
+  {
+    "name": "IoT",
+    "alias": ["Connected Devices", "Smart Devices"],
+    "parent": ""
+  },
+  {
+    "name": "FPGA",
+    "alias": ["Digital Circuits"],
+    "parent": ""
+  },
+  {
+    "name": "Cybersecurity",
+    "alias": ["InfoSec"],
+    "parent": ""
+  },
+  {
+    "name": "Quantum Computing",
+    "alias": [],
+    "parent": ""
+  },
+  {
+    "name": "Robotics",
+    "alias": ["Robotic Systems"],
+    "parent": ""
+  },
+  {
+    "name": "GIS",
+    "alias": ["Mapping"],
+    "parent": ""
+  },
+  {
+    "name": "Bioinformatics",
+    "alias": ["Computational Biology", "Genomics"],
+    "parent": ""
+  }
+]

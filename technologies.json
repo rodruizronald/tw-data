@@ -1,3008 +1,2492 @@
 [
   {
     "name": "JavaScript",
-    "alias": [
-      "JS",
-      "ECMAScript"
-    ],
-    "parent": ""
+    "alias": ["JS", "ECMAScript"],
+    "parent": "",
+    "is_parent": true
   },
   {
     "name": "Python",
-    "alias": [
-      "Py",
-      "CPython",
-      "Python3"
-    ],
-    "parent": ""
+    "alias": ["Py", "CPython", "Python3"],
+    "parent": "",
+    "is_parent": true
   },
   {
     "name": "Java",
-    "alias": [
-      "JVM",
-      "JDK"
-    ],
-    "parent": ""
+    "alias": ["JVM", "JDK"],
+    "parent": "",
+    "is_parent": true
   },
   {
     "name": "TypeScript",
-    "alias": [
-      "TS",
-      "Typed JS"
-    ],
-    "parent": "JavaScript"
+    "alias": ["TS", "Typed JS"],
+    "parent": "JavaScript",
+    "is_parent": true
   },
   {
     "name": "C",
     "alias": [],
-    "parent": ""
-  },
-  {
-    "name": "C#",
-    "alias": [
-      "CSharp",
-      "C Sharp"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "C++",
-    "alias": [
-      "CPP",
-      "ISO/IEC 14882"
-    ],
-    "parent": ""
+    "parent": "",
+    "is_parent": true
   },
   {
     "name": "Go",
-    "alias": [
-      "Golang"
-    ],
-    "parent": ""
+    "alias": ["Golang"],
+    "parent": "",
+    "is_parent": true
   },
   {
     "name": "Ruby",
-    "alias": [
-      "RoR",
-      "Ruby Rails"
-    ],
-    "parent": ""
+    "alias": ["RoR", "Ruby Rails"],
+    "parent": "",
+    "is_parent": true
   },
   {
     "name": "PHP",
     "alias": [],
-    "parent": ""
+    "parent": "",
+    "is_parent": true
   },
   {
     "name": "Swift",
-    "alias": [
-      "Swift Lang"
-    ],
-    "parent": ""
+    "alias": ["Swift Lang"],
+    "parent": "",
+    "is_parent": true
   },
   {
     "name": "Kotlin",
-    "alias": [
-      "KT"
-    ],
-    "parent": "Java"
+    "alias": ["KT"],
+    "parent": "Java",
+    "is_parent": true
   },
   {
     "name": "Rust",
-    "alias": [
-      "Rustlang",
-      "RS"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Scala",
-    "alias": [],
-    "parent": "Java"
-  },
-  {
-    "name": "R",
-    "alias": [],
-    "parent": ""
-  },
-  {
-    "name": "MATLAB",
-    "alias": [
-      "Matrix Laboratory"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Perl",
-    "alias": [
-      "Perl5",
-      "Perl6"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Groovy",
-    "alias": [],
-    "parent": "Java"
-  },
-  {
-    "name": "Bash",
-    "alias": [
-      "Shell",
-      "Shell Script"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "PowerShell",
-    "alias": [
-      "POSH",
-      "PS"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Dart",
-    "alias": [
-      "Flutter"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Clojure",
-    "alias": [
-      "CLJ"
-    ],
-    "parent": "Java"
+    "alias": ["Rustlang", "RS"],
+    "parent": "",
+    "is_parent": true
   },
   {
     "name": "Elixir",
-    "alias": [
-      "EX"
-    ],
-    "parent": "Erlang"
+    "alias": ["EX"],
+    "parent": "Erlang",
+    "is_parent": true
   },
   {
     "name": "Erlang",
-    "alias": [
-      "BEAM VM"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "F#",
-    "alias": [
-      "FSharp",
-      "F Sharp"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Haskell",
-    "alias": [
-      "GHC"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Julia",
-    "alias": [
-      "JL"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Lua",
-    "alias": [
-      "LuaJIT"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Objective-C",
-    "alias": [
-      "ObjC",
-      "Obj-C"
-    ],
-    "parent": "C"
-  },
-  {
-    "name": "OCaml",
-    "alias": [
-      "Objective Caml"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "SQL",
-    "alias": [
-      "T-SQL",
-      "PL/SQL",
-      "MySQL"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "VBA",
-    "alias": [
-      "Visual Basic",
-      "Excel VBA"
-    ],
-    "parent": ""
+    "alias": ["BEAM VM"],
+    "parent": "",
+    "is_parent": true
   },
   {
     "name": "React",
-    "alias": [
-      "React.js",
-      "ReactJS",
-      "React DOM",
-      "React Native"
-    ],
-    "parent": "JavaScript"
-  },
-  {
-    "name": "Angular",
-    "alias": [
-      "AngularJS",
-      "Angular.js",
-      "Angular 2+"
-    ],
-    "parent": "JavaScript"
-  },
-  {
-    "name": "Vue",
-    "alias": [
-      "Vue.js",
-      "VueJS",
-      "Vue 3"
-    ],
-    "parent": "JavaScript"
-  },
-  {
-    "name": "Svelte",
-    "alias": [
-      "SvelteKit",
-      "Svelte 3"
-    ],
-    "parent": "JavaScript"
-  },
-  {
-    "name": "jQuery",
-    "alias": [
-      "JQ"
-    ],
-    "parent": "JavaScript"
-  },
-  {
-    "name": "HTML",
-    "alias": [
-      "HTML5",
-      "XHTML"
-    ],
-    "parent": ""
+    "alias": ["React.js", "ReactJS"],
+    "parent": "JavaScript",
+    "is_parent": true
   },
   {
     "name": "CSS",
-    "alias": [
-      "CSS3",
-      "Stylesheets"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "SASS",
-    "alias": [],
-    "parent": "CSS"
-  },
-  {
-    "name": "SCSS",
-    "alias": [
-      "Sassy CSS",
-      "Sass CSS"
-    ],
-    "parent": "CSS"
-  },
-  {
-    "name": "LESS",
-    "alias": [
-      "Leaner CSS",
-      "Less.js"
-    ],
-    "parent": "CSS"
-  },
-  {
-    "name": "Bootstrap",
-    "alias": [
-      "BS",
-      "Bootstrap 5"
-    ],
-    "parent": "CSS"
-  },
-  {
-    "name": "Tailwind CSS",
-    "alias": [
-      "Tailwind",
-      "TW CSS"
-    ],
-    "parent": "CSS"
-  },
-  {
-    "name": "Material UI",
-    "alias": [
-      "MUI",
-      "Material-UI"
-    ],
-    "parent": "React"
-  },
-  {
-    "name": "Ant Design",
-    "alias": [
-      "AntD",
-      "Ant"
-    ],
-    "parent": "React"
-  },
-  {
-    "name": "Redux",
-    "alias": [
-      "React Redux",
-      "Redux Toolkit",
-      "RTK"
-    ],
-    "parent": "JavaScript"
-  },
-  {
-    "name": "MobX",
-    "alias": [
-      "MST"
-    ],
-    "parent": "JavaScript"
-  },
-  {
-    "name": "Next.js",
-    "alias": [],
-    "parent": "React"
-  },
-  {
-    "name": "Gatsby",
-    "alias": [
-      "GatsbyJS",
-      "Gatsby.js"
-    ],
-    "parent": "React"
-  },
-  {
-    "name": "Webpack",
-    "alias": [
-      "Webpack 5"
-    ],
-    "parent": "JavaScript"
-  },
-  {
-    "name": "Vite",
-    "alias": [
-      "Vite.js",
-      "ViteJS"
-    ],
-    "parent": "JavaScript"
-  },
-  {
-    "name": "Ember",
-    "alias": [
-      "Ember.js",
-      "EmberJS"
-    ],
-    "parent": "JavaScript"
-  },
-  {
-    "name": "Backbone.js",
-    "alias": [
-      "BackboneJS",
-      "Backbone"
-    ],
-    "parent": "JavaScript"
-  },
-  {
-    "name": "Alpine.js",
-    "alias": [
-      "AlpineJS",
-      "Alpine"
-    ],
-    "parent": "JavaScript"
-  },
-  {
-    "name": "Storybook",
-    "alias": [
-      "Storybook.js",
-      "SB"
-    ],
-    "parent": "JavaScript"
-  },
-  {
-    "name": "Stimulus",
-    "alias": [
-      "Stimulus.js",
-      "StimulusJS"
-    ],
-    "parent": "JavaScript"
-  },
-  {
-    "name": "Preact",
-    "alias": [
-      "Preact.js",
-      "PreactJS",
-      "Preact X"
-    ],
-    "parent": "JavaScript"
-  },
-  {
-    "name": "Lit",
-    "alias": [
-      "Lit Element",
-      "Lit HTML",
-      "Lit.js"
-    ],
-    "parent": "JavaScript"
-  },
-  {
-    "name": "Web Components",
-    "alias": [
-      "HTML Templates"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Django",
-    "alias": [],
-    "parent": "Python"
-  },
-  {
-    "name": "Flask",
-    "alias": [],
-    "parent": "Python"
-  },
-  {
-    "name": "FastAPI",
-    "alias": [],
-    "parent": "Python"
+    "alias": ["CSS3"],
+    "parent": "",
+    "is_parent": true
   },
   {
     "name": "Spring",
-    "alias": [
-      "Spring MVC"
-    ],
-    "parent": "Java"
-  },
-  {
-    "name": "Spring Boot",
-    "alias": [
-      "SpringBoot",
-      "Boot"
-    ],
-    "parent": "Spring"
-  },
-  {
-    "name": "Express",
-    "alias": [
-      "Express.js",
-      "ExpressJS"
-    ],
-    "parent": "Node.js"
+    "alias": ["Spring MVC"],
+    "parent": "Java",
+    "is_parent": true
   },
   {
     "name": ".NET",
-    "alias": [
-      ".NET Core"
-    ],
-    "parent": ""
+    "alias": [".NET Core"],
+    "parent": "",
+    "is_parent": true
   },
   {
     "name": "ASP.NET",
-    "alias": [
-      "ASP",
-      "ASP.NET MVC"
-    ],
-    "parent": ".NET"
-  },
-  {
-    "name": "ASP.NET Core",
-    "alias": [
-      "ASP Core",
-      "ASP.NET 6+"
-    ],
-    "parent": "ASP.NET"
-  },
-  {
-    "name": "Laravel",
-    "alias": [
-      "Laravel 10"
-    ],
-    "parent": "PHP"
-  },
-  {
-    "name": "Nest.js",
-    "alias": [
-      "NestJS",
-      "Nest"
-    ],
-    "parent": "Node.js"
-  },
-  {
-    "name": "Play",
-    "alias": [
-      "Play Java",
-      "Play Scala"
-    ],
-    "parent": "Java"
-  },
-  {
-    "name": "Phoenix",
-    "alias": [],
-    "parent": "Elixir"
-  },
-  {
-    "name": "Rocket",
-    "alias": [
-      "Rocket.rs"
-    ],
-    "parent": "Rust"
-  },
-  {
-    "name": "Gin",
-    "alias": [
-      "Gin Gonic"
-    ],
-    "parent": "Go"
-  },
-  {
-    "name": "Echo",
-    "alias": [
-      "Echo Go"
-    ],
-    "parent": "Go"
-  },
-  {
-    "name": "Symfony",
-    "alias": [
-      "Symfony PHP",
-      "Symfony 6"
-    ],
-    "parent": "PHP"
-  },
-  {
-    "name": "Strapi",
-    "alias": [
-      "Strapi CMS",
-      "Strapi Headless"
-    ],
-    "parent": "Node.js"
+    "alias": ["ASP", "ASP.NET MVC"],
+    "parent": ".NET",
+    "is_parent": true
   },
   {
     "name": "Node.js",
-    "alias": [
-      "NodeJS",
-      "Node"
-    ],
-    "parent": "JavaScript"
-  },
-  {
-    "name": "Deno",
-    "alias": [
-      "Deno Land"
-    ],
-    "parent": "JavaScript"
-  },
-  {
-    "name": "Bun",
-    "alias": [
-      "Bun.js",
-      "BunJS"
-    ],
-    "parent": "JavaScript"
-  },
-  {
-    "name": "Micronaut",
-    "alias": [
-      "Micronaut GraalVM"
-    ],
-    "parent": "Java"
-  },
-  {
-    "name": "Quarkus",
-    "alias": [
-      "Quarkus.io"
-    ],
-    "parent": "Java"
-  },
-  {
-    "name": "Ktor",
-    "alias": [],
-    "parent": "Kotlin"
-  },
-  {
-    "name": "Actix",
-    "alias": [
-      "Actix.rs"
-    ],
-    "parent": "Rust"
-  },
-  {
-    "name": "Axum",
-    "alias": [
-      "Tokio Axum"
-    ],
-    "parent": "Rust"
-  },
-  {
-    "name": "Fiber",
-    "alias": [
-      "Go Fiber"
-    ],
-    "parent": "Go"
-  },
-  {
-    "name": "Buffalo",
-    "alias": [
-      "Go Buffalo"
-    ],
-    "parent": "Go"
+    "alias": ["NodeJS", "Node"],
+    "parent": "JavaScript",
+    "is_parent": true
   },
   {
     "name": "MySQL",
-    "alias": [
-      "MySQL DB"
-    ],
-    "parent": ""
+    "alias": ["MySQL DB"],
+    "parent": "",
+    "is_parent": true
   },
   {
     "name": "PostgreSQL",
-    "alias": [
-      "Postgres",
-      "PG",
-      "PGSQL",
-      "Postgre"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "SQLite",
-    "alias": [
-      "SQLite3",
-      "Lite SQL",
-      "SQL Lite"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Oracle",
-    "alias": [
-      "Oracle DB",
-      "OracleDB"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Microsoft SQL Server",
-    "alias": [
-      "MSSQL",
-      "MS SQL"
-    ],
-    "parent": ""
+    "alias": ["Postgres", "PG", "PGSQL", "Postgre"],
+    "parent": "",
+    "is_parent": true
   },
   {
     "name": "MongoDB",
-    "alias": [
-      "Mongo",
-      "MongoDB Atlas",
-      "NoSQL DB"
-    ],
-    "parent": ""
+    "alias": ["Mongo", "MongoDB Atlas"],
+    "parent": "",
+    "is_parent": true
   },
   {
     "name": "Redis",
-    "alias": [
-      "Redis Cache"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Cassandra",
-    "alias": [
-      "Cassandra DB"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "DynamoDB",
-    "alias": [
-      "Dynamo"
-    ],
-    "parent": "Amazon Web Services"
-  },
-  {
-    "name": "Firestore",
-    "alias": [
-      "Firebase DB"
-    ],
-    "parent": "Firebase"
-  },
-  {
-    "name": "Elasticsearch",
-    "alias": [
-      "Elastic Search"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Neo4j",
-    "alias": [
-      "Neo4j Graph",
-      "Neo"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "CouchDB",
-    "alias": [
-      "Couch"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "MariaDB",
-    "alias": [
-      "Maria",
-      "MySQL Fork"
-    ],
-    "parent": "MySQL"
-  },
-  {
-    "name": "Snowflake",
-    "alias": [
-      "Snowflake DB"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "BigQuery",
-    "alias": [
-      "GCP BigQuery",
-      "BQ"
-    ],
-    "parent": "Google Cloud Platform"
-  },
-  {
-    "name": "Redshift",
     "alias": [],
-    "parent": "Amazon Web Services"
-  },
-  {
-    "name": "Supabase",
-    "alias": [
-      "Supabase DB",
-      "Firebase Alternative"
-    ],
-    "parent": "PostgreSQL"
+    "parent": "",
+    "is_parent": true
   },
   {
     "name": "InfluxDB",
-    "alias": [
-      "Influx"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "ArangoDB",
-    "alias": [
-      "Arango",
-      "Multi-model DB",
-      "Graph DB"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "RethinkDB",
-    "alias": [
-      "Rethink",
-      "Realtime DB",
-      "Changefeeds DB"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "H2",
-    "alias": [],
-    "parent": ""
-  },
-  {
-    "name": "Timescale",
-    "alias": [
-      "TimescaleDB",
-      "Postgres Timeseries"
-    ],
-    "parent": "PostgreSQL"
-  },
-  {
-    "name": "SQLAlchemy",
-    "alias": [
-      "Python ORM",
-      "SQL Toolkit",
-      "Alembic"
-    ],
-    "parent": "Python"
-  },
-  {
-    "name": "Prisma",
-    "alias": [
-      "Prisma ORM"
-    ],
-    "parent": "JavaScript"
-  },
-  {
-    "name": "TypeORM",
-    "alias": [
-      "TS ORM",
-      "TypeScript ORM",
-      "Type ORM"
-    ],
-    "parent": "TypeScript"
-  },
-  {
-    "name": "Mongoose",
-    "alias": [
-      "Mongoose ODM",
-      "Mongo ORM",
-      "MongoDB ODM"
-    ],
-    "parent": "MongoDB"
-  },
-  {
-    "name": "Sequelize",
-    "alias": [
-      "Sequelize ORM",
-      "Sequelize.js",
-      "SQL ORM"
-    ],
-    "parent": "JavaScript"
-  },
-  {
-    "name": "Knex",
-    "alias": [
-      "Knex.js"
-    ],
-    "parent": "JavaScript"
-  },
-  {
-    "name": "Drizzle",
-    "alias": [
-      "DrizzleORM",
-      "Drizzle ORM"
-    ],
-    "parent": "JavaScript"
+    "alias": ["Influx"],
+    "parent": "",
+    "is_parent": true
   },
   {
     "name": "Amazon Web Services",
-    "alias": [
-      "AWS",
-      "Amazon Services"
-    ],
-    "parent": ""
+    "alias": ["AWS", "Amazon Services"],
+    "parent": "",
+    "is_parent": true
   },
   {
     "name": "Microsoft Azure",
-    "alias": [
-      "Azure",
-      "MS Azure"
-    ],
-    "parent": ""
+    "alias": ["Azure", "MS Azure"],
+    "parent": "",
+    "is_parent": true
   },
   {
     "name": "Google Cloud Platform",
-    "alias": [
-      "GCP",
-      "GC"
-    ],
-    "parent": ""
+    "alias": ["GCP", "GC"],
+    "parent": "",
+    "is_parent": true
   },
   {
     "name": "IBM Cloud",
-    "alias": [
-      "Bluemix"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Oracle Cloud",
-    "alias": [
-      "OCI"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "DigitalOcean",
-    "alias": [
-      "DO",
-      "Digital Ocean",
-      "DO Droplets"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Heroku",
-    "alias": [
-      "Heroku PaaS"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Netlify",
-    "alias": [],
-    "parent": ""
-  },
-  {
-    "name": "Vercel",
-    "alias": [
-      "Zeit"
-    ],
-    "parent": ""
+    "alias": ["Bluemix"],
+    "parent": "",
+    "is_parent": true
   },
   {
     "name": "Firebase",
-    "alias": [
-      "FB"
-    ],
-    "parent": "Google Cloud Platform"
-  },
-  {
-    "name": "Cloudflare",
-    "alias": [
-      "CF",
-      "Cloudflare Services",
-      "Cloudflare Workers"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Fly.io",
-    "alias": [
-      "Fly",
-      "Fly Edge"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Render",
-    "alias": [],
-    "parent": ""
-  },
-  {
-    "name": "Railway",
-    "alias": [
-      "Railway App"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Docker",
-    "alias": [
-      "Docker Container"
-    ],
-    "parent": ""
+    "alias": ["FB"],
+    "parent": "Google Cloud Platform",
+    "is_parent": true
   },
   {
     "name": "Kubernetes",
-    "alias": [
-      "K8s",
-      "Kube",
-      "K8"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Jenkins",
-    "alias": [
-      "Jenkins CI"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "GitHub Actions",
-    "alias": [
-      "GH Actions",
-      "GitHub CI/CD",
-      "GitHub Workflows"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "GitLab CI",
-    "alias": [
-      "GitLab CI/CD",
-      "GitLab Runner"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "CircleCI",
-    "alias": [
-      "Circle CI",
-      "Circle Build"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Travis CI",
-    "alias": [
-      "Travis",
-      "Travis Build"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Terraform",
-    "alias": [
-      "TF",
-      "IaC"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Ansible",
-    "alias": [
-      "Ansible Playbook"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Puppet",
-    "alias": [
-      "Puppet Labs"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Chef",
-    "alias": [
-      "Chef Infra"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Vagrant",
-    "alias": [
-      "Vagrant Box"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Helm",
-    "alias": [
-      "Helm Charts",
-      "Kubernetes Helm"
-    ],
-    "parent": "Kubernetes"
-  },
-  {
-    "name": "ArgoCD",
-    "alias": [
-      "Argo CD",
-      "Argo Workflows",
-      "GitOps",
-      "Kubernetes CD"
-    ],
-    "parent": "Kubernetes"
-  },
-  {
-    "name": "Istio",
-    "alias": [
-      "Kubernetes Istio"
-    ],
-    "parent": "Kubernetes"
-  },
-  {
-    "name": "Prometheus",
-    "alias": [
-      "CNCF Prometheus"
-    ],
-    "parent": ""
+    "alias": ["K8s", "Kube", "K8"],
+    "parent": "",
+    "is_parent": true
   },
   {
     "name": "Grafana",
-    "alias": [
-      "Grafana Dashboard"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Datadog",
-    "alias": [
-      "DD",
-      "Datadog APM"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "New Relic",
-    "alias": [
-      "NR"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Splunk",
-    "alias": [],
-    "parent": ""
-  },
-  {
-    "name": "ELK Stack",
-    "alias": [
-      "ELK"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Consul",
-    "alias": [],
-    "parent": ""
-  },
-  {
-    "name": "Vault",
-    "alias": [],
-    "parent": ""
-  },
-  {
-    "name": "Packer",
-    "alias": [],
-    "parent": ""
-  },
-  {
-    "name": "Nomad",
-    "alias": [],
-    "parent": ""
-  },
-  {
-    "name": "Pulumi",
-    "alias": [],
-    "parent": ""
-  },
-  {
-    "name": "Rancher",
-    "alias": [
-      "Rancher Labs"
-    ],
-    "parent": "Kubernetes"
-  },
-  {
-    "name": "OpenShift",
-    "alias": [
-      "OCP"
-    ],
-    "parent": "Kubernetes"
-  },
-  {
-    "name": "Buildkite",
-    "alias": [
-      "Buildkite CI",
-      "Buildkite Agent"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "TeamCity",
-    "alias": [
-      "JetBrains TeamCity",
-      "TeamCity CI",
-      "TeamCity Build"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Dynatrace",
-    "alias": [
-      "Dynatrace APM"
-    ],
-    "parent": ""
+    "alias": ["Grafana Dashboard"],
+    "parent": "",
+    "is_parent": true
   },
   {
     "name": "Elastic Stack",
     "alias": [],
-    "parent": ""
-  },
-  {
-    "name": "Logstash",
-    "alias": [
-      "LS"
-    ],
-    "parent": "Elastic Stack"
-  },
-  {
-    "name": "Kibana",
-    "alias": [
-      "Kibana Dashboard",
-      "Elastic Kibana"
-    ],
-    "parent": "Elastic Stack"
-  },
-  {
-    "name": "Jaeger",
-    "alias": [
-      "CNCF Jaeger"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Zipkin",
-    "alias": [
-      "Twitter Zipkin"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "OpenTelemetry",
-    "alias": [
-      "OTel",
-      "OpenTelemetry Collector",
-      "CNCF OpenTelemetry"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Fluentd",
-    "alias": [
-      "Fluent",
-      "CNCF Fluentd",
-      "Log Collector"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Loki",
-    "alias": [
-      "Grafana Loki",
-      "Log Aggregation",
-      "Prometheus Logs"
-    ],
-    "parent": "Grafana"
-  },
-  {
-    "name": "Tempo",
-    "alias": [
-      "Grafana Tempo",
-      "Trace Backend"
-    ],
-    "parent": "Grafana"
-  },
-  {
-    "name": "Sentry",
-    "alias": [
-      "Sentry.io"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Honeycomb",
-    "alias": [
-      "Honeycomb.io"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Lightstep",
-    "alias": [
-      "ServiceNow Lightstep"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "AppDynamics",
-    "alias": [
-      "AppD",
-      "Cisco AppDynamics",
-      "AppDynamics APM"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Instana",
-    "alias": [
-      "Instana APM"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Sumo Logic",
-    "alias": [
-      "Sumo"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Graylog",
-    "alias": [
-      "Log Analysis"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Nagios",
-    "alias": [
-      "Nagios Core",
-      "Nagios XI"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Zabbix",
-    "alias": [],
-    "parent": ""
-  },
-  {
-    "name": "Graphite",
-    "alias": [],
-    "parent": ""
-  },
-  {
-    "name": "StatsD",
-    "alias": [
-      "Etsy StatsD",
-      "Stats Daemon"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Telegraf",
-    "alias": [
-      "InfluxData Telegraf"
-    ],
-    "parent": "InfluxDB"
-  },
-  {
-    "name": "Chronograf",
-    "alias": [
-      "InfluxData Chronograf"
-    ],
-    "parent": "InfluxDB"
-  },
-  {
-    "name": "Jest",
-    "alias": [
-      "Jest.js",
-      "Facebook Jest"
-    ],
-    "parent": "JavaScript"
-  },
-  {
-    "name": "Mocha",
-    "alias": [
-      "Mocha.js",
-      "Mocha Test"
-    ],
-    "parent": "JavaScript"
-  },
-  {
-    "name": "Chai",
-    "alias": [
-      "Chai.js",
-      "Chai Assertion",
-      "JavaScript Assertion"
-    ],
-    "parent": "JavaScript"
-  },
-  {
-    "name": "Jasmine",
-    "alias": [
-      "Jasmine.js",
-      "Jasmine BDD"
-    ],
-    "parent": "JavaScript"
-  },
-  {
-    "name": "Cypress",
-    "alias": [
-      "Cypress.io"
-    ],
-    "parent": "JavaScript"
-  },
-  {
-    "name": "Selenium",
-    "alias": [
-      "Selenium WebDriver"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Playwright",
-    "alias": [],
-    "parent": "JavaScript"
-  },
-  {
-    "name": "Puppeteer",
-    "alias": [
-      "Headless Chrome"
-    ],
-    "parent": "JavaScript"
-  },
-  {
-    "name": "JUnit",
-    "alias": [
-      "JUnit 5"
-    ],
-    "parent": "Java"
-  },
-  {
-    "name": "TestNG",
-    "alias": [],
-    "parent": "Java"
-  },
-  {
-    "name": "pytest",
-    "alias": [
-      "py.test"
-    ],
-    "parent": "Python"
-  },
-  {
-    "name": "unittest",
-    "alias": [
-      "Python unittest",
-      "PyUnit"
-    ],
-    "parent": "Python"
-  },
-  {
-    "name": "RSpec",
-    "alias": [
-      "Ruby Spec"
-    ],
-    "parent": "Ruby"
-  },
-  {
-    "name": "PHPUnit",
-    "alias": [],
-    "parent": "PHP"
-  },
-  {
-    "name": "xUnit",
-    "alias": [],
-    "parent": ".NET"
-  },
-  {
-    "name": "NUnit",
-    "alias": [],
-    "parent": ".NET"
-  },
-  {
-    "name": "MSTest",
-    "alias": [
-      "Microsoft Test"
-    ],
-    "parent": ".NET"
-  },
-  {
-    "name": "Vitest",
-    "alias": [
-      "Vite Test"
-    ],
-    "parent": "JavaScript"
-  },
-  {
-    "name": "Testing Library",
-    "alias": [],
-    "parent": "JavaScript"
-  },
-  {
-    "name": "Enzyme",
-    "alias": [
-      "Airbnb Enzyme"
-    ],
-    "parent": "React"
-  },
-  {
-    "name": "Postman",
-    "alias": [],
-    "parent": ""
-  },
-  {
-    "name": "Insomnia",
-    "alias": [],
-    "parent": ""
-  },
-  {
-    "name": "SoapUI",
-    "alias": [],
-    "parent": ""
-  },
-  {
-    "name": "JMeter",
-    "alias": [],
-    "parent": ""
-  },
-  {
-    "name": "Gatling",
-    "alias": [],
-    "parent": ""
-  },
-  {
-    "name": "k6",
-    "alias": [
-      "Grafana k6"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Locust",
-    "alias": [],
-    "parent": "Python"
-  },
-  {
-    "name": "Cucumber",
-    "alias": [
-      "BDD",
-      "Gherkin"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Mockito",
-    "alias": [
-      "Java Mocking",
-      "Test Doubles"
-    ],
-    "parent": "Java"
+    "parent": "",
+    "is_parent": true
   },
   {
     "name": "Linux",
-    "alias": [
-      "GNU/Linux",
-      "Linux Kernel"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Ubuntu",
-    "alias": [
-      "Ubuntu Linux",
-      "Canonical Ubuntu",
-      "Debian-based"
-    ],
-    "parent": "Linux"
-  },
-  {
-    "name": "Debian",
-    "alias": [
-      "Debian GNU/Linux",
-      "Debian Linux",
-      "Debian OS"
-    ],
-    "parent": "Linux"
-  },
-  {
-    "name": "CentOS",
-    "alias": [
-      "CentOS Linux",
-      "RHEL-based"
-    ],
-    "parent": "Linux"
-  },
-  {
-    "name": "Red Hat Enterprise Linux",
-    "alias": [
-      "RHEL",
-      "Red Hat Linux"
-    ],
-    "parent": "Linux"
-  },
-  {
-    "name": "Fedora",
-    "alias": [
-      "Fedora Linux",
-      "Fedora Project",
-      "Red Hat-sponsored"
-    ],
-    "parent": "Linux"
-  },
-  {
-    "name": "Alpine",
-    "alias": [
-      "Alpine Linux",
-      "musl libc",
-      "BusyBox"
-    ],
-    "parent": "Linux"
-  },
-  {
-    "name": "Arch Linux",
-    "alias": [
-      "Arch"
-    ],
-    "parent": "Linux"
+    "alias": ["GNU/Linux", "Linux Kernel"],
+    "parent": "",
+    "is_parent": true
   },
   {
     "name": "Windows",
-    "alias": [
-      "Win"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Windows Server",
-    "alias": [
-      "WS"
-    ],
-    "parent": "Windows"
-  },
-  {
-    "name": "macOS",
-    "alias": [
-      "OS X",
-      "Apple macOS",
-      "Mac"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "iOS",
-    "alias": [
-      "Apple iOS",
-      "iPhone OS",
-      "iPad OS"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Android",
-    "alias": [
-      "Android OS",
-      "AOSP"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "FreeBSD",
-    "alias": [],
-    "parent": ""
-  },
-  {
-    "name": "OpenBSD",
-    "alias": [],
-    "parent": ""
-  },
-  {
-    "name": "NetBSD",
-    "alias": [
-      "Net BSD"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Solaris",
-    "alias": [
-      "Sun Solaris",
-      "SunOS"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "AIX",
-    "alias": [],
-    "parent": ""
-  },
-  {
-    "name": "HP-UX",
-    "alias": [
-      "HP Unix"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "z/OS",
-    "alias": [
-      "Mainframe OS"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Chrome OS",
-    "alias": [
-      "Chromium OS",
-      "ChromeOS"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "WSL",
-    "alias": [],
-    "parent": "Windows"
+    "alias": ["Win"],
+    "parent": "",
+    "is_parent": true
   },
   {
     "name": "TensorFlow",
-    "alias": [
-      "TensorFlow ML",
-      "TF ML"
-    ],
-    "parent": "Python"
-  },
-  {
-    "name": "PyTorch",
-    "alias": [
-      "Torch",
-      "Facebook PyTorch",
-      "PyTorch ML",
-      "Meta PyTorch"
-    ],
-    "parent": "Python"
-  },
-  {
-    "name": "Keras",
-    "alias": [
-      "TF Keras"
-    ],
-    "parent": "TensorFlow"
-  },
-  {
-    "name": "scikit-learn",
-    "alias": [
-      "sklearn",
-      "Scikit Learn"
-    ],
-    "parent": "Python"
-  },
-  {
-    "name": "Hugging Face",
-    "alias": [
-      "HF",
-      "Transformers",
-      "HuggingFace ML",
-      "HF Transformers"
-    ],
-    "parent": "Python"
+    "alias": ["TensorFlow ML", "TF ML"],
+    "parent": "Python",
+    "is_parent": true
   },
   {
     "name": "OpenAI",
-    "alias": [
-      "GPT",
-      "ChatGPT",
-      "DALL-E"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "LangChain",
-    "alias": [
-      "LC"
-    ],
-    "parent": "Python"
-  },
-  {
-    "name": "NLTK",
-    "alias": [
-      "Python NLP"
-    ],
-    "parent": "Python"
-  },
-  {
-    "name": "spaCy",
-    "alias": [
-      "SpaCy NLP"
-    ],
-    "parent": "Python"
-  },
-  {
-    "name": "Pandas",
-    "alias": [
-      "Python Pandas"
-    ],
-    "parent": "Python"
-  },
-  {
-    "name": "NumPy",
-    "alias": [],
-    "parent": "Python"
-  },
-  {
-    "name": "SciPy",
-    "alias": [],
-    "parent": "Python"
+    "alias": ["GPT", "ChatGPT", "DALL-E"],
+    "parent": "",
+    "is_parent": true
   },
   {
     "name": "Matplotlib",
-    "alias": [
-      "MPL",
-      "Python Plotting"
-    ],
-    "parent": "Python"
-  },
-  {
-    "name": "Seaborn",
-    "alias": [],
-    "parent": "Matplotlib"
-  },
-  {
-    "name": "Plotly",
-    "alias": [
-      "Plotly.js",
-      "Dash"
-    ],
-    "parent": "Python"
-  },
-  {
-    "name": "XGBoost",
-    "alias": [
-      "Gradient Boosting",
-      "ML Algorithm"
-    ],
-    "parent": "Python"
-  },
-  {
-    "name": "LightGBM",
-    "alias": [],
-    "parent": "Python"
-  },
-  {
-    "name": "CatBoost",
-    "alias": [
-      "Categorical Boosting",
-      "Yandex CatBoost"
-    ],
-    "parent": "Python"
-  },
-  {
-    "name": "JAX",
-    "alias": [
-      "Autograd",
-      "XLA"
-    ],
-    "parent": "Python"
-  },
-  {
-    "name": "Vertex AI",
-    "alias": [
-      "GCP AI"
-    ],
-    "parent": "Google Cloud Platform"
-  },
-  {
-    "name": "Amazon SageMaker",
-    "alias": [
-      "SageMaker",
-      "AWS ML",
-      "AWS AI"
-    ],
-    "parent": "Amazon Web Services"
-  },
-  {
-    "name": "Azure Machine Learning",
-    "alias": [
-      "Azure ML",
-      "Microsoft ML",
-      "Azure AI"
-    ],
-    "parent": "Microsoft Azure"
-  },
-  {
-    "name": "TensorFlow.js",
-    "alias": [
-      "TFJS",
-      "TF.js",
-      "JavaScript ML",
-      "Browser ML"
-    ],
-    "parent": "TensorFlow"
-  },
-  {
-    "name": "ONNX",
-    "alias": [
-      "ML Interoperability",
-      "Model Exchange"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "MLflow",
-    "alias": [
-      "ML Flow"
-    ],
-    "parent": "Python"
-  },
-  {
-    "name": "DVC",
-    "alias": [
-      "ML Versioning",
-      "ML Pipelines"
-    ],
-    "parent": "Python"
-  },
-  {
-    "name": "Ray",
-    "alias": [
-      "Ray Project",
-      "ML Scaling"
-    ],
-    "parent": "Python"
-  },
-  {
-    "name": "Weights & Biases",
-    "alias": [
-      "W&B",
-      "WandB"
-    ],
-    "parent": "Python"
-  },
-  {
-    "name": "Streamlit",
-    "alias": [
-      "Streamlit App"
-    ],
-    "parent": "Python"
-  },
-  {
-    "name": "Gradio",
-    "alias": [
-      "HF Gradio"
-    ],
-    "parent": "Python"
+    "alias": ["MPL", "Python Plotting"],
+    "parent": "Python",
+    "is_parent": true
   },
   {
     "name": "Git",
-    "alias": [
-      "Git VCS"
-    ],
-    "parent": ""
+    "alias": ["Git VCS"],
+    "parent": "",
+    "is_parent": true
   },
   {
     "name": "GitHub",
-    "alias": [
-      "GH",
-      "GitHub.com"
-    ],
-    "parent": "Git"
-  },
-  {
-    "name": "GitLab",
-    "alias": [
-      "GL",
-      "GitLab.com"
-    ],
-    "parent": "Git"
-  },
-  {
-    "name": "Bitbucket",
-    "alias": [
-      "Atlassian Bitbucket",
-      "BB"
-    ],
-    "parent": "Git"
-  },
-  {
-    "name": "Jira",
-    "alias": [
-      "Atlassian Jira"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Confluence",
-    "alias": [
-      "Atlassian Confluence",
-      "Wiki",
-      "Documentation"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Trello",
-    "alias": [
-      "Atlassian Trello"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Asana",
-    "alias": [
-      "Asana PM"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Notion",
-    "alias": [
-      "Notion App"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Slack",
-    "alias": [
-      "Slack App",
-      "Salesforce Slack"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Microsoft Teams",
-    "alias": [
-      "Teams",
-      "MS Teams"
-    ],
-    "parent": "Microsoft 365"
-  },
-  {
-    "name": "Discord",
-    "alias": [
-      "Discord App"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Zoom",
-    "alias": [
-      "Zoom Meetings",
-      "Zoom Video"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Google Meet",
-    "alias": [
-      "Meet",
-      "Google Video"
-    ],
-    "parent": "Google Workspace"
+    "alias": ["GH", "GitHub.com"],
+    "parent": "Git",
+    "is_parent": true
   },
   {
     "name": "Microsoft 365",
-    "alias": [
-      "M365"
-    ],
-    "parent": ""
+    "alias": ["M365"],
+    "parent": "",
+    "is_parent": true
   },
   {
     "name": "Google Workspace",
-    "alias": [
-      "Google Apps"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Visual Studio Code",
-    "alias": [
-      "VS Code",
-      "VSCode",
-      "Microsoft VS Code"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "IntelliJ IDEA",
-    "alias": [
-      "IntelliJ",
-      "IDEA"
-    ],
-    "parent": "JetBrains"
-  },
-  {
-    "name": "PyCharm",
-    "alias": [
-      "JetBrains PyCharm"
-    ],
-    "parent": "JetBrains"
-  },
-  {
-    "name": "WebStorm",
-    "alias": [
-      "JetBrains WebStorm"
-    ],
-    "parent": "JetBrains"
+    "alias": ["Google Apps"],
+    "parent": "",
+    "is_parent": true
   },
   {
     "name": "JetBrains",
-    "alias": [
-      "JetBrains Tools",
-      "JetBrains IDEs"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Eclipse",
-    "alias": [
-      "Eclipse Foundation"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Sublime Text",
-    "alias": [
-      "Sublime"
-    ],
-    "parent": ""
+    "alias": ["JetBrains Tools", "JetBrains IDEs"],
+    "parent": "",
+    "is_parent": true
   },
   {
     "name": "Vim",
-    "alias": [
-      "Vi IMproved"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Emacs",
-    "alias": [
-      "GNU Emacs"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Neovim",
-    "alias": [
-      "Nvim",
-      "Vim Fork"
-    ],
-    "parent": "Vim"
-  },
-  {
-    "name": "Figma",
-    "alias": [],
-    "parent": ""
-  },
-  {
-    "name": "Sketch",
-    "alias": [
-      "Sketch App"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Adobe XD",
-    "alias": [
-      "XD"
-    ],
-    "parent": "Adobe Creative Cloud"
-  },
-  {
-    "name": "Adobe Photoshop",
-    "alias": [
-      "Photoshop"
-    ],
-    "parent": "Adobe Creative Cloud"
-  },
-  {
-    "name": "Adobe Illustrator",
-    "alias": [
-      "AI",
-      "Illustrator"
-    ],
-    "parent": "Adobe Creative Cloud"
+    "alias": ["Vi IMproved"],
+    "parent": "",
+    "is_parent": true
   },
   {
     "name": "Adobe Creative Cloud",
-    "alias": [
-      "Adobe CC"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Miro",
-    "alias": [
-      "Miro Board"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Obsidian",
-    "alias": [
-      "Obsidian MD"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Evernote",
-    "alias": [
-      "Digital Notes",
-      "Evernote App"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Linear",
-    "alias": [
-      "Linear App"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "ClickUp",
-    "alias": [],
-    "parent": ""
-  },
-  {
-    "name": "Monday.com",
-    "alias": [
-      "Monday"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Jupyter",
-    "alias": [
-      "Jupyter Notebook",
-      "Jupyter Lab"
-    ],
-    "parent": "Python"
-  },
-  {
-    "name": "Databricks",
-    "alias": [],
-    "parent": ""
-  },
-  {
-    "name": "Apache Spark",
-    "alias": [
-      "Spark",
-      "PySpark",
-      "Spark SQL"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Hadoop",
-    "alias": [
-      "HDFS",
-      "MapReduce"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Dask",
-    "alias": [
-      "Python Dask"
-    ],
-    "parent": "Python"
-  },
-  {
-    "name": "Tableau",
-    "alias": [],
-    "parent": ""
-  },
-  {
-    "name": "Power BI",
-    "alias": [],
-    "parent": "Microsoft 365"
-  },
-  {
-    "name": "Looker",
-    "alias": [],
-    "parent": "Google Cloud Platform"
-  },
-  {
-    "name": "dbt",
-    "alias": [
-      "SQL Transformation"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Airflow",
-    "alias": [],
-    "parent": ""
-  },
-  {
-    "name": "Prefect",
-    "alias": [
-      "Prefect Flow"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Dagster",
-    "alias": [],
-    "parent": ""
-  },
-  {
-    "name": "Synapse Analytics",
-    "alias": [
-      "Azure Synapse",
-      "Microsoft Synapse"
-    ],
-    "parent": "Microsoft Azure"
-  },
-  {
-    "name": "Kafka",
-    "alias": [],
-    "parent": ""
-  },
-  {
-    "name": "Flink",
-    "alias": [],
-    "parent": ""
-  },
-  {
-    "name": "Beam",
-    "alias": [
-      "Unified Batch/Stream"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Polars",
-    "alias": [
-      "Polars DataFrame",
-      "Rust-powered"
-    ],
-    "parent": "Python"
-  },
-  {
-    "name": "DuckDB",
-    "alias": [
-      "Duck DB"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Delta Lake",
-    "alias": [
-      "Delta"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Iceberg",
-    "alias": [],
-    "parent": ""
-  },
-  {
-    "name": "Hudi",
-    "alias": [],
-    "parent": ""
-  },
-  {
-    "name": "Great Expectations",
-    "alias": [
-      "GE"
-    ],
-    "parent": "Python"
-  },
-  {
-    "name": "Metabase",
-    "alias": [
-      "Metabase BI"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Superset",
-    "alias": [],
-    "parent": ""
-  },
-  {
-    "name": "RabbitMQ",
-    "alias": [
-      "Rabbit",
-      "RMQ"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "ActiveMQ",
-    "alias": [
-      "ActiveMQ Artemis",
-      "AMQ"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "ZeroMQ",
-    "alias": [
-      "0MQ",
-      "ØMQ",
-      "ZMQ",
-      "zeromq"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Apache Pulsar",
-    "alias": [
-      "Pulsar",
-      "Pulsar Functions"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "NATS",
-    "alias": [
-      "NATS.io",
-      "NATS Jetstream"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Redis Pub/Sub",
-    "alias": [
-      "Redis PubSub",
-      "Redis Streams"
-    ],
-    "parent": "Redis"
-  },
-  {
-    "name": "AWS SQS",
-    "alias": [
-      "Amazon SQS",
-      "SQS"
-    ],
-    "parent": "Amazon Web Services"
-  },
-  {
-    "name": "AWS SNS",
-    "alias": [
-      "Amazon SNS",
-      "SNS"
-    ],
-    "parent": "Amazon Web Services"
-  },
-  {
-    "name": "Google Pub/Sub",
-    "alias": [
-      "Google PubSub",
-      "GCP Pub/Sub"
-    ],
-    "parent": "Google Cloud Platform"
-  },
-  {
-    "name": "Azure Service Bus",
-    "alias": [
-      "ASB"
-    ],
-    "parent": "Microsoft Azure"
-  },
-  {
-    "name": "IBM MQ",
-    "alias": [
-      "WebSphere MQ",
-      "MQ Series",
-      "WMQ"
-    ],
-    "parent": "IBM Cloud"
-  },
-  {
-    "name": "RocketMQ",
-    "alias": [
-      "Alibaba RocketMQ"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "MQTT",
-    "alias": [],
-    "parent": ""
-  },
-  {
-    "name": "AMQP",
-    "alias": [
-      "AMQP 0-9-1",
-      "AMQP 1.0"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Apache Camel",
-    "alias": [
-      "Camel",
-      "Camel Routes"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Apache NiFi",
-    "alias": [
-      "NiFi",
-      "NiFi Registry",
-      "Hortonworks DataFlow"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Celery",
-    "alias": [
-      "Python Celery",
-      "Celery Workers"
-    ],
-    "parent": "Python"
-  },
-  {
-    "name": "WebAssembly",
-    "alias": [
-      "Wasm",
-      "Browser Bytecode"
-    ],
-    "parent": ""
+    "alias": ["Adobe CC"],
+    "parent": "",
+    "is_parent": true
   },
   {
     "name": "Blockchain",
-    "alias": [
-      "DLT"
-    ],
-    "parent": ""
+    "alias": ["DLT"],
+    "parent": "",
+    "is_parent": true
   },
   {
     "name": "Ethereum",
-    "alias": [
-      "ETH",
-      "Ethereum Blockchain",
-      "Smart Contracts"
-    ],
-    "parent": "Blockchain"
-  },
-  {
-    "name": "Solidity",
-    "alias": [],
-    "parent": "Ethereum"
-  },
-  {
-    "name": "Bitcoin",
-    "alias": [
-      "BTC",
-      "Bitcoin Blockchain",
-      "Cryptocurrency"
-    ],
-    "parent": "Blockchain"
-  },
-  {
-    "name": "WebRTC",
-    "alias": [],
-    "parent": ""
+    "alias": ["ETH", "Ethereum Blockchain", "Smart Contracts"],
+    "parent": "Blockchain",
+    "is_parent": true
   },
   {
     "name": "IoT",
-    "alias": [
-      "Connected Devices",
-      "Smart Devices"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Arduino",
-    "alias": [
-      "Microcontroller"
-    ],
-    "parent": "IoT"
-  },
-  {
-    "name": "Raspberry Pi",
-    "alias": [
-      "RPi",
-      "Pi",
-      "Single-Board Computer"
-    ],
-    "parent": "IoT"
-  },
-  {
-    "name": "Embedded Systems",
-    "alias": [
-      "Firmware"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Assembly",
-    "alias": [
-      "ASM"
-    ],
-    "parent": ""
+    "alias": ["Connected Devices", "Smart Devices"],
+    "parent": "",
+    "is_parent": true
   },
   {
     "name": "FPGA",
-    "alias": [
-      "Digital Circuits"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "VHDL",
-    "alias": [
-      "HDL"
-    ],
-    "parent": "FPGA"
-  },
-  {
-    "name": "Verilog",
-    "alias": [],
-    "parent": "FPGA"
-  },
-  {
-    "name": "AR/VR",
-    "alias": [
-      "Augmented Reality",
-      "Virtual Reality",
-      "Mixed Reality",
-      "XR"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Unity",
-    "alias": [
-      "Unity3D"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Unreal Engine",
-    "alias": [
-      "UE",
-      "Unreal"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Godot",
-    "alias": [],
-    "parent": ""
+    "alias": ["Digital Circuits"],
+    "parent": "",
+    "is_parent": true
   },
   {
     "name": "Cybersecurity",
-    "alias": [
-      "InfoSec"
-    ],
-    "parent": ""
-  },
-  {
-    "name": "Penetration Testing",
-    "alias": [
-      "Ethical Hacking"
-    ],
-    "parent": "Cybersecurity"
-  },
-  {
-    "name": "Cryptography",
-    "alias": [
-      "Crypto"
-    ],
-    "parent": "Cybersecurity"
+    "alias": ["InfoSec"],
+    "parent": "",
+    "is_parent": true
   },
   {
     "name": "Quantum Computing",
     "alias": [],
-    "parent": ""
+    "parent": "",
+    "is_parent": true
+  },
+  {
+    "name": "Robotics",
+    "alias": ["Robotic Systems"],
+    "parent": "",
+    "is_parent": true
+  },
+  {
+    "name": "GIS",
+    "alias": ["Mapping"],
+    "parent": "",
+    "is_parent": true
+  },
+  {
+    "name": "Bioinformatics",
+    "alias": ["Computational Biology", "Genomics"],
+    "parent": "",
+    "is_parent": true
+  },
+  {
+    "name": "React Native",
+    "alias": ["RN", "React-Native"],
+    "parent": "React",
+    "is_parent": false
+  },
+  {
+    "name": "C#",
+    "alias": ["CSharp", "C Sharp"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "C++",
+    "alias": ["CPP", "ISO/IEC 14882"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Scala",
+    "alias": [],
+    "parent": "Java",
+    "is_parent": false
+  },
+  {
+    "name": "R",
+    "alias": [],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "MATLAB",
+    "alias": ["Matrix Laboratory"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Perl",
+    "alias": ["Perl5", "Perl6"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Groovy",
+    "alias": [],
+    "parent": "Java",
+    "is_parent": false
+  },
+  {
+    "name": "Bash",
+    "alias": ["Shell", "Shell Script"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "PowerShell",
+    "alias": ["POSH", "PS"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Dart",
+    "alias": ["Flutter"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Clojure",
+    "alias": ["CLJ"],
+    "parent": "Java",
+    "is_parent": false
+  },
+  {
+    "name": "F#",
+    "alias": ["FSharp", "F Sharp"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Haskell",
+    "alias": ["GHC"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Julia",
+    "alias": ["JL"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Lua",
+    "alias": ["LuaJIT"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Objective-C",
+    "alias": ["ObjC", "Obj-C"],
+    "parent": "C",
+    "is_parent": false
+  },
+  {
+    "name": "OCaml",
+    "alias": ["Objective Caml"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "SQL",
+    "alias": ["T-SQL", "PL/SQL", "MySQL"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "VBA",
+    "alias": ["Visual Basic", "Excel VBA"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Angular",
+    "alias": ["AngularJS", "Angular.js", "Angular 2+"],
+    "parent": "JavaScript",
+    "is_parent": false
+  },
+  {
+    "name": "Vue",
+    "alias": ["Vue.js", "VueJS", "Vue 3"],
+    "parent": "JavaScript",
+    "is_parent": false
+  },
+  {
+    "name": "Svelte",
+    "alias": ["SvelteKit", "Svelte 3"],
+    "parent": "JavaScript",
+    "is_parent": false
+  },
+  {
+    "name": "jQuery",
+    "alias": ["JQ"],
+    "parent": "JavaScript",
+    "is_parent": false
+  },
+  {
+    "name": "HTML",
+    "alias": ["HTML5", "XHTML"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "SASS",
+    "alias": [],
+    "parent": "CSS",
+    "is_parent": false
+  },
+  {
+    "name": "SCSS",
+    "alias": ["Sassy CSS", "Sass CSS"],
+    "parent": "CSS",
+    "is_parent": false
+  },
+  {
+    "name": "LESS",
+    "alias": ["Leaner CSS", "Less.js"],
+    "parent": "CSS",
+    "is_parent": false
+  },
+  {
+    "name": "Bootstrap",
+    "alias": ["BS", "Bootstrap 5"],
+    "parent": "CSS",
+    "is_parent": false
+  },
+  {
+    "name": "Tailwind CSS",
+    "alias": ["Tailwind", "TW CSS"],
+    "parent": "CSS",
+    "is_parent": false
+  },
+  {
+    "name": "Material UI",
+    "alias": ["MUI", "Material-UI"],
+    "parent": "React",
+    "is_parent": false
+  },
+  {
+    "name": "Ant Design",
+    "alias": ["AntD", "Ant"],
+    "parent": "React",
+    "is_parent": false
+  },
+  {
+    "name": "Redux",
+    "alias": ["React Redux", "Redux Toolkit", "RTK"],
+    "parent": "JavaScript",
+    "is_parent": false
+  },
+  {
+    "name": "MobX",
+    "alias": ["MST"],
+    "parent": "JavaScript",
+    "is_parent": false
+  },
+  {
+    "name": "Next.js",
+    "alias": [],
+    "parent": "React",
+    "is_parent": false
+  },
+  {
+    "name": "Gatsby",
+    "alias": ["GatsbyJS", "Gatsby.js"],
+    "parent": "React",
+    "is_parent": false
+  },
+  {
+    "name": "Webpack",
+    "alias": ["Webpack 5"],
+    "parent": "JavaScript",
+    "is_parent": false
+  },
+  {
+    "name": "Vite",
+    "alias": ["Vite.js", "ViteJS"],
+    "parent": "JavaScript",
+    "is_parent": false
+  },
+  {
+    "name": "Ember",
+    "alias": ["Ember.js", "EmberJS"],
+    "parent": "JavaScript",
+    "is_parent": false
+  },
+  {
+    "name": "Backbone.js",
+    "alias": ["BackboneJS", "Backbone"],
+    "parent": "JavaScript",
+    "is_parent": false
+  },
+  {
+    "name": "Alpine.js",
+    "alias": ["AlpineJS", "Alpine"],
+    "parent": "JavaScript",
+    "is_parent": false
+  },
+  {
+    "name": "Storybook",
+    "alias": ["Storybook.js", "SB"],
+    "parent": "JavaScript",
+    "is_parent": false
+  },
+  {
+    "name": "Stimulus",
+    "alias": ["Stimulus.js", "StimulusJS"],
+    "parent": "JavaScript",
+    "is_parent": false
+  },
+  {
+    "name": "Preact",
+    "alias": ["Preact.js", "PreactJS", "Preact X"],
+    "parent": "JavaScript",
+    "is_parent": false
+  },
+  {
+    "name": "Lit",
+    "alias": ["Lit Element", "Lit HTML", "Lit.js"],
+    "parent": "JavaScript",
+    "is_parent": false
+  },
+  {
+    "name": "Web Components",
+    "alias": ["HTML Templates"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Django",
+    "alias": [],
+    "parent": "Python",
+    "is_parent": false
+  },
+  {
+    "name": "Flask",
+    "alias": [],
+    "parent": "Python",
+    "is_parent": false
+  },
+  {
+    "name": "FastAPI",
+    "alias": [],
+    "parent": "Python",
+    "is_parent": false
+  },
+  {
+    "name": "Spring Boot",
+    "alias": ["SpringBoot", "Boot"],
+    "parent": "Spring",
+    "is_parent": false
+  },
+  {
+    "name": "Express",
+    "alias": ["Express.js", "ExpressJS"],
+    "parent": "Node.js",
+    "is_parent": false
+  },
+  {
+    "name": "ASP.NET Core",
+    "alias": ["ASP Core", "ASP.NET 6+"],
+    "parent": "ASP.NET",
+    "is_parent": false
+  },
+  {
+    "name": "Laravel",
+    "alias": ["Laravel 10"],
+    "parent": "PHP",
+    "is_parent": false
+  },
+  {
+    "name": "Nest.js",
+    "alias": ["NestJS", "Nest"],
+    "parent": "Node.js",
+    "is_parent": false
+  },
+  {
+    "name": "Play",
+    "alias": ["Play Java", "Play Scala"],
+    "parent": "Java",
+    "is_parent": false
+  },
+  {
+    "name": "Phoenix",
+    "alias": [],
+    "parent": "Elixir",
+    "is_parent": false
+  },
+  {
+    "name": "Rocket",
+    "alias": ["Rocket.rs"],
+    "parent": "Rust",
+    "is_parent": false
+  },
+  {
+    "name": "Gin",
+    "alias": ["Gin Gonic"],
+    "parent": "Go",
+    "is_parent": false
+  },
+  {
+    "name": "Echo",
+    "alias": ["Echo Go"],
+    "parent": "Go",
+    "is_parent": false
+  },
+  {
+    "name": "Symfony",
+    "alias": ["Symfony PHP", "Symfony 6"],
+    "parent": "PHP",
+    "is_parent": false
+  },
+  {
+    "name": "Strapi",
+    "alias": ["Strapi CMS", "Strapi Headless"],
+    "parent": "Node.js",
+    "is_parent": false
+  },
+  {
+    "name": "Deno",
+    "alias": ["Deno Land"],
+    "parent": "JavaScript",
+    "is_parent": false
+  },
+  {
+    "name": "Bun",
+    "alias": ["Bun.js", "BunJS"],
+    "parent": "JavaScript",
+    "is_parent": false
+  },
+  {
+    "name": "Micronaut",
+    "alias": ["Micronaut GraalVM"],
+    "parent": "Java",
+    "is_parent": false
+  },
+  {
+    "name": "Quarkus",
+    "alias": ["Quarkus.io"],
+    "parent": "Java",
+    "is_parent": false
+  },
+  {
+    "name": "Ktor",
+    "alias": [],
+    "parent": "Kotlin",
+    "is_parent": false
+  },
+  {
+    "name": "Actix",
+    "alias": ["Actix.rs"],
+    "parent": "Rust",
+    "is_parent": false
+  },
+  {
+    "name": "Axum",
+    "alias": ["Tokio Axum"],
+    "parent": "Rust",
+    "is_parent": false
+  },
+  {
+    "name": "Fiber",
+    "alias": ["Go Fiber"],
+    "parent": "Go",
+    "is_parent": false
+  },
+  {
+    "name": "Buffalo",
+    "alias": ["Go Buffalo"],
+    "parent": "Go",
+    "is_parent": false
+  },
+  {
+    "name": "SQLite",
+    "alias": ["SQLite3", "Lite SQL", "SQL Lite"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Oracle",
+    "alias": ["Oracle DB", "OracleDB"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Microsoft SQL Server",
+    "alias": ["MSSQL", "MS SQL"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Cassandra",
+    "alias": ["Cassandra DB"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "DynamoDB",
+    "alias": ["Dynamo"],
+    "parent": "Amazon Web Services",
+    "is_parent": false
+  },
+  {
+    "name": "Firestore",
+    "alias": ["Firebase DB"],
+    "parent": "Firebase",
+    "is_parent": false
+  },
+  {
+    "name": "Elasticsearch",
+    "alias": ["Elastic Search"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Neo4j",
+    "alias": ["Neo4j Graph", "Neo"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "CouchDB",
+    "alias": ["Couch"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "MariaDB",
+    "alias": ["Maria", "MySQL Fork"],
+    "parent": "MySQL",
+    "is_parent": false
+  },
+  {
+    "name": "Snowflake",
+    "alias": ["Snowflake DB"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "BigQuery",
+    "alias": ["GCP BigQuery", "BQ"],
+    "parent": "Google Cloud Platform",
+    "is_parent": false
+  },
+  {
+    "name": "Redshift",
+    "alias": [],
+    "parent": "Amazon Web Services",
+    "is_parent": false
+  },
+  {
+    "name": "Supabase",
+    "alias": ["Supabase DB", "Firebase Alternative"],
+    "parent": "PostgreSQL",
+    "is_parent": false
+  },
+  {
+    "name": "ArangoDB",
+    "alias": ["Arango", "Multi-model DB", "Graph DB"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "RethinkDB",
+    "alias": ["Rethink", "Realtime DB", "Changefeeds DB"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "H2",
+    "alias": [],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Timescale",
+    "alias": ["TimescaleDB", "Postgres Timeseries"],
+    "parent": "PostgreSQL",
+    "is_parent": false
+  },
+  {
+    "name": "SQLAlchemy",
+    "alias": ["Python ORM", "SQL Toolkit", "Alembic"],
+    "parent": "Python",
+    "is_parent": false
+  },
+  {
+    "name": "Prisma",
+    "alias": ["Prisma ORM"],
+    "parent": "JavaScript",
+    "is_parent": false
+  },
+  {
+    "name": "TypeORM",
+    "alias": ["TS ORM", "TypeScript ORM", "Type ORM"],
+    "parent": "TypeScript",
+    "is_parent": false
+  },
+  {
+    "name": "Mongoose",
+    "alias": ["Mongoose ODM", "Mongo ORM", "MongoDB ODM"],
+    "parent": "MongoDB",
+    "is_parent": false
+  },
+  {
+    "name": "Sequelize",
+    "alias": ["Sequelize ORM", "Sequelize.js", "SQL ORM"],
+    "parent": "JavaScript",
+    "is_parent": false
+  },
+  {
+    "name": "Knex",
+    "alias": ["Knex.js"],
+    "parent": "JavaScript",
+    "is_parent": false
+  },
+  {
+    "name": "Drizzle",
+    "alias": ["DrizzleORM", "Drizzle ORM"],
+    "parent": "JavaScript",
+    "is_parent": false
+  },
+  {
+    "name": "Oracle Cloud",
+    "alias": ["OCI"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "DigitalOcean",
+    "alias": ["DO", "Digital Ocean", "DO Droplets"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Heroku",
+    "alias": ["Heroku PaaS"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Netlify",
+    "alias": [],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Vercel",
+    "alias": ["Zeit"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Cloudflare",
+    "alias": ["CF", "Cloudflare Services", "Cloudflare Workers"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Fly.io",
+    "alias": ["Fly", "Fly Edge"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Render",
+    "alias": [],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Railway",
+    "alias": ["Railway App"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Docker",
+    "alias": ["Docker Container"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Jenkins",
+    "alias": ["Jenkins CI"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "GitHub Actions",
+    "alias": ["GH Actions", "GitHub CI/CD", "GitHub Workflows"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "GitLab CI",
+    "alias": ["GitLab CI/CD", "GitLab Runner"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "CircleCI",
+    "alias": ["Circle CI", "Circle Build"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Travis CI",
+    "alias": ["Travis", "Travis Build"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Terraform",
+    "alias": ["TF", "IaC"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Ansible",
+    "alias": ["Ansible Playbook"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Puppet",
+    "alias": ["Puppet Labs"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Chef",
+    "alias": ["Chef Infra"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Vagrant",
+    "alias": ["Vagrant Box"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Helm",
+    "alias": ["Helm Charts", "Kubernetes Helm"],
+    "parent": "Kubernetes",
+    "is_parent": false
+  },
+  {
+    "name": "ArgoCD",
+    "alias": ["Argo CD", "Argo Workflows", "GitOps", "Kubernetes CD"],
+    "parent": "Kubernetes",
+    "is_parent": false
+  },
+  {
+    "name": "Istio",
+    "alias": ["Kubernetes Istio"],
+    "parent": "Kubernetes",
+    "is_parent": false
+  },
+  {
+    "name": "Prometheus",
+    "alias": ["CNCF Prometheus"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Datadog",
+    "alias": ["DD", "Datadog APM"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "New Relic",
+    "alias": ["NR"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Splunk",
+    "alias": [],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "ELK Stack",
+    "alias": ["ELK"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Consul",
+    "alias": [],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Vault",
+    "alias": [],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Packer",
+    "alias": [],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Nomad",
+    "alias": [],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Pulumi",
+    "alias": [],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Rancher",
+    "alias": ["Rancher Labs"],
+    "parent": "Kubernetes",
+    "is_parent": false
+  },
+  {
+    "name": "OpenShift",
+    "alias": ["OCP"],
+    "parent": "Kubernetes",
+    "is_parent": false
+  },
+  {
+    "name": "Buildkite",
+    "alias": ["Buildkite CI", "Buildkite Agent"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "TeamCity",
+    "alias": ["JetBrains TeamCity", "TeamCity CI", "TeamCity Build"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Dynatrace",
+    "alias": ["Dynatrace APM"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Logstash",
+    "alias": ["LS"],
+    "parent": "Elastic Stack",
+    "is_parent": false
+  },
+  {
+    "name": "Kibana",
+    "alias": ["Kibana Dashboard", "Elastic Kibana"],
+    "parent": "Elastic Stack",
+    "is_parent": false
+  },
+  {
+    "name": "Jaeger",
+    "alias": ["CNCF Jaeger"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Zipkin",
+    "alias": ["Twitter Zipkin"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "OpenTelemetry",
+    "alias": ["OTel", "OpenTelemetry Collector", "CNCF OpenTelemetry"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Fluentd",
+    "alias": ["Fluent", "CNCF Fluentd", "Log Collector"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Loki",
+    "alias": ["Grafana Loki", "Log Aggregation", "Prometheus Logs"],
+    "parent": "Grafana",
+    "is_parent": false
+  },
+  {
+    "name": "Tempo",
+    "alias": ["Grafana Tempo", "Trace Backend"],
+    "parent": "Grafana",
+    "is_parent": false
+  },
+  {
+    "name": "Sentry",
+    "alias": ["Sentry.io"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Honeycomb",
+    "alias": ["Honeycomb.io"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Lightstep",
+    "alias": ["ServiceNow Lightstep"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "AppDynamics",
+    "alias": ["AppD", "Cisco AppDynamics", "AppDynamics APM"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Instana",
+    "alias": ["Instana APM"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Sumo Logic",
+    "alias": ["Sumo"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Graylog",
+    "alias": ["Log Analysis"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Nagios",
+    "alias": ["Nagios Core", "Nagios XI"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Zabbix",
+    "alias": [],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Graphite",
+    "alias": [],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "StatsD",
+    "alias": ["Etsy StatsD", "Stats Daemon"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Telegraf",
+    "alias": ["InfluxData Telegraf"],
+    "parent": "InfluxDB",
+    "is_parent": false
+  },
+  {
+    "name": "Chronograf",
+    "alias": ["InfluxData Chronograf"],
+    "parent": "InfluxDB",
+    "is_parent": false
+  },
+  {
+    "name": "Jest",
+    "alias": ["Jest.js", "Facebook Jest"],
+    "parent": "JavaScript",
+    "is_parent": false
+  },
+  {
+    "name": "Mocha",
+    "alias": ["Mocha.js", "Mocha Test"],
+    "parent": "JavaScript",
+    "is_parent": false
+  },
+  {
+    "name": "Chai",
+    "alias": ["Chai.js", "Chai Assertion", "JavaScript Assertion"],
+    "parent": "JavaScript",
+    "is_parent": false
+  },
+  {
+    "name": "Jasmine",
+    "alias": ["Jasmine.js", "Jasmine BDD"],
+    "parent": "JavaScript",
+    "is_parent": false
+  },
+  {
+    "name": "Cypress",
+    "alias": ["Cypress.io"],
+    "parent": "JavaScript",
+    "is_parent": false
+  },
+  {
+    "name": "Selenium",
+    "alias": ["Selenium WebDriver"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Playwright",
+    "alias": [],
+    "parent": "JavaScript",
+    "is_parent": false
+  },
+  {
+    "name": "Puppeteer",
+    "alias": ["Headless Chrome"],
+    "parent": "JavaScript",
+    "is_parent": false
+  },
+  {
+    "name": "JUnit",
+    "alias": ["JUnit 5"],
+    "parent": "Java",
+    "is_parent": false
+  },
+  {
+    "name": "TestNG",
+    "alias": [],
+    "parent": "Java",
+    "is_parent": false
+  },
+  {
+    "name": "pytest",
+    "alias": ["py.test"],
+    "parent": "Python",
+    "is_parent": false
+  },
+  {
+    "name": "unittest",
+    "alias": ["Python unittest", "PyUnit"],
+    "parent": "Python",
+    "is_parent": false
+  },
+  {
+    "name": "RSpec",
+    "alias": ["Ruby Spec"],
+    "parent": "Ruby",
+    "is_parent": false
+  },
+  {
+    "name": "PHPUnit",
+    "alias": [],
+    "parent": "PHP",
+    "is_parent": false
+  },
+  {
+    "name": "xUnit",
+    "alias": [],
+    "parent": ".NET",
+    "is_parent": false
+  },
+  {
+    "name": "NUnit",
+    "alias": [],
+    "parent": ".NET",
+    "is_parent": false
+  },
+  {
+    "name": "MSTest",
+    "alias": ["Microsoft Test"],
+    "parent": ".NET",
+    "is_parent": false
+  },
+  {
+    "name": "Vitest",
+    "alias": ["Vite Test"],
+    "parent": "JavaScript",
+    "is_parent": false
+  },
+  {
+    "name": "Testing Library",
+    "alias": [],
+    "parent": "JavaScript",
+    "is_parent": false
+  },
+  {
+    "name": "Enzyme",
+    "alias": ["Airbnb Enzyme"],
+    "parent": "React",
+    "is_parent": false
+  },
+  {
+    "name": "Postman",
+    "alias": [],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Insomnia",
+    "alias": [],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "SoapUI",
+    "alias": [],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "JMeter",
+    "alias": [],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Gatling",
+    "alias": [],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "k6",
+    "alias": ["Grafana k6"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Locust",
+    "alias": [],
+    "parent": "Python",
+    "is_parent": false
+  },
+  {
+    "name": "Cucumber",
+    "alias": ["BDD", "Gherkin"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Mockito",
+    "alias": ["Java Mocking", "Test Doubles"],
+    "parent": "Java",
+    "is_parent": false
+  },
+  {
+    "name": "Ubuntu",
+    "alias": ["Ubuntu Linux", "Canonical Ubuntu", "Debian-based"],
+    "parent": "Linux",
+    "is_parent": false
+  },
+  {
+    "name": "Debian",
+    "alias": ["Debian GNU/Linux", "Debian Linux", "Debian OS"],
+    "parent": "Linux",
+    "is_parent": false
+  },
+  {
+    "name": "CentOS",
+    "alias": ["CentOS Linux", "RHEL-based"],
+    "parent": "Linux",
+    "is_parent": false
+  },
+  {
+    "name": "Red Hat Enterprise Linux",
+    "alias": ["RHEL", "Red Hat Linux"],
+    "parent": "Linux",
+    "is_parent": false
+  },
+  {
+    "name": "Fedora",
+    "alias": ["Fedora Linux", "Fedora Project", "Red Hat-sponsored"],
+    "parent": "Linux",
+    "is_parent": false
+  },
+  {
+    "name": "Alpine",
+    "alias": ["Alpine Linux", "musl libc", "BusyBox"],
+    "parent": "Linux",
+    "is_parent": false
+  },
+  {
+    "name": "Arch Linux",
+    "alias": ["Arch"],
+    "parent": "Linux",
+    "is_parent": false
+  },
+  {
+    "name": "Windows Server",
+    "alias": ["WS"],
+    "parent": "Windows",
+    "is_parent": false
+  },
+  {
+    "name": "macOS",
+    "alias": ["OS X", "Apple macOS", "Mac"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "iOS",
+    "alias": ["Apple iOS", "iPhone OS", "iPad OS"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Android",
+    "alias": ["Android OS", "AOSP"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "FreeBSD",
+    "alias": [],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "OpenBSD",
+    "alias": [],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "NetBSD",
+    "alias": ["Net BSD"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Solaris",
+    "alias": ["Sun Solaris", "SunOS"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "AIX",
+    "alias": [],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "HP-UX",
+    "alias": ["HP Unix"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "z/OS",
+    "alias": ["Mainframe OS"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Chrome OS",
+    "alias": ["Chromium OS", "ChromeOS"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "WSL",
+    "alias": [],
+    "parent": "Windows",
+    "is_parent": false
+  },
+  {
+    "name": "PyTorch",
+    "alias": ["Torch", "Facebook PyTorch", "PyTorch ML", "Meta PyTorch"],
+    "parent": "Python",
+    "is_parent": false
+  },
+  {
+    "name": "Keras",
+    "alias": ["TF Keras"],
+    "parent": "TensorFlow",
+    "is_parent": false
+  },
+  {
+    "name": "scikit-learn",
+    "alias": ["sklearn", "Scikit Learn"],
+    "parent": "Python",
+    "is_parent": false
+  },
+  {
+    "name": "Hugging Face",
+    "alias": ["HF", "Transformers", "HuggingFace ML", "HF Transformers"],
+    "parent": "Python",
+    "is_parent": false
+  },
+  {
+    "name": "LangChain",
+    "alias": ["LC"],
+    "parent": "Python",
+    "is_parent": false
+  },
+  {
+    "name": "NLTK",
+    "alias": ["Python NLP"],
+    "parent": "Python",
+    "is_parent": false
+  },
+  {
+    "name": "spaCy",
+    "alias": ["SpaCy NLP"],
+    "parent": "Python",
+    "is_parent": false
+  },
+  {
+    "name": "Pandas",
+    "alias": ["Python Pandas"],
+    "parent": "Python",
+    "is_parent": false
+  },
+  {
+    "name": "NumPy",
+    "alias": [],
+    "parent": "Python",
+    "is_parent": false
+  },
+  {
+    "name": "SciPy",
+    "alias": [],
+    "parent": "Python",
+    "is_parent": false
+  },
+  {
+    "name": "Seaborn",
+    "alias": [],
+    "parent": "Matplotlib",
+    "is_parent": false
+  },
+  {
+    "name": "Plotly",
+    "alias": ["Plotly.js", "Dash"],
+    "parent": "Python",
+    "is_parent": false
+  },
+  {
+    "name": "XGBoost",
+    "alias": ["Gradient Boosting", "ML Algorithm"],
+    "parent": "Python",
+    "is_parent": false
+  },
+  {
+    "name": "LightGBM",
+    "alias": [],
+    "parent": "Python",
+    "is_parent": false
+  },
+  {
+    "name": "CatBoost",
+    "alias": ["Categorical Boosting", "Yandex CatBoost"],
+    "parent": "Python",
+    "is_parent": false
+  },
+  {
+    "name": "JAX",
+    "alias": ["Autograd", "XLA"],
+    "parent": "Python",
+    "is_parent": false
+  },
+  {
+    "name": "Vertex AI",
+    "alias": ["GCP AI"],
+    "parent": "Google Cloud Platform",
+    "is_parent": false
+  },
+  {
+    "name": "Amazon SageMaker",
+    "alias": ["SageMaker", "AWS ML", "AWS AI"],
+    "parent": "Amazon Web Services",
+    "is_parent": false
+  },
+  {
+    "name": "Azure Machine Learning",
+    "alias": ["Azure ML", "Microsoft ML", "Azure AI"],
+    "parent": "Microsoft Azure",
+    "is_parent": false
+  },
+  {
+    "name": "TensorFlow.js",
+    "alias": ["TFJS", "TF.js", "JavaScript ML", "Browser ML"],
+    "parent": "TensorFlow",
+    "is_parent": false
+  },
+  {
+    "name": "ONNX",
+    "alias": ["ML Interoperability", "Model Exchange"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "MLflow",
+    "alias": ["ML Flow"],
+    "parent": "Python",
+    "is_parent": false
+  },
+  {
+    "name": "DVC",
+    "alias": ["ML Versioning", "ML Pipelines"],
+    "parent": "Python",
+    "is_parent": false
+  },
+  {
+    "name": "Ray",
+    "alias": ["Ray Project", "ML Scaling"],
+    "parent": "Python",
+    "is_parent": false
+  },
+  {
+    "name": "Weights & Biases",
+    "alias": ["W&B", "WandB"],
+    "parent": "Python",
+    "is_parent": false
+  },
+  {
+    "name": "Streamlit",
+    "alias": ["Streamlit App"],
+    "parent": "Python",
+    "is_parent": false
+  },
+  {
+    "name": "Gradio",
+    "alias": ["HF Gradio"],
+    "parent": "Python",
+    "is_parent": false
+  },
+  {
+    "name": "GitLab",
+    "alias": ["GL", "GitLab.com"],
+    "parent": "Git",
+    "is_parent": false
+  },
+  {
+    "name": "Bitbucket",
+    "alias": ["Atlassian Bitbucket", "BB"],
+    "parent": "Git",
+    "is_parent": false
+  },
+  {
+    "name": "Jira",
+    "alias": ["Atlassian Jira"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Confluence",
+    "alias": ["Atlassian Confluence", "Wiki", "Documentation"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Trello",
+    "alias": ["Atlassian Trello"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Asana",
+    "alias": ["Asana PM"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Notion",
+    "alias": ["Notion App"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Slack",
+    "alias": ["Slack App", "Salesforce Slack"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Microsoft Teams",
+    "alias": ["Teams", "MS Teams"],
+    "parent": "Microsoft 365",
+    "is_parent": false
+  },
+  {
+    "name": "Discord",
+    "alias": ["Discord App"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Zoom",
+    "alias": ["Zoom Meetings", "Zoom Video"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Google Meet",
+    "alias": ["Meet", "Google Video"],
+    "parent": "Google Workspace",
+    "is_parent": false
+  },
+  {
+    "name": "Visual Studio Code",
+    "alias": ["VS Code", "VSCode", "Microsoft VS Code"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "IntelliJ IDEA",
+    "alias": ["IntelliJ", "IDEA"],
+    "parent": "JetBrains",
+    "is_parent": false
+  },
+  {
+    "name": "PyCharm",
+    "alias": ["JetBrains PyCharm"],
+    "parent": "JetBrains",
+    "is_parent": false
+  },
+  {
+    "name": "WebStorm",
+    "alias": ["JetBrains WebStorm"],
+    "parent": "JetBrains",
+    "is_parent": false
+  },
+  {
+    "name": "Eclipse",
+    "alias": ["Eclipse Foundation"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Sublime Text",
+    "alias": ["Sublime"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Emacs",
+    "alias": ["GNU Emacs"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Neovim",
+    "alias": ["Nvim", "Vim Fork"],
+    "parent": "Vim",
+    "is_parent": false
+  },
+  {
+    "name": "Figma",
+    "alias": [],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Sketch",
+    "alias": ["Sketch App"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Adobe XD",
+    "alias": ["XD"],
+    "parent": "Adobe Creative Cloud",
+    "is_parent": false
+  },
+  {
+    "name": "Adobe Photoshop",
+    "alias": ["Photoshop"],
+    "parent": "Adobe Creative Cloud",
+    "is_parent": false
+  },
+  {
+    "name": "Adobe Illustrator",
+    "alias": ["AI", "Illustrator"],
+    "parent": "Adobe Creative Cloud",
+    "is_parent": false
+  },
+  {
+    "name": "Miro",
+    "alias": ["Miro Board"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Obsidian",
+    "alias": ["Obsidian MD"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Evernote",
+    "alias": ["Digital Notes", "Evernote App"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Linear",
+    "alias": ["Linear App"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "ClickUp",
+    "alias": [],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Monday.com",
+    "alias": ["Monday"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Jupyter",
+    "alias": ["Jupyter Notebook", "Jupyter Lab"],
+    "parent": "Python",
+    "is_parent": false
+  },
+  {
+    "name": "Databricks",
+    "alias": [],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Apache Spark",
+    "alias": ["Spark", "PySpark", "Spark SQL"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Hadoop",
+    "alias": ["HDFS", "MapReduce"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Dask",
+    "alias": ["Python Dask"],
+    "parent": "Python",
+    "is_parent": false
+  },
+  {
+    "name": "Tableau",
+    "alias": [],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Power BI",
+    "alias": [],
+    "parent": "Microsoft 365",
+    "is_parent": false
+  },
+  {
+    "name": "Looker",
+    "alias": [],
+    "parent": "Google Cloud Platform",
+    "is_parent": false
+  },
+  {
+    "name": "dbt",
+    "alias": ["SQL Transformation"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Airflow",
+    "alias": [],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Prefect",
+    "alias": ["Prefect Flow"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Dagster",
+    "alias": [],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Synapse Analytics",
+    "alias": ["Azure Synapse", "Microsoft Synapse"],
+    "parent": "Microsoft Azure",
+    "is_parent": false
+  },
+  {
+    "name": "Kafka",
+    "alias": [],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Flink",
+    "alias": [],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Beam",
+    "alias": ["Unified Batch/Stream"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Polars",
+    "alias": ["Polars DataFrame", "Rust-powered"],
+    "parent": "Python",
+    "is_parent": false
+  },
+  {
+    "name": "DuckDB",
+    "alias": ["Duck DB"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Delta Lake",
+    "alias": ["Delta"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Iceberg",
+    "alias": [],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Hudi",
+    "alias": [],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Great Expectations",
+    "alias": ["GE"],
+    "parent": "Python",
+    "is_parent": false
+  },
+  {
+    "name": "Metabase",
+    "alias": ["Metabase BI"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Superset",
+    "alias": [],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "RabbitMQ",
+    "alias": ["Rabbit", "RMQ"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "ActiveMQ",
+    "alias": ["ActiveMQ Artemis", "AMQ"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "ZeroMQ",
+    "alias": ["0MQ", "ØMQ", "ZMQ", "zeromq"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Apache Pulsar",
+    "alias": ["Pulsar", "Pulsar Functions"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "NATS",
+    "alias": ["NATS.io", "NATS Jetstream"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Redis Pub/Sub",
+    "alias": ["Redis PubSub", "Redis Streams"],
+    "parent": "Redis",
+    "is_parent": false
+  },
+  {
+    "name": "AWS SQS",
+    "alias": ["Amazon SQS", "SQS"],
+    "parent": "Amazon Web Services",
+    "is_parent": false
+  },
+  {
+    "name": "AWS SNS",
+    "alias": ["Amazon SNS", "SNS"],
+    "parent": "Amazon Web Services",
+    "is_parent": false
+  },
+  {
+    "name": "Google Pub/Sub",
+    "alias": ["Pub/Sub", "GCP Pub/Sub"],
+    "parent": "Google Cloud Platform",
+    "is_parent": false
+  },
+  {
+    "name": "Azure Service Bus",
+    "alias": ["ASB"],
+    "parent": "Microsoft Azure",
+    "is_parent": false
+  },
+  {
+    "name": "IBM MQ",
+    "alias": ["WebSphere MQ", "MQ Series", "WMQ"],
+    "parent": "IBM Cloud",
+    "is_parent": false
+  },
+  {
+    "name": "RocketMQ",
+    "alias": ["Alibaba RocketMQ"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "MQTT",
+    "alias": [],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "AMQP",
+    "alias": ["AMQP 0-9-1", "AMQP 1.0"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Apache Camel",
+    "alias": ["Camel", "Camel Routes"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Apache NiFi",
+    "alias": ["NiFi", "NiFi Registry", "Hortonworks DataFlow"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Celery",
+    "alias": ["Python Celery", "Celery Workers"],
+    "parent": "Python",
+    "is_parent": false
+  },
+  {
+    "name": "WebAssembly",
+    "alias": ["Wasm", "Browser Bytecode"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Solidity",
+    "alias": [],
+    "parent": "Ethereum",
+    "is_parent": false
+  },
+  {
+    "name": "Bitcoin",
+    "alias": ["BTC", "Bitcoin Blockchain", "Cryptocurrency"],
+    "parent": "Blockchain",
+    "is_parent": false
+  },
+  {
+    "name": "WebRTC",
+    "alias": [],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Arduino",
+    "alias": ["Microcontroller"],
+    "parent": "IoT",
+    "is_parent": false
+  },
+  {
+    "name": "Raspberry Pi",
+    "alias": ["RPi", "Pi", "Single-Board Computer"],
+    "parent": "IoT",
+    "is_parent": false
+  },
+  {
+    "name": "Embedded Systems",
+    "alias": ["Firmware"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Assembly",
+    "alias": ["ASM"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "VHDL",
+    "alias": ["HDL"],
+    "parent": "FPGA",
+    "is_parent": false
+  },
+  {
+    "name": "Verilog",
+    "alias": [],
+    "parent": "FPGA",
+    "is_parent": false
+  },
+  {
+    "name": "AR/VR",
+    "alias": ["Augmented Reality", "Virtual Reality", "Mixed Reality", "XR"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Unity",
+    "alias": ["Unity3D"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Unreal Engine",
+    "alias": ["UE", "Unreal"],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Godot",
+    "alias": [],
+    "parent": "",
+    "is_parent": false
+  },
+  {
+    "name": "Penetration Testing",
+    "alias": ["Ethical Hacking"],
+    "parent": "Cybersecurity",
+    "is_parent": false
+  },
+  {
+    "name": "Cryptography",
+    "alias": ["Crypto"],
+    "parent": "Cybersecurity",
+    "is_parent": false
   },
   {
     "name": "Qiskit",
     "alias": [],
-    "parent": "Quantum Computing"
+    "parent": "Quantum Computing",
+    "is_parent": false
   },
   {
     "name": "Cirq",
     "alias": [],
-    "parent": "Quantum Computing"
-  },
-  {
-    "name": "Robotics",
-    "alias": [
-      "Robotic Systems"
-    ],
-    "parent": ""
+    "parent": "Quantum Computing",
+    "is_parent": false
   },
   {
     "name": "ROS",
     "alias": [],
-    "parent": "Robotics"
-  },
-  {
-    "name": "GIS",
-    "alias": [
-      "Mapping"
-    ],
-    "parent": ""
+    "parent": "Robotics",
+    "is_parent": false
   },
   {
     "name": "QGIS",
     "alias": [],
-    "parent": "GIS"
+    "parent": "GIS",
+    "is_parent": false
   },
   {
     "name": "ArcGIS",
-    "alias": [
-      "ESRI ArcGIS"
-    ],
-    "parent": "GIS"
-  },
-  {
-    "name": "Bioinformatics",
-    "alias": [
-      "Computational Biology",
-      "Genomics"
-    ],
-    "parent": ""
+    "alias": ["ESRI ArcGIS"],
+    "parent": "GIS",
+    "is_parent": false
   },
   {
     "name": "Biopython",
-    "alias": [
-      "Bio Python"
-    ],
-    "parent": "Bioinformatics"
+    "alias": ["Bio Python"],
+    "parent": "Bioinformatics",
+    "is_parent": false
   },
   {
     "name": "Computational Linguistics",
-    "alias": [
-      "NLP",
-      "Text Analysis"
-    ],
-    "parent": ""
+    "alias": ["NLP", "Text Analysis"],
+    "parent": "",
+    "is_parent": false
   },
   {
     "name": "Accessibility",
-    "alias": [
-      "a11y",
-      "WCAG"
-    ],
-    "parent": ""
+    "alias": ["a11y", "WCAG"],
+    "parent": "",
+    "is_parent": false
   },
   {
     "name": "Internationalization",
-    "alias": [
-      "i18n",
-      "Localization",
-      "l10n",
-      "Multilingual Support"
-    ],
-    "parent": ""
+    "alias": ["i18n", "Localization", "l10n", "Multilingual Support"],
+    "parent": "",
+    "is_parent": false
   },
   {
     "name": "Scrum",
-    "alias": [
-      "Scrum Methodology"
-    ],
-    "parent": ""
+    "alias": ["Scrum Methodology"],
+    "parent": "",
+    "is_parent": false
   },
   {
     "name": "Kanban",
-    "alias": [
-      "Kanban Method"
-    ],
-    "parent": ""
+    "alias": ["Kanban Method"],
+    "parent": "",
+    "is_parent": false
   },
   {
     "name": "REST",
-    "alias": [
-      "RESTful"
-    ],
-    "parent": ""
+    "alias": ["RESTful"],
+    "parent": "",
+    "is_parent": false
   },
   {
     "name": "gRPC",
-    "alias": [
-      "Google RPC"
-    ],
-    "parent": ""
+    "alias": ["Google RPC"],
+    "parent": "",
+    "is_parent": false
   },
   {
     "name": "GraphQL",
-    "alias": [
-      "GQL"
-    ],
-    "parent": ""
+    "alias": ["GQL"],
+    "parent": "",
+    "is_parent": false
   },
   {
     "name": "CI/CD",
-    "alias": [
-      "CI CD"
-    ],
-    "parent": ""
+    "alias": ["CI CD"],
+    "parent": "",
+    "is_parent": false
   },
   {
     "name": "OWASP",
     "alias": [],
-    "parent": ""
+    "parent": "",
+    "is_parent": false
   },
   {
     "name": "OAuth",
-    "alias": [
-      "OAuth 2.0"
-    ],
-    "parent": ""
+    "alias": ["OAuth 2.0"],
+    "parent": "",
+    "is_parent": false
   },
   {
     "name": "Azure Cosmos DB",
-    "alias": [
-      "Cosmos DB",
-      "CosmosDB"
-    ],
-    "parent": "Microsoft Azure"
+    "alias": ["Cosmos DB", "CosmosDB"],
+    "parent": "Microsoft Azure",
+    "is_parent": false
   },
   {
     "name": "Azure Active Directory",
-    "alias": [
-      "AAD",
-      "Azure AD",
-      "Microsoft Entra ID"
-    ],
-    "parent": "Microsoft Azure"
+    "alias": ["AAD", "Azure AD", "Microsoft Entra ID"],
+    "parent": "Microsoft Azure",
+    "is_parent": false
   },
   {
     "name": "Amazon Cognito",
-    "alias": [
-      "AWS Cognito",
-      "Cognito"
-    ],
-    "parent": "Amazon Web Services"
+    "alias": ["AWS Cognito", "Cognito"],
+    "parent": "Amazon Web Services",
+    "is_parent": false
   },
   {
     "name": "AWS IAM",
-    "alias": [
-      "IAM"
-    ],
-    "parent": "Amazon Web Services"
+    "alias": ["IAM"],
+    "parent": "Amazon Web Services",
+    "is_parent": false
   },
   {
     "name": "Google Identity Platform",
-    "alias": [
-      "GIP",
-      "Firebase Auth"
-    ],
-    "parent": "Google Cloud Platform"
+    "alias": ["GIP", "Firebase Auth"],
+    "parent": "Google Cloud Platform",
+    "is_parent": false
   },
   {
     "name": "Agile",
-    "alias": [
-      "Agile Methodology"
-    ],
-    "parent": ""
+    "alias": ["Agile Methodology"],
+    "parent": "",
+    "is_parent": false
   },
   {
     "name": "LlamaIndex",
-    "alias": [
-      "Llama Index",
-      "GPT Index"
-    ],
-    "parent": ""
+    "alias": ["Llama Index", "GPT Index"],
+    "parent": "",
+    "is_parent": false
   },
   {
     "name": "Pinecone",
-    "alias": [
-      "Pinecone DB"
-    ],
-    "parent": ""
+    "alias": ["Pinecone DB"],
+    "parent": "",
+    "is_parent": false
   },
   {
     "name": "Milvus",
-    "alias": [
-      "Milvus DB"
-    ],
-    "parent": ""
+    "alias": ["Milvus DB"],
+    "parent": "",
+    "is_parent": false
   },
   {
     "name": "Chroma",
-    "alias": [
-      "ChromaDB"
-    ],
-    "parent": ""
+    "alias": ["ChromaDB"],
+    "parent": "",
+    "is_parent": false
   },
   {
     "name": "Mistral",
-    "alias": [
-      "Mistral AI",
-      "Mistral LLM"
-    ],
-    "parent": ""
+    "alias": ["Mistral AI", "Mistral LLM"],
+    "parent": "",
+    "is_parent": false
   },
   {
     "name": "Llama",
-    "alias": [
-      "LLaMA",
-      "Meta Llama",
-      "Llama 2"
-    ],
-    "parent": ""
+    "alias": ["LLaMA", "Meta Llama", "Llama 2"],
+    "parent": "",
+    "is_parent": false
   },
   {
     "name": "Amazon Bedrock",
-    "alias": [
-      "AWS Bedrock",
-      "Bedrock"
-    ],
-    "parent": "Amazon Web Services"
+    "alias": ["AWS Bedrock", "Bedrock"],
+    "parent": "Amazon Web Services",
+    "is_parent": false
   },
   {
     "name": "Amazon Kendra",
-    "alias": [
-      "AWS Kendra",
-      "Kendra"
-    ],
-    "parent": "Amazon Web Services"
+    "alias": ["AWS Kendra", "Kendra"],
+    "parent": "Amazon Web Services",
+    "is_parent": false
   },
   {
     "name": "Amazon Rekognition",
-    "alias": [
-      "AWS Rekognition",
-      "Rekognition"
-    ],
-    "parent": "Amazon Web Services"
+    "alias": ["AWS Rekognition", "Rekognition"],
+    "parent": "Amazon Web Services",
+    "is_parent": false
   },
   {
     "name": "Amazon Transcribe",
-    "alias": [
-      "AWS Transcribe",
-      "Transcribe"
-    ],
-    "parent": "Amazon Web Services"
+    "alias": ["AWS Transcribe", "Transcribe"],
+    "parent": "Amazon Web Services",
+    "is_parent": false
   },
   {
     "name": "Amazon Translate",
-    "alias": [
-      "AWS Translate",
-      "Translate"
-    ],
-    "parent": "Amazon Web Services"
+    "alias": ["AWS Translate", "Translate"],
+    "parent": "Amazon Web Services",
+    "is_parent": false
   },
   {
     "name": "Codex",
-    "alias": [
-      "OpenAI Codex",
-      "GitHub Codex"
-    ],
-    "parent": "OpenAI"
+    "alias": ["OpenAI Codex", "GitHub Codex"],
+    "parent": "OpenAI",
+    "is_parent": false
   },
   {
     "name": "Google Gemini",
-    "alias": [
-      "Gemini",
-      "Bard",
-      "Gemini Pro"
-    ],
-    "parent": "Google Cloud Platform"
+    "alias": ["Gemini", "Bard", "Gemini Pro"],
+    "parent": "Google Cloud Platform",
+    "is_parent": false
   },
   {
     "name": "OpenRouter",
     "alias": [],
-    "parent": ""
+    "parent": "",
+    "is_parent": false
   },
   {
     "name": "GitHub Copilot",
-    "alias": [
-      "Copilot",
-      "GH Copilot"
-    ],
-    "parent": "GitHub"
+    "alias": ["Copilot", "GH Copilot"],
+    "parent": "GitHub",
+    "is_parent": false
   },
   {
     "name": "Tabnine",
-    "alias": [
-      "TabNine",
-      "Tabnine AI"
-    ],
-    "parent": ""
+    "alias": ["TabNine", "Tabnine AI"],
+    "parent": "",
+    "is_parent": false
   },
   {
     "name": "Amazon CodeWhisperer",
-    "alias": [
-      "CodeWhisperer",
-      "AWS CodeWhisperer"
-    ],
-    "parent": "Amazon Web Services"
+    "alias": ["CodeWhisperer", "AWS CodeWhisperer"],
+    "parent": "Amazon Web Services",
+    "is_parent": false
   },
   {
     "name": "Cursor",
-    "alias": [
-      "Cursor AI"
-    ],
-    "parent": ""
+    "alias": ["Cursor AI"],
+    "parent": "",
+    "is_parent": false
   },
   {
     "name": "MLOps",
     "alias": [],
-    "parent": ""
+    "parent": "",
+    "is_parent": false
   },
   {
     "name": "SwiftUI",
-    "alias": [
-      "Swift UI"
-    ],
-    "parent": "Swift"
+    "alias": ["Swift UI"],
+    "parent": "Swift",
+    "is_parent": false
   },
   {
     "name": "XCTest",
-    "alias": [
-      "XC Test",
-      "Xcode Test"
-    ],
-    "parent": "Swift"
+    "alias": ["XC Test", "Xcode Test"],
+    "parent": "Swift",
+    "is_parent": false
   }
 ]

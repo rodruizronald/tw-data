@@ -207,14 +207,12 @@ class Technology:
     """Individual technology with categorization and requirement status."""
 
     name: str
-    category: str
     required: bool
 
     def to_dict(self) -> dict[str, Any]:
         """Convert Technology to dictionary for JSON serialization."""
         return {
             "name": self.name,
-            "category": self.category,
             "required": self.required,
         }
 
@@ -223,7 +221,6 @@ class Technology:
         """Create Technology from dictionary."""
         return cls(
             name=data.get("name", ""),
-            category=data.get("category", ""),
             required=data.get("required", False),
         )
 
@@ -261,6 +258,7 @@ class TechData:
     name: str
     alias: list[str]
     parent: str
+    is_parent: bool
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "TechData":
@@ -269,6 +267,7 @@ class TechData:
             name=data.get("name", ""),
             alias=data.get("alias", []),
             parent=data.get("parent", ""),
+            is_parent=data.get("is_parent", False),
         )
 
 

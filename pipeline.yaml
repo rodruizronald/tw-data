@@ -250,33 +250,12 @@ pipeline:
                     name:
                       type: "string"
                       description: "Canonical technology name"
-                    category:
-                      type: "string"
-                      enum:
-                        [
-                          "programming",
-                          "frontend",
-                          "backend",
-                          "databases",
-                          "api",
-                          "cloud",
-                          "devops",
-                          "observability",
-                          "testing",
-                          "os",
-                          "ai",
-                          "productivity",
-                          "data",
-                          "messaging",
-                          "other",
-                        ]
-                      description: "Technology category"
                     required:
                       type: "boolean"
                       description: >-
                         Whether the technology is required (from must_have) or
                         optional (from nice_to_have)
-                  required: ["name", "category", "required"]
+                  required: ["name", "required"]
                   additionalProperties: false
                 description: >-
                   List of all technologies found in the job requirements

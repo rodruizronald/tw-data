@@ -261,6 +261,7 @@ class TechData:
     name: str
     alias: list[str]
     parent: str
+    is_parent: bool
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "TechData":
@@ -269,6 +270,7 @@ class TechData:
             name=data.get("name", ""),
             alias=data.get("alias", []),
             parent=data.get("parent", ""),
+            is_parent=data.get("is_parent", False),
         )
 
 

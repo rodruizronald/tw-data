@@ -42,7 +42,6 @@ class JobMapper:
             technologies = [
                 TechnologyInfo(
                     name=tech.name,
-                    category=tech.category,
                     required=tech.required,
                 )
                 for tech in job.technologies.technologies
@@ -172,7 +171,6 @@ class JobMapper:
             tech_list = [
                 Technology(
                     name=tech.name,
-                    category=tech.category,
                     required=tech.required,
                 )
                 for tech in job_listing.technologies
@@ -285,7 +283,6 @@ class JobMapper:
             job_listing.technologies = [
                 TechnologyInfo(
                     name=tech.name,
-                    category=tech.category,
                     required=tech.required,
                 )
                 for tech in job.technologies.technologies

@@ -376,15 +376,10 @@ class JobTechnologiesMapper:
 
             # Validate required fields
             name = tech_data.get("name")
-            category = tech_data.get("category")
             required = tech_data.get("required")
 
             if not name or not isinstance(name, str):
                 raise ValueError(f"Invalid technology name at index {i}: {name}")
-            if not category or not isinstance(category, str):
-                raise ValueError(
-                    f"Invalid technology category at index {i}: {category}"
-                )
             if not isinstance(required, bool):
                 raise ValueError(
                     f"Invalid technology required field at index {i}: {required}"
@@ -393,7 +388,6 @@ class JobTechnologiesMapper:
             technologies.append(
                 Technology(
                     name=name.strip(),
-                    category=category.strip().lower(),
                     required=required,
                 )
             )

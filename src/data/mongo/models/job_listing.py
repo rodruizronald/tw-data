@@ -19,14 +19,12 @@ class TechnologyInfo:
     """Technology information with categorization and requirement status."""
 
     name: str
-    category: str
     required: bool
 
     def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for MongoDB storage."""
         return {
             "name": self.name,
-            "category": self.category,
             "required": self.required,
         }
 
@@ -35,7 +33,6 @@ class TechnologyInfo:
         """Create from dictionary."""
         return cls(
             name=data.get("name", ""),
-            category=data.get("category", ""),
             required=data.get("required", False),
         )
 

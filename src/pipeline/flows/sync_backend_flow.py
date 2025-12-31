@@ -58,8 +58,22 @@ async def sync_backend_flow():
             config.paths.technologies_file, logger
         )
 
-        # Sync technologies with backend
-        sync_technologies_task(technologies)
+        # Separate parent and non-parent technologies
+        parent_technologies = [tech for tech in technologies if tech.is_parent]
+        child_technologies = [tech for tech in technologies if not tech.is_parent]
+
+        logger.info(
+            f"Found {len(parent_technologies)} parent technologies and "
+            f"{len(child_technologies)} child technologies"
+        )
+
+        # First sync parent technologies to ensure they exist before children reference them
+        logger.info("Syncing parent technologies...")
+        sync_technologies_task(parent_technologies)
+
+        # Then sync child technologies (non-parents)
+        logger.info("Syncing child technologies...")
+        sync_technologies_task(child_technologies)
 
     except Exception as e:
         logger.error(f"Backend synchronization failed: {e}")

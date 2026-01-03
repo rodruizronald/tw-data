@@ -8,8 +8,6 @@ from pipeline.tasks.stage_1_task import (
     process_job_listings_task,
 )
 
-MAX_CONCURRENT_TASKS = 3
-
 
 @flow(
     name="stage_1_job_listing_extraction",
@@ -48,28 +46,31 @@ async def stage_1_flow(
 
     logger.info(f"Processing {len(enabled_companies)} enabled companies")
 
-    # Process companies in batches to limit concurrency
-    results_map: dict[str, list[Job]] = {}
-
-    for i in range(0, len(enabled_companies), MAX_CONCURRENT_TASKS):
-        batch = enabled_companies[i : i + MAX_CONCURRENT_TASKS]
-        logger.info(
-            f"Processing batch {i // MAX_CONCURRENT_TASKS + 1}: {[c.name for c in batch]}"
-        )
-
-        # Run batch of tasks concurrently - tasks are tracked by Prefect
-        batch_results = await asyncio.gather(
-            *[process_job_listings_task(company, config) for company in batch],
-            return_exceptions=True,
-        )
-
-        # Collect results from batch
-        for company, result in zip(batch, batch_results, strict=True):
-            if isinstance(result, BaseException):
-                logger.error(f"Task failure: {company.name} - {result}")
-                results_map[company.name] = []
-            else:
+    async def process_with_semaphore(
+        company: CompanyData, semaphore: asyncio.Semaphore
+    ) -> tuple[str, list[Job]]:
+        """Process a company with semaphore to limit concurrency."""
+        async with semaphore:
+            try:
+                result = await process_job_listings_task(company, config)
                 logger.info(f"Completed: {company.name}")
-                results_map[company.name] = list(result)
+                return company.name, result
+            except Exception as e:
+                logger.error(f"Unexpected task failure: {company.name} - {e}")
+                return company.name, []
+
+    # Create semaphore for concurrency control
+    semaphore = asyncio.Semaphore(3)
+
+    # Create tasks for all companies
+    tasks = [
+        process_with_semaphore(company, semaphore) for company in enabled_companies
+    ]
+
+    # Run all tasks concurrently (limited by semaphore)
+    results = await asyncio.gather(*tasks)
+
+    # Build results map
+    results_map = dict(results)
 
     return results_map

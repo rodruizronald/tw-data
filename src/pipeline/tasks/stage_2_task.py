@@ -50,7 +50,7 @@ async def process_job_details_task(
 
     except ValidationError as e:
         # Non-retryable errors - don't retry these
-        logger.error(f"Validation error for {company.name}: t{e}")
+        logger.error(f"Validation error for {company.name}: {e}")
         return []  # Return empty list instead of None
 
     except (WebExtractionError, OpenAIProcessingError, FileOperationError) as e:

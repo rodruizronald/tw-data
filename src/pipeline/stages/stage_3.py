@@ -180,7 +180,11 @@ class Stage3Processor:
                 )
             html_content: str = content
             return html_content
+        except WebExtractionError:
+            # Already properly typed - just re-raise without wrapping
+            raise
         except Exception as e:
+            # Only wrap unexpected exceptions
             raise WebExtractionError(
                 url=job.url,
                 original_error=e,
@@ -211,7 +215,11 @@ class Stage3Processor:
 
             return job_requirements
 
+        except OpenAIProcessingError:
+            # Already properly typed - just re-raise without wrapping
+            raise
         except Exception as e:
+            # Only wrap unexpected exceptions
             raise OpenAIProcessingError(
                 message=f"Failed to parse job skills for {job.title}: {e}",
                 company_name=job.company,

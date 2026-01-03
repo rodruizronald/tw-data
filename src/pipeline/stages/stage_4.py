@@ -197,7 +197,11 @@ class Stage4Processor:
 
             return job_technologies
 
+        except OpenAIProcessingError:
+            # Already properly typed - just re-raise without wrapping
+            raise
         except Exception as e:
+            # Only wrap unexpected exceptions
             raise OpenAIProcessingError(
                 message=f"Failed to parse job technologies for {job.title}: {e}",
                 company_name=job.company,

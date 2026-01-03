@@ -1,5 +1,12 @@
 class PipelineError(Exception):
-    """Base exception for all pipeline operations."""
+    """Base exception for all pipeline operations.
+
+    Attributes:
+        retryable: Class-level flag indicating if this error type is transient
+                   and may succeed on retry. Subclasses should override this.
+    """
+
+    retryable: bool = False  # Default to non-retryable
 
     def __init__(self, message: str, company_name: str | None = None):
         self.company_name = company_name
@@ -29,7 +36,12 @@ class ConfigurationError(PipelineError):
 
 
 class OpenAIProcessingError(PipelineError):
-    """Error processing content with OpenAI API."""
+    """Error processing content with OpenAI API.
+
+    Retryable because API errors (rate limits, timeouts) are typically transient.
+    """
+
+    retryable = True
 
     def __init__(
         self,
@@ -72,7 +84,12 @@ class ValidationError(PipelineError):
 
 
 class WebExtractionError(PipelineError):
-    """Error during web extraction operations."""
+    """Error during web extraction operations.
+
+    Retryable because network issues and page load timeouts are typically transient.
+    """
+
+    retryable = True
 
     def __init__(
         self,
@@ -101,7 +118,12 @@ class WebExtractionError(PipelineError):
 
 
 class DatabaseOperationError(PipelineError):
-    """Error performing database operations."""
+    """Error performing database operations.
+
+    Retryable because connection issues and temporary unavailability are transient.
+    """
+
+    retryable = True
 
     def __init__(
         self,

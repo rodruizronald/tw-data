@@ -14,8 +14,6 @@ from pipeline.config import PipelineConfig
 from pipeline.tasks.stage_5_task import upload_jobs_to_supabase_task
 from services.data_service import JobDataService
 
-MAX_CONCURRENT_TASKS = 3
-
 
 @flow(
     name="stage_5_supabase_upload",
@@ -57,43 +55,41 @@ async def stage_5_flow(
 
     logger.info(f"Processing {len(enabled_companies)} enabled companies")
 
-    # Prepare companies with their jobs data
-    companies_with_jobs: list[tuple[CompanyData, list[Job]]] = []
-    for company in enabled_companies:
-        # Load jobs ready for stage 5 (completed stages 1-4)
-        jobs_data = db_service.load_jobs_for_stage(company.name, config.stage_5.tag)
-        if not jobs_data:
-            logger.info(f"No jobs ready for Supabase upload for {company.name}")
-            continue
-        companies_with_jobs.append((company, jobs_data))
-
-    # Process companies in batches to limit concurrency
-    results_map: dict[str, list[Job]] = {}
-
-    for i in range(0, len(companies_with_jobs), MAX_CONCURRENT_TASKS):
-        batch = companies_with_jobs[i : i + MAX_CONCURRENT_TASKS]
-        logger.info(
-            f"Processing batch {i // MAX_CONCURRENT_TASKS + 1}: {[c.name for c, _ in batch]}"
-        )
-
-        # Run batch of sync tasks concurrently using asyncio.to_thread
-        batch_results = await asyncio.gather(
-            *[
-                asyncio.to_thread(
-                    upload_jobs_to_supabase_task, company, jobs_data, config
+    async def process_with_semaphore(
+        company: CompanyData, semaphore: asyncio.Semaphore
+    ) -> tuple[str, list[Job]]:
+        """Process a company with semaphore to limit concurrency."""
+        async with semaphore:
+            try:
+                # Load jobs ready for stage 5 (completed stages 1-4)
+                jobs_data = db_service.load_jobs_for_stage(
+                    company.name, config.stage_5.tag
                 )
-                for company, jobs_data in batch
-            ],
-            return_exceptions=True,
-        )
 
-        # Collect results from batch
-        for (company, _), result in zip(batch, batch_results, strict=True):
-            if isinstance(result, BaseException):
-                logger.error(f"Task failure: {company.name} - {result}")
-                results_map[company.name] = []
-            else:
+                if not jobs_data:
+                    logger.info(f"No jobs ready for Supabase upload for {company.name}")
+                    return company.name, []
+
+                # Run the synchronous task
+                result = upload_jobs_to_supabase_task(company, jobs_data, config)
                 logger.info(f"Completed: {company.name}")
-                results_map[company.name] = list(result)
+                return company.name, result
+            except Exception as e:
+                logger.error(f"Unexpected task failure: {company.name} - {e}")
+                return company.name, []
+
+    # Create semaphore for concurrency control
+    semaphore = asyncio.Semaphore(3)
+
+    # Create tasks for all companies
+    tasks = [
+        process_with_semaphore(company, semaphore) for company in enabled_companies
+    ]
+
+    # Run all tasks concurrently (limited by semaphore)
+    results = await asyncio.gather(*tasks)
+
+    # Build results map
+    results_map = dict(results)
 
     return results_map

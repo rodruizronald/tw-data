@@ -2,24 +2,29 @@
 CSS Selector Testing Tool
 
 A development utility for testing and validating CSS selectors on web pages
-with different parsing strategies (default, greenhouse, angular).
+with different parsing strategies (default, greenhouse, angular, dynamic_js, iframe).
 
 Usage:
-    python -m tools.selector_tester [--url URL] [--selectors SELECTOR1 SELECTOR2] [--parser TYPE]
+    python -m tools.selector [--url URL] [--selectors SELECTOR1 SELECTOR2] [--parser TYPE]
 
     or
 
-    python tools/selector_tester.py
+    python tools/selector.py
 
 Examples:
     # Test with default configuration
-    python -m tools.selector_tester
+    python -m tools.selector
 
-    # Test specific URL with selectors
-    python -m tools.selector_tester --url "https://example.com" --selectors "h1" ".content"
+    # Test specific URL with selectors and single parser
+    python -m tools.selector --url "https://example.com" --selectors "h1" ".content" --parser default
 
-    # Test with Angular parser
-    python -m tools.selector_tester --url "https://angular-app.com" --parser angular
+    # Test with per-selector-group parser types
+    python -m tools.selector --url "https://example.com" \\
+        --job-board-selectors "xpath=//ul" --job-board-parser greenhouse \\
+        --job-card-selectors "xpath=//div" --job-card-parser default
+
+    # Load configuration from JSON file
+    python -m tools.selector --config test_config.json
 """
 
 import argparse
@@ -290,27 +295,68 @@ def load_test_config(config_file: str) -> dict[str, Any] | None:
 
 def create_argument_parser() -> argparse.ArgumentParser:
     """Create command-line argument parser."""
+    parser_choices = ["default", "greenhouse", "angular", "dynamic_js", "iframe"]
+
     parser = argparse.ArgumentParser(
         description="Test CSS selectors on web pages",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  %(prog)s --url "https://example.com" --selectors "h1" ".content"
+  # Simple mode with single parser for all selectors
+  %(prog)s --url "https://example.com" --selectors "h1" ".content" --parser default
+
+  # Per-selector-group mode with different parsers
+  %(prog)s --url "https://example.com" \\
+      --job-board-selectors "xpath=//ul" --job-board-parser greenhouse \\
+      --job-card-selectors "xpath=//div" --job-card-parser default
+
+  # Load from config file
   %(prog)s --config test_config.json
-  %(prog)s --url "https://angular-app.com" --parser angular --save
         """,
     )
 
     parser.add_argument("--url", type=str, help="URL to test selectors on")
 
-    parser.add_argument("--selectors", nargs="+", help="CSS selectors to test")
+    # Simple mode arguments
+    parser.add_argument(
+        "--selectors",
+        nargs="+",
+        help="CSS selectors to test (simple mode with single parser)",
+    )
 
     parser.add_argument(
         "--parser",
         type=str,
-        choices=["default", "greenhouse", "angular"],
+        choices=parser_choices,
         default="default",
-        help="Parser type to use (default: default)",
+        help="Parser type for simple mode (default: default)",
+    )
+
+    # Per-selector-group mode arguments
+    parser.add_argument(
+        "--job-board-selectors",
+        nargs="+",
+        help="Job board selectors to test",
+    )
+
+    parser.add_argument(
+        "--job-board-parser",
+        type=str,
+        choices=parser_choices,
+        help="Parser type for job board selectors",
+    )
+
+    parser.add_argument(
+        "--job-card-selectors",
+        nargs="+",
+        help="Job card selectors to test",
+    )
+
+    parser.add_argument(
+        "--job-card-parser",
+        type=str,
+        choices=parser_choices,
+        help="Parser type for job card selectors",
     )
 
     parser.add_argument(
@@ -330,47 +376,155 @@ Examples:
     return parser
 
 
+async def _run_from_config(
+    tester: SelectorTester, config: dict[str, Any]
+) -> list[ElementResult]:
+    """Run tests based on configuration file."""
+    all_results: list[ElementResult] = []
+    url: str = config.get("url", "")
+    if not url:
+        logger.error("URL is required in config file")
+        return all_results
+
+    selectors_config = config.get("selectors", {})
+
+    # Check if using new per-selector-group format
+    if isinstance(selectors_config, dict) and (
+        "job_board" in selectors_config or "job_card" in selectors_config
+    ):
+        job_card_url: str = config.get("job_card_url", url)
+        all_results = await _run_per_selector_group_from_config(
+            tester, url, selectors_config, job_card_url
+        )
+    else:
+        # Simple format (list of selectors)
+        selectors = (
+            selectors_config
+            if isinstance(selectors_config, list)
+            else config.get("selectors", [])
+        )
+        parser_type = ParserType[config.get("parser", "DEFAULT").upper()]
+        all_results = await tester.test_selectors(url, selectors, parser_type)
+
+    return all_results
+
+
+async def _run_per_selector_group_from_config(
+    tester: SelectorTester,
+    url: str,
+    selectors_config: dict[str, Any],
+    job_card_url: str,
+) -> list[ElementResult]:
+    """Run tests for per-selector-group configuration."""
+    all_results: list[ElementResult] = []
+
+    if "job_board" in selectors_config:
+        job_board = selectors_config["job_board"]
+        job_board_selectors = job_board.get("values", [])
+        job_board_parser = ParserType[job_board.get("type", "default").upper()]
+        print(f"\n{'=' * 80}")
+        print("Testing JOB BOARD selectors...")
+        results = await tester.test_selectors(
+            url, job_board_selectors, job_board_parser
+        )
+        all_results.extend(results)
+
+    if "job_card" in selectors_config:
+        job_card = selectors_config["job_card"]
+        job_card_selectors = job_card.get("values", [])
+        job_card_parser = ParserType[job_card.get("type", "default").upper()]
+        print(f"\n{'=' * 80}")
+        print("Testing JOB CARD selectors...")
+        results = await tester.test_selectors(
+            job_card_url, job_card_selectors, job_card_parser
+        )
+        all_results.extend(results)
+
+    return all_results
+
+
+async def _run_per_selector_group_from_cli(
+    tester: SelectorTester, args: argparse.Namespace
+) -> list[ElementResult]:
+    """Run tests for per-selector-group CLI arguments."""
+    all_results: list[ElementResult] = []
+    url = args.url
+
+    if args.job_board_selectors:
+        if not args.job_board_parser:
+            print("Error: --job-board-parser is required with --job-board-selectors")
+            sys.exit(1)
+        job_board_parser = ParserType[args.job_board_parser.upper()]
+        print(f"\n{'=' * 80}")
+        print("Testing JOB BOARD selectors...")
+        results = await tester.test_selectors(
+            url, args.job_board_selectors, job_board_parser
+        )
+        all_results.extend(results)
+
+    if args.job_card_selectors:
+        if not args.job_card_parser:
+            print("Error: --job-card-parser is required with --job-card-selectors")
+            sys.exit(1)
+        job_card_parser = ParserType[args.job_card_parser.upper()]
+        print(f"\n{'=' * 80}")
+        print("Testing JOB CARD selectors...")
+        results = await tester.test_selectors(
+            url, args.job_card_selectors, job_card_parser
+        )
+        all_results.extend(results)
+
+    return all_results
+
+
+def _get_exit_code(results: list[ElementResult]) -> int:
+    """Determine exit code based on results."""
+    if all(r.found for r in results):
+        return 0  # All selectors found
+    if any(r.found for r in results):
+        return 1  # Some selectors found
+    return 2  # No selectors found
+
+
 async def main():
     """Main entry point for the selector tester tool."""
     parser = create_argument_parser()
     args = parser.parse_args()
+    tester = SelectorTester(save_results=args.save, output_format=args.format)
 
-    # Load configuration
+    try:
+        all_results = await _dispatch_test_mode(tester, args)
+        sys.exit(_get_exit_code(all_results))
+    except Exception as e:
+        logger.error(f"Test failed: {e}")
+        sys.exit(3)
+
+
+async def _dispatch_test_mode(
+    tester: SelectorTester, args: argparse.Namespace
+) -> list[ElementResult]:
+    """Dispatch to the appropriate test mode based on arguments."""
+    # Config file mode
     if args.config:
         config = load_test_config(args.config)
         if not config:
             sys.exit(1)
-        url = config.get("url")
-        selectors = config.get("selectors", [])
-        parser_type = ParserType[config.get("parser", "DEFAULT").upper()]
-    elif args.url and args.selectors:
-        url = args.url
-        selectors = args.selectors
+        return await _run_from_config(tester, config)
+
+    # Per-selector-group CLI mode
+    if args.url and (args.job_board_selectors or args.job_card_selectors):
+        return await _run_per_selector_group_from_cli(tester, args)
+
+    # Simple CLI mode
+    if args.url and args.selectors:
         parser_type = ParserType[args.parser.upper()]
-    else:
-        # Default test configuration
-        logger.info("Using default test configuration")
-        url = "https://example.com"
-        selectors = ["h1", "p", ".content"]
-        parser_type = ParserType.DEFAULT
+        return await tester.test_selectors(args.url, args.selectors, parser_type)
 
-    # Create tester and run tests
-    tester = SelectorTester(save_results=args.save, output_format=args.format)
-
-    try:
-        results = await tester.test_selectors(url, selectors, parser_type)
-
-        # Exit with appropriate code
-        if all(r.found for r in results):
-            sys.exit(0)  # All selectors found
-        elif any(r.found for r in results):
-            sys.exit(1)  # Some selectors found
-        else:
-            sys.exit(2)  # No selectors found
-
-    except Exception as e:
-        logger.error(f"Test failed: {e}")
-        sys.exit(3)
+    # Default test configuration
+    logger.info("Using default test configuration")
+    return await tester.test_selectors(
+        "https://example.com", ["h1", "p", ".content"], ParserType.DEFAULT
+    )
 
 
 if __name__ == "__main__":

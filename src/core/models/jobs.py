@@ -82,23 +82,26 @@ class CompanyData:
 
         # Convert web_parser dict to WebParserConfig object
         if isinstance(self.web_parser, dict):
-            self.web_parser = WebParserConfig(
-                type=self.web_parser.get("type", "default"),
-                selectors=self.web_parser.get("selectors", {}),
-            )
+            selectors_data = self.web_parser.get("selectors", {})
+            self.web_parser = WebParserConfig(selectors=selectors_data)
 
     @property
     def web_parser_config(self) -> WebParserConfig:
-        """Get parser type."""
+        """Get web parser configuration."""
         assert isinstance(self.web_parser, WebParserConfig)
         return self.web_parser
 
     @property
-    def parser_type(self) -> ParserType:
-        """Get parser type."""
+    def job_board_parser_type(self) -> ParserType:
+        """Get job board parser type."""
         assert isinstance(self.web_parser, WebParserConfig)
-        parser_type: ParserType = self.web_parser.parser_type
-        return parser_type
+        return self.web_parser.job_board_parser_type
+
+    @property
+    def job_card_parser_type(self) -> ParserType:
+        """Get job card parser type."""
+        assert isinstance(self.web_parser, WebParserConfig)
+        return self.web_parser.job_card_parser_type
 
     @property
     def job_board_selectors(self) -> list[str]:
@@ -121,8 +124,16 @@ class CompanyData:
             "name": self.name,
             "career_url": self.career_url,
             "web_parser": {
-                "type": self.web_parser.type,
-                "selectors": self.web_parser.selectors,
+                "selectors": {
+                    "job_board": {
+                        "type": self.web_parser.job_board_config.type,
+                        "values": self.web_parser.job_board_selectors,
+                    },
+                    "job_card": {
+                        "type": self.web_parser.job_card_config.type,
+                        "values": self.web_parser.job_card_selectors,
+                    },
+                },
             },
             "enabled": self.enabled,
         }

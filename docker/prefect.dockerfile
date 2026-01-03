@@ -10,4 +10,4 @@ RUN apt-get update && \
 EXPOSE 4200
 
 # Start Prefect server
-CMD ["prefect", "server", "start", "--no-services"]
+CMD ["prefect", "server", "start"]

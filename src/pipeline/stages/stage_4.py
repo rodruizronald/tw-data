@@ -114,26 +114,31 @@ class Stage4Processor:
             return []  # Return empty list instead of None
 
         finally:
-            # Record stage metrics
-            execution_time = time.time() - start_time
-            completed_at = now_utc()
+            # Record stage metrics - protected to avoid masking original errors
+            try:
+                execution_time = time.time() - start_time
+                completed_at = now_utc()
 
-            metrics_input = StageMetricsInput(
-                status=status,
-                jobs_processed=jobs_processed,
-                jobs_completed=jobs_completed,
-                jobs_failed=jobs_processed - jobs_completed,
-                execution_seconds=execution_time,
-                started_at=started_at,
-                completed_at=completed_at,
-                error_message=error_message,
-            )
+                metrics_input = StageMetricsInput(
+                    status=status,
+                    jobs_processed=jobs_processed,
+                    jobs_completed=jobs_completed,
+                    jobs_failed=jobs_processed - jobs_completed,
+                    execution_seconds=execution_time,
+                    started_at=started_at,
+                    completed_at=completed_at,
+                    error_message=error_message,
+                )
 
-            self.metrics_service.record_stage_metrics(
-                company_name=company_name,
-                stage=self.config.stage_4.tag,
-                metrics_input=metrics_input,
-            )
+                self.metrics_service.record_stage_metrics(
+                    company_name=company_name,
+                    stage=self.config.stage_4.tag,
+                    metrics_input=metrics_input,
+                )
+            except Exception as metrics_error:
+                self.logger.warning(
+                    f"Failed to record stage metrics for {company_name}: {metrics_error}"
+                )
 
     async def process_single_job(self, job: Job) -> Job:
         """

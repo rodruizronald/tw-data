@@ -190,6 +190,11 @@ class DynamicJSParser(SelectorParser):
     async def wait_for_content(self, context: ParseContext) -> None:
         """Wait for JavaScript framework to render dynamic content."""
         try:
+            # Trigger user interaction to bypass deferred JavaScript execution
+            # Some sites (using WP Rocket, LiteSpeed Cache, etc.) delay JS until
+            # user interaction (scroll, mouse move, click). This simulates that.
+            await self._trigger_deferred_scripts(context)
+
             # Wait for initial DOM to be ready
             await context.page.wait_for_load_state("domcontentloaded", timeout=30000)
             logger.debug("DOM content loaded")
@@ -203,15 +208,39 @@ class DynamicJSParser(SelectorParser):
 
             # Additional delay for client-side hydration and rendering
             # React, Next.js, Vue need time to hydrate and render after data fetch
-            await context.page.wait_for_timeout(1500)
+            await context.page.wait_for_timeout(2000)
             logger.debug("Completed hydration wait period")
 
         except PlaywrightTimeoutError as e:
             logger.warning(f"DynamicJS content wait timeout: {e}")
-            # Don't re-raise - continue with what we have
         except Exception as e:
             logger.error(f"Unexpected error waiting for DynamicJS content: {e}")
-            # Don't re-raise - continue with what we have
+
+    async def _trigger_deferred_scripts(self, context: ParseContext) -> None:
+        """Simulate user interaction to trigger deferred JavaScript execution.
+
+        Many WordPress sites use caching plugins (WP Rocket, LiteSpeed, etc.) that
+        defer JavaScript execution until user interaction. This method simulates
+        mouse movement and scrolling to trigger those deferred scripts.
+        """
+        try:
+            # Simulate mouse movement
+            await context.page.mouse.move(100, 100)
+            await context.page.mouse.move(200, 200)
+
+            # Simulate scroll (triggers scroll event listeners)
+            await context.page.evaluate("window.scrollBy(0, 100)")
+            await context.page.wait_for_timeout(300)
+            await context.page.evaluate("window.scrollBy(0, -100)")
+
+            # Dispatch mouseover event on body (some scripts listen for this)
+            await context.page.evaluate(
+                "document.body.dispatchEvent(new MouseEvent('mouseover', {bubbles: true}))"
+            )
+
+            logger.debug("User interaction simulated for deferred JS trigger")
+        except Exception as e:
+            logger.debug(f"Could not simulate user interaction: {e}")
 
     async def extract_element(
         self,

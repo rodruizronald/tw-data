@@ -104,15 +104,21 @@ class Stage5Processor:
             return []
 
         finally:
-            self._record_metrics(
-                company_name,
-                jobs_processed,
-                jobs_completed,
-                status,
-                error_message,
-                start_time,
-                started_at,
-            )
+            # Record stage metrics - protected to avoid masking original errors
+            try:
+                self._record_metrics(
+                    company_name,
+                    jobs_processed,
+                    jobs_completed,
+                    status,
+                    error_message,
+                    start_time,
+                    started_at,
+                )
+            except Exception as metrics_error:
+                self.logger.warning(
+                    f"Failed to record stage metrics for {company_name}: {metrics_error}"
+                )
 
     def _get_company_id(self, company_name: str) -> int | None:
         """Get company ID from Supabase by name."""

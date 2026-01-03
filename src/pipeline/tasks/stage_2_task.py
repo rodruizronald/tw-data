@@ -5,12 +5,7 @@ from core.models.jobs import CompanyData, Job
 from pipeline.config import PipelineConfig
 from pipeline.stages.stage_2 import Stage2Processor
 from pipeline.tasks.helpers import company_task_run_name
-from utils.exceptions import (
-    FileOperationError,
-    OpenAIProcessingError,
-    ValidationError,
-    WebExtractionError,
-)
+from utils.exceptions import PipelineError
 
 
 @task(
@@ -34,33 +29,29 @@ async def process_job_details_task(
         jobs: Job objects from Stage 1
         config: Pipeline configuration
 
+    Returns:
+        List of processed jobs, empty list on non-retryable errors
+
+    Raises:
+        PipelineError: For retryable errors (triggers Prefect retry)
+        Exception: For unexpected errors (triggers Prefect retry)
     """
     logger = get_run_logger()
+    logger.info(f"Starting task for company: {company.name}")
+
+    processor = Stage2Processor(config, company.web_parser_config)
 
     try:
-        logger.info(f"Starting task for company: {company.name}")
-
-        # Initialize processor
-        processor = Stage2Processor(config, company.web_parser_config)
-
-        # Process all jobs for the company
         results: list[Job] = await processor.process_jobs(jobs, company.name)
-
         return results
-
-    except ValidationError as e:
-        # Non-retryable errors - don't retry these
-        logger.error(f"Validation error for {company.name}: t{e}")
-        return []  # Return empty list instead of None
-
-    except (WebExtractionError, OpenAIProcessingError, FileOperationError) as e:
-        # Retryable errors - let Prefect handle retries
-        logger.warning(f"Retryable error for {company.name}: {e}")
-        # Re-raise to trigger Prefect retry mechanism
-        raise
-
+    except PipelineError as e:
+        if e.retryable:
+            # Retryable errors - let Prefect handle retries
+            raise
+        # Non-retryable errors - log and return empty
+        logger.error(f"Non-retryable error for {company.name}: {e}")
+        return []
     except Exception as e:
         # Unexpected errors - log and re-raise for retry
         logger.error(f"Unexpected error for {company.name}: {e}")
-        # Re-raise to trigger Prefect retry mechanism
         raise

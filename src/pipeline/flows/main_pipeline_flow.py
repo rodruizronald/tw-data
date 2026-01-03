@@ -287,8 +287,8 @@ async def _execute_stage_6(
     companies: list[CompanyData],
     logger,
 ) -> None:
-    """Execute Stage 5: Company Completion Metrics and Daily Aggregates."""
-    logger.info("Stage 5 starting...")
+    """Execute Stage 6: Company Completion Metrics and Daily Aggregates."""
+    logger.info("Stage 6 starting...")
 
     try:
         await stage_6_flow(
@@ -296,9 +296,9 @@ async def _execute_stage_6(
             config=config,
         )
 
-        logger.info("Stage 5 completed successfully")
+        logger.info("Stage 6 completed successfully")
 
     except Exception as e:
-        logger.error(f"Stage 5 failed: {e}")
+        logger.error(f"Stage 6 failed: {e}")
         # Don't raise - we don't want metrics recording failure to stop the pipeline
-        logger.warning("Stage 5 failed but pipeline will continue")
+        logger.warning("Stage 6 failed but pipeline will continue")

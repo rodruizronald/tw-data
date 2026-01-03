@@ -3,6 +3,7 @@ import asyncio
 from prefect import flow, get_run_logger
 
 from core.models.jobs import CompanyData, Job
+from core.models.results import TaskResult
 from pipeline.config import PipelineConfig
 from pipeline.tasks.stage_1_task import (
     process_job_listings_task,
@@ -32,7 +33,7 @@ async def stage_1_flow(
         config: Pipeline configuration
 
     Returns:
-        Aggregated results from all company processing
+        Aggregated results from all company processing (only successful results)
     """
     logger = get_run_logger()
     logger.info("Stage 1: Job Listing Extraction")
@@ -48,16 +49,15 @@ async def stage_1_flow(
 
     async def process_with_semaphore(
         company: CompanyData, semaphore: asyncio.Semaphore
-    ) -> tuple[str, list[Job]]:
+    ) -> TaskResult[list[Job]]:
         """Process a company with semaphore to limit concurrency."""
         async with semaphore:
             try:
                 result = await process_job_listings_task(company, config)
-                logger.info(f"Completed: {company.name}")
-                return company.name, result
+                return TaskResult.ok(result, company.name)
             except Exception as e:
-                logger.error(f"Unexpected task failure: {company.name} - {e}")
-                return company.name, []
+                logger.error(f"Task failed for {company.name}: {e}")
+                return TaskResult.fail(str(e), company.name)
 
     # Create semaphore for concurrency control
     semaphore = asyncio.Semaphore(3)
@@ -68,9 +68,20 @@ async def stage_1_flow(
     ]
 
     # Run all tasks concurrently (limited by semaphore)
-    results = await asyncio.gather(*tasks)
+    results: list[TaskResult[list[Job]]] = await asyncio.gather(*tasks)
 
-    # Build results map
-    results_map = dict(results)
+    # Separate successful and failed results
+    successful = [r for r in results if r.is_success]
+    failed = [r for r in results if r.is_failure]
+
+    # Log summary
+    logger.info(
+        f"Stage 1 completed: {len(successful)} successful, {len(failed)} failed"
+    )
+    for failure in failed:
+        logger.warning(f"  Failed: {failure.company_name} - {failure.error}")
+
+    # Build results map from successful results only
+    results_map = {r.company_name: r.data or [] for r in successful}
 
     return results_map

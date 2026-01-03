@@ -10,6 +10,7 @@ import asyncio
 from prefect import flow, get_run_logger
 
 from core.models.jobs import CompanyData, Job
+from core.models.results import TaskResult
 from pipeline.config import PipelineConfig
 from pipeline.tasks.stage_5_task import upload_jobs_to_supabase_task
 from services.data_service import JobDataService
@@ -40,6 +41,7 @@ async def stage_5_flow(
 
     Returns:
         Dictionary mapping company names to lists of successfully uploaded jobs
+        (only successful results)
     """
     logger = get_run_logger()
     logger.info("STAGE 5: Supabase Upload")
@@ -57,7 +59,7 @@ async def stage_5_flow(
 
     async def process_with_semaphore(
         company: CompanyData, semaphore: asyncio.Semaphore
-    ) -> tuple[str, list[Job]]:
+    ) -> TaskResult[list[Job]]:
         """Process a company with semaphore to limit concurrency."""
         async with semaphore:
             try:
@@ -68,15 +70,14 @@ async def stage_5_flow(
 
                 if not jobs_data:
                     logger.info(f"No jobs ready for Supabase upload for {company.name}")
-                    return company.name, []
+                    return TaskResult.ok([], company.name)
 
                 # Run the synchronous task
                 result = upload_jobs_to_supabase_task(company, jobs_data, config)
-                logger.info(f"Completed: {company.name}")
-                return company.name, result
+                return TaskResult.ok(result, company.name)
             except Exception as e:
-                logger.error(f"Unexpected task failure: {company.name} - {e}")
-                return company.name, []
+                logger.error(f"Task failed for {company.name}: {e}")
+                return TaskResult.fail(str(e), company.name)
 
     # Create semaphore for concurrency control
     semaphore = asyncio.Semaphore(3)
@@ -87,9 +88,20 @@ async def stage_5_flow(
     ]
 
     # Run all tasks concurrently (limited by semaphore)
-    results = await asyncio.gather(*tasks)
+    results: list[TaskResult[list[Job]]] = await asyncio.gather(*tasks)
 
-    # Build results map
-    results_map = dict(results)
+    # Separate successful and failed results
+    successful = [r for r in results if r.is_success]
+    failed = [r for r in results if r.is_failure]
+
+    # Log summary
+    logger.info(
+        f"Stage 5 completed: {len(successful)} successful, {len(failed)} failed"
+    )
+    for failure in failed:
+        logger.warning(f"  Failed: {failure.company_name} - {failure.error}")
+
+    # Build results map from successful results only
+    results_map = {r.company_name: r.data or [] for r in successful}
 
     return results_map

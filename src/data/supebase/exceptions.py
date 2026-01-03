@@ -6,9 +6,14 @@ This module defines exceptions for error handling throughout the Supabase client
 
 
 class SupabaseBaseException(Exception):
-    """Base exception for all Supabase-related errors."""
+    """Base exception for all Supabase-related errors.
 
-    pass
+    Attributes:
+        retryable: Class-level flag indicating if this error type is transient
+                   and may succeed on retry. Subclasses should override this.
+    """
+
+    retryable: bool = False  # Default to non-retryable
 
 
 class SupabaseConfigError(SupabaseBaseException):
@@ -18,9 +23,12 @@ class SupabaseConfigError(SupabaseBaseException):
 
 
 class SupabaseConnectionError(SupabaseBaseException):
-    """Network or connection-related errors."""
+    """Network or connection-related errors.
 
-    pass
+    Retryable because network issues are typically transient.
+    """
+
+    retryable = True
 
 
 class SupabaseTimeoutError(SupabaseConnectionError):
@@ -60,15 +68,21 @@ class SupabaseValidationError(SupabaseBaseException):
 
 
 class SupabaseRateLimitError(SupabaseBaseException):
-    """Rate limiting errors (429)."""
+    """Rate limiting errors (429).
 
-    pass
+    Retryable because rate limits will succeed after backoff.
+    """
+
+    retryable = True
 
 
 class SupabaseServerError(SupabaseBaseException):
-    """Server errors (500+)."""
+    """Server errors (500+).
 
-    pass
+    Retryable because server errors are typically transient.
+    """
+
+    retryable = True
 
 
 class SupabaseCircuitBreakerError(SupabaseBaseException):

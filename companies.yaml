@@ -14,7 +14,7 @@ companies:
           - "xpath=/html/body/main/section[3]"
 
   - name: Akurey
-    enabled: true
+    enabled: false
     career_url: https://www.akurey.com/careers/
     web_parser:
       type: dynamic_js
@@ -27,8 +27,7 @@ companies:
 
   - name: Golabs Tech
     enabled: true
-    career_url: >-
-      https://golabstech.com/careers
+    career_url: https://recruitcrm.io/jobs/Golabs_Tech_jobs
     web_parser:
       type: iframe
       selectors:
@@ -53,38 +52,25 @@ companies:
     enabled: false
     career_url: https://10pearls.com/latin-america-job-openings/
     web_parser:
-      type: default
+      type: greenhouse
       selectors:
         job_board:
-          - "body section.elementor-element-5bf2785"
+          - "xpath=/html/body/div/div/div/div/section[5]/div/div/div/div/div/table/tbody"
         job_card:
-          - "main div.job__header"
-          - "main div.job__description"
+          - "xpath=/html/body/main/div/div[2]"
 
   - name: Hikru
     enabled: false
-    career_url: https://www.hikrutech.com/career#Carrer-List
+    career_url: https://www.hikrutech.com/career
     web_parser:
       type: default
       selectors:
         job_board:
-          - "body div.torre-careers"
+          - "xpath=/html/body/div[5]"
         job_card:
-          - "#card-details > main > div"
-          - "#card-responsibilities > main > div"
-          - "#card-requirements > main > div"
-
-  - name: Everstream Analytics
-    enabled: false
-    career_url: https://www.everstream.ai/careers/
-    web_parser:
-      type: default
-      selectors:
-        job_board:
-          - "#job-listings"
-        job_card:
-          - "main div.job__header"
-          - "main div.job__description"
+          - "xpath=/html/body/div[1]/div/div/div[1]/div/div/div[1]/div/div[2]/section[1]/div/main"
+          - "xpath=/html/body/div[1]/div/div/div[1]/div/div/div[1]/div/div[2]/section[2]"
+          - "xpath=/html/body/div[1]/div/div/div[1]/div/div/div[1]/div/div[2]/aside[1]"
 
   - name: Zencore
     enabled: false
@@ -93,14 +79,9 @@ companies:
       type: default
       selectors:
         job_board:
-          - "body div.postings-wrapper"
+          - "xpath=/html/body/div[2]/div/div/div/div[2]"
         job_card:
-          - >-
-            body > div.content-wrapper.posting-page > div >
-            div.section-wrapper.accent-section.page-full-width
-          - >-
-            body > div.content-wrapper.posting-page > div >
-            div:nth-child(2)
+          - "xpath=/html/body/div[2]/div"
 
   - name: Applaudo
     enabled: false
@@ -109,52 +90,44 @@ companies:
       type: default
       selectors:
         job_board:
-          - >-
-            body > div > div:nth-child(9) > div:nth-child(2) > div > div >
-            div.rt-Box.rt-r-mt-9
+          - "xpath=/html/body/div/div[8]/div[2]/div/div/div[2]"
         job_card:
-          - >-
-            body > div >
-            div.rt-Container.rt-r-size-4.rt-r-px-5.sm\:rt-r-px-7.rt-r-py-9 >
-            div > div > div.rt-Box
+          - "xpath=/html/body/div/div[4]/div/div/div[3]"
 
   - name: Admios
     enabled: false
     career_url: >-
-      https://www.admios.com/careers#job-positions-section
+      https://www.admios.com/careers
     web_parser:
       type: default
       selectors:
         job_board:
-          - "#job-positions-section > div > div > div > div"
+          - "xpath=/html/body/section[9]/div"
         job_card:
-          - "main div.job__header"
-          - "main div.job__description"
+          - "xpath=/html/body/main/div/div[2]"
 
   - name: Elite
     enabled: false
     career_url: >-
-      https://job-boards.greenhouse.io/elitetechnology?offices%5B%5D=4004147008
+      https://job-boards.greenhouse.io/elitetechnology
     web_parser:
       type: default
       selectors:
         job_board:
-          - "main div.job-posts"
+          - "xpath=/html/body/main/div/div[4]/div[2]/div"
         job_card:
-          - "main div.job__header"
-          - "main div.job__description"
+          - "xpath=/html/body/main/div/div[2]"
 
   - name: Launchpad Technologies
     enabled: false
     career_url: https://www.golaunchpad.io/company/careers
     web_parser:
-      type: default
+      type: greenhouse
       selectors:
-        job_board:
-          - "body > main > div > div.index__main > div.padding > div"
-        job_card:
-          - "main div.job__header"
-          - "main div.job__description"
+        job_board: # greenhouse
+          - "xpath=/html/body/main/div/div[3]/div[2]/div"
+        job_card: # default
+          - "xpath=/html/body/main/div/div[2]"
 
   - name: Luflox
     enabled: false
@@ -163,11 +136,9 @@ companies:
       type: angular
       selectors:
         job_board:
-          - "div.career-container.ng-star-inserted"
+          - "xpath=/html/body/app-root/div/main/mat-sidenav-container/mat-sidenav-content"
         job_card:
-          - >-
-            body > app-root > div > main > mat-sidenav-container >
-            mat-sidenav-content > app-career-detail > mat-card
+          - "xpath=/html/body/app-root/div/main/mat-sidenav-container/mat-sidenav-content"
 
   - name: SMASH
     enabled: false
@@ -176,7 +147,7 @@ companies:
       type: default
       selectors:
         job_board:
-          - "body > main > div > div > div > div.col.col-xs-7.jobs-list"
+          - "xpath=/html/body/main/div/div/div/div[2]"
         job_card:
-          - "body > main > div.job-header"
-          - "#job-description"
+          - "xpath=/html/body/main/div[2]"
+          - "xpath=/html/body/main/div[3]/div/div/div[1]"

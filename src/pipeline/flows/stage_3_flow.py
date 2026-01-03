@@ -1,11 +1,13 @@
+import asyncio
+
 from prefect import flow, get_run_logger
-from prefect.futures import wait
-from prefect.task_runners import ThreadPoolTaskRunner
 
 from core.models.jobs import CompanyData, Job
 from pipeline.config import PipelineConfig
 from pipeline.tasks.stage_3_task import process_job_skills_task
 from services.data_service import JobDataService
+
+MAX_CONCURRENT_TASKS = 3
 
 
 @flow(
@@ -15,7 +17,6 @@ from services.data_service import JobDataService
     retries=0,
     retry_delay_seconds=60,
     timeout_seconds=None,
-    task_runner=ThreadPoolTaskRunner(max_workers=3),  # type: ignore[arg-type]
 )
 async def stage_3_flow(
     companies: list[CompanyData],
@@ -46,30 +47,40 @@ async def stage_3_flow(
 
     logger.info(f"Processing {len(enabled_companies)} enabled companies")
 
-    # Submit all tasks (concurrency controlled by ThreadPoolTaskRunner)
-    futures = []
+    # Prepare companies with their jobs data
+    companies_with_jobs: list[tuple[CompanyData, list[Job]]] = []
     for company in enabled_companies:
         jobs_data = db_service.load_jobs_for_stage(company.name, config.stage_3.tag)
-
         if not jobs_data:
             logger.info(f"No jobs data found for {company.name}")
             continue
+        companies_with_jobs.append((company, jobs_data))
 
-        future = process_job_skills_task.submit(company, jobs_data, config)
-        futures.append((company.name, future))
+    # Process companies in batches to limit concurrency
+    results_map: dict[str, list[Job]] = {}
 
-    # Wait for all tasks to complete
-    wait([f for _, f in futures])
+    for i in range(0, len(companies_with_jobs), MAX_CONCURRENT_TASKS):
+        batch = companies_with_jobs[i : i + MAX_CONCURRENT_TASKS]
+        logger.info(
+            f"Processing batch {i // MAX_CONCURRENT_TASKS + 1}: {[c.name for c, _ in batch]}"
+        )
 
-    # Collect results
-    results_map = {}
-    for company_name, future in futures:
-        try:
-            result = future.result()
-            results_map[company_name] = result
-            logger.info(f"Completed: {company_name}")
-        except Exception as e:
-            logger.error(f"Task failure: {company_name} - {e}")
-            results_map[company_name] = []
+        # Run batch of tasks concurrently - tasks are tracked by Prefect
+        batch_results = await asyncio.gather(
+            *[
+                process_job_skills_task(company, jobs_data, config)
+                for company, jobs_data in batch
+            ],
+            return_exceptions=True,
+        )
+
+        # Collect results from batch
+        for (company, _), result in zip(batch, batch_results, strict=True):
+            if isinstance(result, BaseException):
+                logger.error(f"Task failure: {company.name} - {result}")
+                results_map[company.name] = []
+            else:
+                logger.info(f"Completed: {company.name}")
+                results_map[company.name] = list(result)
 
     return results_map

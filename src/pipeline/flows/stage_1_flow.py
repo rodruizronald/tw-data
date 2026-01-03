@@ -1,12 +1,14 @@
+import asyncio
+
 from prefect import flow, get_run_logger
-from prefect.futures import wait
-from prefect.task_runners import ThreadPoolTaskRunner
 
 from core.models.jobs import CompanyData, Job
 from pipeline.config import PipelineConfig
 from pipeline.tasks.stage_1_task import (
     process_job_listings_task,
 )
+
+MAX_CONCURRENT_TASKS = 3
 
 
 @flow(
@@ -16,7 +18,6 @@ from pipeline.tasks.stage_1_task import (
     retries=0,
     retry_delay_seconds=60,
     timeout_seconds=None,
-    task_runner=ThreadPoolTaskRunner(max_workers=3),  # type: ignore[arg-type]
 )
 async def stage_1_flow(
     companies: list[CompanyData],
@@ -47,24 +48,28 @@ async def stage_1_flow(
 
     logger.info(f"Processing {len(enabled_companies)} enabled companies")
 
-    # Submit all tasks (concurrency controlled by ThreadPoolTaskRunner)
-    futures = []
-    for company in enabled_companies:
-        future = process_job_listings_task.submit(company, config)
-        futures.append((company.name, future))
+    # Process companies in batches to limit concurrency
+    results_map: dict[str, list[Job]] = {}
 
-    # Wait for all tasks to complete
-    wait([f for _, f in futures])
+    for i in range(0, len(enabled_companies), MAX_CONCURRENT_TASKS):
+        batch = enabled_companies[i : i + MAX_CONCURRENT_TASKS]
+        logger.info(
+            f"Processing batch {i // MAX_CONCURRENT_TASKS + 1}: {[c.name for c in batch]}"
+        )
 
-    # Collect results
-    results_map = {}
-    for company_name, future in futures:
-        try:
-            result = future.result()
-            results_map[company_name] = result
-            logger.info(f"Completed: {company_name}")
-        except Exception as e:
-            logger.error(f"Task failure: {company_name} - {e}")
-            results_map[company_name] = []
+        # Run batch of tasks concurrently - tasks are tracked by Prefect
+        batch_results = await asyncio.gather(
+            *[process_job_listings_task(company, config) for company in batch],
+            return_exceptions=True,
+        )
+
+        # Collect results from batch
+        for company, result in zip(batch, batch_results, strict=True):
+            if isinstance(result, BaseException):
+                logger.error(f"Task failure: {company.name} - {result}")
+                results_map[company.name] = []
+            else:
+                logger.info(f"Completed: {company.name}")
+                results_map[company.name] = list(result)
 
     return results_map

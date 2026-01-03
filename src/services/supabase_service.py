@@ -55,9 +55,7 @@ class SupabaseService:
             SupabaseConnectionError: On connection/network errors
         """
         try:
-            logger.info(f"Creating company: {name} (is_active={is_active})")
             company = self.companies.create(name=name, is_active=is_active)
-            logger.info(f"Successfully created company with ID: {company.id}")
             return company
         except Exception as e:
             logger.error(f"Failed to create company '{name}': {e}")
@@ -75,7 +73,6 @@ class SupabaseService:
         """
         try:
             companies = cast("list[Company]", self.companies.get_active())
-            logger.info(f"Retrieved {len(companies)} active companies")
             return companies
         except Exception as e:
             logger.error(f"Failed to get active companies: {e}")
@@ -93,7 +90,6 @@ class SupabaseService:
         """
         try:
             companies = cast("list[Company]", self.companies.get_all())
-            logger.info(f"Retrieved {len(companies)} companies")
             return companies
         except Exception as e:
             logger.error(f"Failed to get all companies: {e}")
@@ -114,9 +110,7 @@ class SupabaseService:
             SupabaseConnectionError: On connection/network errors
         """
         try:
-            logger.info(f"Getting company by name: {name}")
             company = self.companies.get_by_name(name=name)
-            logger.info(f"Successfully retrieved company with ID: {company.id}")
             return company
         except Exception as e:
             logger.error(f"Failed to get company '{name}': {e}")
@@ -137,9 +131,7 @@ class SupabaseService:
             SupabaseConnectionError: On connection/network errors
         """
         try:
-            logger.info(f"Deactivating company with ID: {company_id}")
             company = self.companies.deactivate(company_id=company_id)
-            logger.info(f"Successfully deactivated company: {company.name}")
             return company
         except Exception as e:
             logger.error(f"Failed to deactivate company {company_id}: {e}")
@@ -160,9 +152,7 @@ class SupabaseService:
             SupabaseConnectionError: On connection/network errors
         """
         try:
-            logger.info(f"Activating company with ID: {company_id}")
             company = self.companies.activate(company_id=company_id)
-            logger.info(f"Successfully activated company: {company.name}")
             return company
         except Exception as e:
             logger.error(f"Failed to activate company {company_id}: {e}")
@@ -185,9 +175,7 @@ class SupabaseService:
             SupabaseConnectionError: On connection/network errors
         """
         try:
-            logger.info(f"Creating technology: {name} (parent_id={parent_id})")
             technology = self.technologies.create(name=name, parent_id=parent_id)
-            logger.info(f"Successfully created technology with ID: {technology.id}")
             return technology
         except Exception as e:
             logger.error(f"Failed to create technology '{name}': {e}")
@@ -208,9 +196,7 @@ class SupabaseService:
             SupabaseConnectionError: On connection/network errors
         """
         try:
-            logger.info(f"Getting technology by name: {name}")
             technology = self.technologies.get_by_name(name=name)
-            logger.info(f"Successfully retrieved technology with ID: {technology.id}")
             return technology
         except Exception as e:
             logger.error(f"Failed to get technology '{name}': {e}")
@@ -231,9 +217,7 @@ class SupabaseService:
             SupabaseConnectionError: On connection/network errors
         """
         try:
-            logger.info(f"Getting technology by ID: {technology_id}")
             technology = self.technologies.get_by_id(technology_id=technology_id)
-            logger.info(f"Successfully retrieved technology: {technology.name}")
             return technology
         except Exception as e:
             logger.error(f"Failed to get technology with ID {technology_id}: {e}")
@@ -278,11 +262,9 @@ class SupabaseService:
             SupabaseConnectionError: On connection/network errors
         """
         try:
-            logger.info(f"Updating technology with ID: {technology_id}")
             technology = self.technologies.update_technology(
                 technology_id=technology_id, name=name, parent_id=parent_id
             )
-            logger.info(f"Successfully updated technology: {technology.name}")
             return technology
         except Exception as e:
             logger.error(f"Failed to update technology {technology_id}: {e}")
@@ -307,14 +289,8 @@ class SupabaseService:
             SupabaseConnectionError: On connection/network errors
         """
         try:
-            logger.info(
-                f"Creating technology alias: {alias} for technology_id={technology_id}"
-            )
             technology_alias = self.technology_aliases.create(
                 technology_id=technology_id, alias=alias
-            )
-            logger.info(
-                f"Successfully created technology alias with ID: {technology_alias.id}"
             )
             return technology_alias
         except Exception as e:
@@ -336,11 +312,7 @@ class SupabaseService:
             SupabaseConnectionError: On connection/network errors
         """
         try:
-            logger.info(f"Getting technology alias by name: {alias}")
             technology_alias = self.technology_aliases.get_by_alias(alias=alias)
-            logger.info(
-                f"Successfully retrieved technology alias with ID: {technology_alias.id}"
-            )
             return technology_alias
         except Exception as e:
             logger.error(f"Failed to get technology alias '{alias}': {e}")
@@ -418,7 +390,6 @@ class SupabaseService:
                 benefits=benefits,
                 signature=job.signature,
             )
-            logger.info(f"Successfully created job with ID: {created_job.id}")
             return created_job
         except Exception as e:
             logger.error(f"Failed to create job '{job.title}': {e}")
@@ -516,7 +487,6 @@ class SupabaseService:
                 main_technologies=main_technologies,
                 benefits=benefits,
             )
-            logger.info(f"Successfully updated job with ID: {updated_job.id}")
             return updated_job
         except Exception as e:
             logger.error(f"Failed to update job '{job.title}': {e}")
@@ -537,12 +507,10 @@ class SupabaseService:
             SupabaseConnectionError: On connection/network errors
         """
         try:
-            logger.info(f"Getting job by signature: {signature[:20]}...")
             job = self.jobs.get_by_signature(signature=signature)
-            logger.info(f"Successfully retrieved job with ID: {job.id}")
             return job
         except Exception as e:
-            logger.error(f"Failed to get job by signature: {e}")
+            logger.error(f"Failed to get job by {signature[:20]}: {e}")
             raise
 
     def deactivate_job(self, signature: str) -> SupabaseJob:
@@ -560,12 +528,10 @@ class SupabaseService:
             SupabaseConnectionError: On connection/network errors
         """
         try:
-            logger.info(f"Deactivating job with signature: {signature[:20]}...")
             job = self.jobs.deactivate(signature=signature)
-            logger.info(f"Successfully deactivated job: {job.title}")
             return job
         except Exception as e:
-            logger.error(f"Failed to deactivate job with signature: {e}")
+            logger.error(f"Failed to deactivate job with {signature[:20]}: {e}")
             raise
 
     def create_job_technology(self, job_id: int, technology_id: int) -> JobTechnology:
@@ -587,14 +553,8 @@ class SupabaseService:
             SupabaseConnectionError: On connection/network errors
         """
         try:
-            logger.info(
-                f"Creating job technology: job_id={job_id}, technology_id={technology_id}"
-            )
             job_technology = self.job_technologies.create(
                 job_id=job_id, technology_id=technology_id
-            )
-            logger.info(
-                f"Successfully created job technology with ID: {job_technology.id}"
             )
             return job_technology
         except Exception as e:

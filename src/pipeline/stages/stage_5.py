@@ -149,9 +149,6 @@ class Stage5Processor:
 
                 if tech_success:
                     processed_jobs.append(job)
-                    self.logger.info(
-                        f"Job '{job.title}' technologies associated successfully"
-                    )
                 else:
                     failed_count += 1
                     self.logger.warning(
@@ -286,9 +283,6 @@ class Stage5Processor:
                 if technology_id is not None:
                     # Create the job-technology association
                     self.supabase_service.create_job_technology(job_id, technology_id)
-                    self.logger.debug(
-                        f"Associated technology '{tech_name}' with job '{job.title}'"
-                    )
                 else:
                     # Technology not found - store as unmatched
                     self.tech_data_service.create_unmatched_technology(tech_name)

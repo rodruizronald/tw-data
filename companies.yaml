@@ -37,7 +37,7 @@ companies:
     web_parser:
       selectors:
         job_board:
-          type: iframe
+          type: default
           values:
             - "xpath=/html/body/div/main/ul"
         job_card:
@@ -66,7 +66,7 @@ companies:
     web_parser:
       selectors:
         job_board:
-          type: greenhouse
+          type: dynamic_js
           values:
             - "xpath=/html/body/div/div/div/div/section[5]/div/div/div/div/div/table/tbody"
         job_card:

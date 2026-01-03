@@ -85,8 +85,19 @@ class SelectorTester:
         self.results_dir = Path(__file__).parent / "results"
 
         # Create browser and extraction configs
+        # Use 'networkidle' to wait for API fetches that may be triggered
+        # by DOMContentLoaded event listeners (common in dynamic JS pages)
+        # Include realistic user agent and viewport to avoid bot detection
         self.browser_config = browser_config or BrowserConfig(
-            headless=headless, timeout=30000, wait_until="domcontentloaded"
+            headless=headless,
+            timeout=30000,
+            wait_until="networkidle",
+            user_agent=(
+                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) "
+                "Chrome/120.0.0.0 Safari/537.36"
+            ),
+            viewport={"width": 1920, "height": 1080},
         )
 
         if save_results:
@@ -373,6 +384,12 @@ Examples:
         help="Output format (default: console)",
     )
 
+    parser.add_argument(
+        "--no-headless",
+        action="store_true",
+        help="Run browser in visible mode (not headless) for debugging",
+    )
+
     return parser
 
 
@@ -490,7 +507,10 @@ async def main():
     """Main entry point for the selector tester tool."""
     parser = create_argument_parser()
     args = parser.parse_args()
-    tester = SelectorTester(save_results=args.save, output_format=args.format)
+    headless = not args.no_headless
+    tester = SelectorTester(
+        save_results=args.save, output_format=args.format, headless=headless
+    )
 
     try:
         all_results = await _dispatch_test_mode(tester, args)
@@ -523,7 +543,9 @@ async def _dispatch_test_mode(
     # Default test configuration
     logger.info("Using default test configuration")
     return await tester.test_selectors(
-        "https://example.com", ["h1", "p", ".content"], ParserType.DEFAULT
+        "https://10pearls.com/latin-america-job-openings/",
+        ["#jobs_table_body"],
+        ParserType.DYNAMIC_JS,
     )
 
 

@@ -5,149 +5,188 @@ companies:
       https://careers.wearegap.com/jobs?country=Costa+Rica&query=
     enabled: true
     web_parser:
-      type: default
       selectors:
         job_board:
-          - "xpath=/html/body/main/section[1]/turbo-frame/div/div[2]/div/div[2]/div/ul"
+          type: default
+          values:
+            - "xpath=/html/body/main/section[1]/turbo-frame/div/div[2]/div/div[2]/div/ul"
         job_card:
-          - "xpath=/html/body/main/section[2]"
-          - "xpath=/html/body/main/section[3]"
+          type: default
+          values:
+            - "xpath=/html/body/main/section[2]"
+            - "xpath=/html/body/main/section[3]"
 
   - name: Akurey
     enabled: false
     career_url: https://www.akurey.com/careers/
     web_parser:
-      type: dynamic_js
       selectors:
         job_board:
-          - "xpath=/html/body/div/section/div[6]"
+          type: dynamic_js
+          values:
+            - "xpath=/html/body/div/section/div[6]"
         job_card:
-          - "xpath=/html/body/div/section/div/div[1]"
-          - "xpath=/html/body/div/section/div/div[2]"
+          type: dynamic_js
+          values:
+            - "xpath=/html/body/div/section/div/div[1]"
+            - "xpath=/html/body/div/section/div/div[2]"
 
   - name: Golabs Tech
     enabled: true
     career_url: https://recruitcrm.io/jobs/Golabs_Tech_jobs
     web_parser:
-      type: iframe
       selectors:
         job_board:
-          - "xpath=/html/body/div/main/ul"
+          type: iframe
+          values:
+            - "xpath=/html/body/div/main/ul"
         job_card:
-          - "xpath=/html/body"
+          type: iframe
+          values:
+            - "xpath=/html/body"
 
   - name: Gorilla Logic
     enabled: true
     career_url: >-
       https://gorillalogic.com/careers/open-roles/
     web_parser:
-      type: default
       selectors:
         job_board:
-          - "xpath=/html/body/div[2]/main/div/div[5]/div/div/div[2]"
+          type: default
+          values:
+            - "xpath=/html/body/div[2]/main/div/div[5]/div/div/div[2]"
         job_card:
-          - "xpath=/html/body/div[2]/main/div/div/div/div[1]/div[2]"
+          type: default
+          values:
+            - "xpath=/html/body/div[2]/main/div/div/div/div[1]/div[2]"
 
   - name: 10Pearls
     enabled: false
     career_url: https://10pearls.com/latin-america-job-openings/
     web_parser:
-      type: greenhouse
       selectors:
         job_board:
-          - "xpath=/html/body/div/div/div/div/section[5]/div/div/div/div/div/table/tbody"
+          type: greenhouse
+          values:
+            - "xpath=/html/body/div/div/div/div/section[5]/div/div/div/div/div/table/tbody"
         job_card:
-          - "xpath=/html/body/main/div/div[2]"
+          type: greenhouse
+          values:
+            - "xpath=/html/body/main/div/div[2]"
 
   - name: Hikru
     enabled: false
     career_url: https://www.hikrutech.com/career
     web_parser:
-      type: default
       selectors:
         job_board:
-          - "xpath=/html/body/div[5]"
+          type: default
+          values:
+            - "xpath=/html/body/div[5]"
         job_card:
-          - "xpath=/html/body/div[1]/div/div/div[1]/div/div/div[1]/div/div[2]/section[1]/div/main"
-          - "xpath=/html/body/div[1]/div/div/div[1]/div/div/div[1]/div/div[2]/section[2]"
-          - "xpath=/html/body/div[1]/div/div/div[1]/div/div/div[1]/div/div[2]/aside[1]"
+          type: default
+          values:
+            - "xpath=/html/body/div[1]/div/div/div[1]/div/div/div[1]/div/div[2]/section[1]/div/main"
+            - "xpath=/html/body/div[1]/div/div/div[1]/div/div/div[1]/div/div[2]/section[2]"
+            - "xpath=/html/body/div[1]/div/div/div[1]/div/div/div[1]/div/div[2]/aside[1]"
 
   - name: Zencore
     enabled: false
     career_url: https://jobs.lever.co/zencore?location=LATAM
     web_parser:
-      type: default
       selectors:
         job_board:
-          - "xpath=/html/body/div[2]/div/div/div/div[2]"
+          type: default
+          values:
+            - "xpath=/html/body/div[2]/div/div/div/div[2]"
         job_card:
-          - "xpath=/html/body/div[2]/div"
+          type: default
+          values:
+            - "xpath=/html/body/div[2]/div"
 
   - name: Applaudo
     enabled: false
     career_url: https://www.applaudo.com/en/careers/
     web_parser:
-      type: default
       selectors:
         job_board:
-          - "xpath=/html/body/div/div[8]/div[2]/div/div/div[2]"
+          type: default
+          values:
+            - "xpath=/html/body/div/div[8]/div[2]/div/div/div[2]"
         job_card:
-          - "xpath=/html/body/div/div[4]/div/div/div[3]"
+          type: default
+          values:
+            - "xpath=/html/body/div/div[4]/div/div/div[3]"
 
   - name: Admios
     enabled: false
     career_url: >-
       https://www.admios.com/careers
     web_parser:
-      type: default
       selectors:
         job_board:
-          - "xpath=/html/body/section[9]/div"
+          type: default
+          values:
+            - "xpath=/html/body/section[9]/div"
         job_card:
-          - "xpath=/html/body/main/div/div[2]"
+          type: default
+          values:
+            - "xpath=/html/body/main/div/div[2]"
 
   - name: Elite
     enabled: false
     career_url: >-
       https://job-boards.greenhouse.io/elitetechnology
     web_parser:
-      type: default
       selectors:
         job_board:
-          - "xpath=/html/body/main/div/div[4]/div[2]/div"
+          type: default
+          values:
+            - "xpath=/html/body/main/div/div[4]/div[2]/div"
         job_card:
-          - "xpath=/html/body/main/div/div[2]"
+          type: default
+          values:
+            - "xpath=/html/body/main/div/div[2]"
 
   - name: Launchpad Technologies
     enabled: false
     career_url: https://www.golaunchpad.io/company/careers
     web_parser:
-      type: greenhouse
       selectors:
-        job_board: # greenhouse
-          - "xpath=/html/body/main/div/div[3]/div[2]/div"
-        job_card: # default
-          - "xpath=/html/body/main/div/div[2]"
+        job_board:
+          type: greenhouse
+          values:
+            - "xpath=/html/body/main/div/div[3]/div[2]/div"
+        job_card:
+          type: default
+          values:
+            - "xpath=/html/body/main/div/div[2]"
 
   - name: Luflox
     enabled: false
     career_url: https://www.luflox.com/career
     web_parser:
-      type: angular
       selectors:
         job_board:
-          - "xpath=/html/body/app-root/div/main/mat-sidenav-container/mat-sidenav-content"
+          type: angular
+          values:
+            - "xpath=/html/body/app-root/div/main/mat-sidenav-container/mat-sidenav-content"
         job_card:
-          - "xpath=/html/body/app-root/div/main/mat-sidenav-container/mat-sidenav-content"
+          type: angular
+          values:
+            - "xpath=/html/body/app-root/div/main/mat-sidenav-container/mat-sidenav-content"
 
   - name: SMASH
     enabled: false
     career_url: https://smashcr.applytojob.com/apply/
     web_parser:
-      type: default
       selectors:
         job_board:
-          - "xpath=/html/body/main/div/div/div/div[2]"
+          type: default
+          values:
+            - "xpath=/html/body/main/div/div/div/div[2]"
         job_card:
-          - "xpath=/html/body/main/div[2]"
-          - "xpath=/html/body/main/div[3]/div/div/div[1]"
+          type: default
+          values:
+            - "xpath=/html/body/main/div[2]"
+            - "xpath=/html/body/main/div[3]/div/div/div[1]"

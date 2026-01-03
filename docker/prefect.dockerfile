@@ -9,5 +9,5 @@ RUN apt-get update && \
 # Expose Prefect server port
 EXPOSE 4200
 
-# Start Prefect server
-CMD ["prefect", "server", "start", "--no-services"]
+# Start Prefect server with all services enabled (required for task run tracking)
+CMD ["prefect", "server", "start"]

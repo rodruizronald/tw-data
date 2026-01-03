@@ -174,7 +174,7 @@ class Stage1Processor:
             content = await self.web_extraction_service.extract_html_content(
                 url=company.career_url,
                 selectors=company.job_board_selectors,
-                parser_type=company.parser_type,
+                parser_type=company.job_board_parser_type,
                 company_name=company.name,
             )
             if not content:

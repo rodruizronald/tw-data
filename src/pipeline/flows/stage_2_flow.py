@@ -1,6 +1,6 @@
-import asyncio
-
 from prefect import flow, get_run_logger
+from prefect.futures import wait
+from prefect.task_runners import ThreadPoolTaskRunner
 
 from core.models.jobs import CompanyData, Job
 from pipeline.config import PipelineConfig
@@ -15,6 +15,7 @@ from services.data_service import JobDataService
     retries=0,
     retry_delay_seconds=60,
     timeout_seconds=None,
+    task_runner=ThreadPoolTaskRunner(max_workers=3),  # type: ignore[arg-type]
 )
 async def stage_2_flow(
     companies: list[CompanyData],
@@ -45,39 +46,30 @@ async def stage_2_flow(
 
     logger.info(f"Processing {len(enabled_companies)} enabled companies")
 
-    async def process_with_semaphore(
-        company: CompanyData, semaphore: asyncio.Semaphore
-    ) -> tuple[str, list[Job]]:
-        """Process a company with semaphore to limit concurrency."""
-        async with semaphore:
-            try:
-                jobs_data = db_service.load_jobs_for_stage(
-                    company.name, config.stage_2.tag
-                )
+    # Submit all tasks (concurrency controlled by ThreadPoolTaskRunner)
+    futures = []
+    for company in enabled_companies:
+        jobs_data = db_service.load_jobs_for_stage(company.name, config.stage_2.tag)
 
-                if not jobs_data:
-                    logger.info(f"No jobs data found for {company.name}")
-                    return company.name, []
+        if not jobs_data:
+            logger.info(f"No jobs data found for {company.name}")
+            continue
 
-                result = await process_job_details_task(company, jobs_data, config)
-                logger.info(f"Completed: {company.name}")
-                return company.name, result
-            except Exception as e:
-                logger.error(f"Unexpected task failure: {company.name} - {e}")
-                return company.name, []
+        future = process_job_details_task.submit(company, jobs_data, config)
+        futures.append((company.name, future))
 
-    # Create semaphore for concurrency control
-    semaphore = asyncio.Semaphore(3)
+    # Wait for all tasks to complete
+    wait([f for _, f in futures])
 
-    # Create tasks for all companies
-    tasks = [
-        process_with_semaphore(company, semaphore) for company in enabled_companies
-    ]
-
-    # Run all tasks concurrently (limited by semaphore)
-    results = await asyncio.gather(*tasks)
-
-    # Build results map
-    results_map = dict(results)
+    # Collect results
+    results_map = {}
+    for company_name, future in futures:
+        try:
+            result = future.result()
+            results_map[company_name] = result
+            logger.info(f"Completed: {company_name}")
+        except Exception as e:
+            logger.error(f"Task failure: {company_name} - {e}")
+            results_map[company_name] = []
 
     return results_map

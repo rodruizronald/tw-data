@@ -114,7 +114,6 @@ class WebExtractionService:
             ):
                 try:
                     # Navigate to URL
-                    logger.info(f"Navigating to {url}")
                     await page.goto(
                         url,
                         wait_until=self.config.browser_config.wait_until,

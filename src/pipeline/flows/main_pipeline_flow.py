@@ -22,7 +22,7 @@ from services.data_service import JobDataService
     description="Complete end-to-end job processing pipeline",
     version="1.0.0",
     retries=0,  # No retries at pipeline level - let individual stages handle retries
-    timeout_seconds=7200,  # 2 hour total pipeline timeout
+    timeout_seconds=14400,  # 4 hour total pipeline timeout
 )
 async def main_pipeline_flow() -> None:
     """

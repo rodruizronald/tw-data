@@ -61,14 +61,14 @@ Follow the **Conventional Branch** format:
 
 - Use **lowercase** letters and **hyphens** to separate words
 - Keep it **short and descriptive**
-- Include **ticket number** if applicable (e.g., `feat/issue-123-add-login`)
+- Include **ticket number** if applicable (e.g., `feat/issue_123_add_login`)
 
 ### Examples
 
 ```
-feat/add-login-page
-fix/header-alignment
-hotfix/security-patch
+feat/add_login_page
+fix/header_alignment
+hotfix/security_patch
 release/v1.2.0
-chore/update-dependencies
+chore/update_dependencies
 ```

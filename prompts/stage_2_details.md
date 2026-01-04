@@ -14,6 +14,7 @@ A job is **eligible** only if it allows working from Costa Rica. Follow this log
 | ------------------------------------------------------------------------- | --------- |
 | Job explicitly mentions Costa Rica                                        | ✅ Yes    |
 | Job says "LATAM" or "Latin America" without listing specific countries    | ✅ Yes    |
+| Job says "Anywhere," "Worldwide," "Global," or similar                    | ✅ Yes    |
 | Job says "LATAM" and lists specific countries that **include** Costa Rica | ✅ Yes    |
 | Job says "LATAM" and lists specific countries that **exclude** Costa Rica | ❌ No     |
 | Job mentions preference for specific LATAM countries (not CR)             | ❌ No     |

@@ -17,7 +17,7 @@ companies:
             - "xpath=/html/body/main/section[3]"
 
   - name: Akurey
-    enabled: false
+    enabled: true
     career_url: https://www.akurey.com/careers/
     web_parser:
       selectors:
@@ -75,7 +75,7 @@ companies:
             - "xpath=/html/body/main/div/div[2]"
 
   - name: Hikru
-    enabled: false
+    enabled: true
     career_url: https://www.hikrutech.com/career
     web_parser:
       selectors:
@@ -91,7 +91,7 @@ companies:
             - "xpath=/html/body/div[1]/div/div/div[1]/div/div/div[1]/div/div[2]/aside[1]"
 
   - name: Zencore
-    enabled: false
+    enabled: true
     career_url: https://jobs.lever.co/zencore?location=LATAM
     web_parser:
       selectors:

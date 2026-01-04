@@ -15,7 +15,7 @@ from pipeline.tasks.sync_technologies_task import sync_technologies_task
     description="Synchronize companies with the backend database",
     version="1.0.0",
     retries=0,
-    timeout_seconds=1800,
+    timeout_seconds=3600,
 )
 async def sync_backend_flow():
     """
